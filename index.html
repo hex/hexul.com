@@ -67,6 +67,13 @@
             color: #e8e4f0;
         }
 
+        .product-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.25rem;
+        }
+
         .product-name {
             font-weight: 500;
         }
@@ -74,6 +81,12 @@
         .product-platform {
             font-size: 0.8rem;
             color: #6b5d80;
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: #8b7aa8;
+            font-weight: 400;
         }
 
         .contact {
@@ -98,11 +111,17 @@
 
         <div class="products">
             <a href="https://mirrorps.hexul.com" class="product">
-                <span class="product-name">Mirror for Photoshop</span>
+                <div class="product-info">
+                    <span class="product-name">Mirror for Photoshop</span>
+                    <span class="product-desc">Real-time design preview on device</span>
+                </div>
                 <span class="product-platform">iOS</span>
             </a>
             <a href="https://hex-forge.hexul.com/" class="product">
-                <span class="product-name">hex-forge</span>
+                <div class="product-info">
+                    <span class="product-name">hex-forge</span>
+                    <span class="product-desc">Strength training with smart progression</span>
+                </div>
                 <span class="product-platform">iOS</span>
             </a>
         </div>
