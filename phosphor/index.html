@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phosphor - LED Matrix Display Simulator</title>
     <meta name="description" content="Simulate a physical LED dot-matrix display on macOS and iOS. Metal-based renderer with authentic phosphor glow, HTTP API, and web admin panel.">
-    <meta name="theme-color" content="#040604">
+    <meta name="theme-color" content="#050505">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
@@ -16,7 +16,7 @@
             --phosphor-dim: #22c55e;
             --phosphor-glow: rgba(74, 222, 128, 0.4);
             --phosphor-faint: rgba(74, 222, 128, 0.12);
-            --bg: #040604;
+            --bg: #050505;
             --surface: rgba(74, 222, 128, 0.03);
             --border: rgba(74, 222, 128, 0.08);
             --text: #c8c8c8;
@@ -96,13 +96,47 @@
 
         .icon-frame {
             position: relative;
-            margin-bottom: 2rem;
+            width: 168px;
+            height: 168px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 36px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+                0 8px 32px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        /* Specular highlight on the glass */
+        .icon-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 36px;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.08) 0%,
+                transparent 40%,
+                transparent 60%,
+                rgba(255, 255, 255, 0.02) 100%
+            );
+            z-index: 2;
+            pointer-events: none;
         }
 
         .icon-frame img {
             display: block;
             width: 152px;
             height: 152px;
+            border-radius: 28px;
+            position: relative;
+            z-index: 1;
         }
 
         h1 {
@@ -267,6 +301,47 @@
         .links { animation: fade-up 0.6s ease 0.3s both; }
         footer { animation: fade-up 0.6s ease 0.35s both; }
 
+        /* --- Scanline: horizontal band follows cursor Y --- */
+        .scanline {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 200px;
+            top: var(--my, -200px);
+            transform: translateY(-50%);
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(74, 222, 128, 0.02) 30%,
+                rgba(74, 222, 128, 0.05) 50%,
+                rgba(74, 222, 128, 0.02) 70%,
+                transparent
+            );
+            pointer-events: none;
+            z-index: 0;
+            transition: top 0.2s ease-out;
+        }
+
+
+
+        /* --- Phosphor persistence: trailing ghosts --- */
+        .persist {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.2) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            left: var(--mx, -400px);
+            top: var(--my, -400px);
+        }
+
+        .persist:nth-child(1) { width: 350px; height: 350px; transition: left 0.3s ease-out, top 0.3s ease-out; }
+        .persist:nth-child(2) { width: 500px; height: 500px; transition: left 0.7s ease-out, top 0.7s ease-out; opacity: 0.6; }
+        .persist:nth-child(3) { width: 650px; height: 650px; transition: left 1.2s ease-out, top 1.2s ease-out; opacity: 0.35; }
+        .persist:nth-child(4) { width: 800px; height: 800px; transition: left 1.8s ease-out, top 1.8s ease-out; opacity: 0.2; }
+
+
         /* --- Responsive --- */
         @media (max-width: 480px) {
             h1 { font-size: 2rem; }
@@ -278,6 +353,11 @@
 </head>
 <body>
     <div class="vignette" aria-hidden="true"></div>
+    <div class="scanline" aria-hidden="true"></div>
+    <div class="persist" aria-hidden="true"></div>
+    <div class="persist" aria-hidden="true"></div>
+    <div class="persist" aria-hidden="true"></div>
+    <div class="persist" aria-hidden="true"></div>
     <div class="page">
         <div class="hero">
             <div class="icon-frame">
@@ -324,5 +404,11 @@
             <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
         </footer>
     </div>
+    <script>
+        document.addEventListener('mousemove', e => {
+            document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+            document.documentElement.style.setProperty('--my', e.clientY + 'px');
+        });
+    </script>
 </body>
 </html>
