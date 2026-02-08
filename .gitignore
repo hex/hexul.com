@@ -1,13 +1,16 @@
+# Session data (managed by cs tool, not project code)
+.cs/
+
 # Transient files
 *.lock
 *.tmp
 *.bak
 
-# Archives (large, regenerated from artifacts)
-.cs/archives/
-
-# Session cooldown markers
-.cs/.discoveries-reminder-cooldown
+# Secrets and credentials
+.env*
+*.p8
+*.pem
+*.key
 
 # OS files
 .DS_Store
