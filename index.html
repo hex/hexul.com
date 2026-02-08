@@ -43,37 +43,37 @@
         }
 
         .aurora-blob:nth-child(1) {
-            width: 600px;
-            height: 350px;
-            background: radial-gradient(ellipse at center, rgba(120, 80, 180, 0.35), rgba(80, 50, 160, 0.15), transparent 70%);
+            width: 750px;
+            height: 450px;
+            background: radial-gradient(ellipse at center, rgba(140, 80, 200, 0.5), rgba(100, 50, 180, 0.25), transparent 70%);
             top: -10%;
             left: -10%;
             animation: drift-a 28s ease-in-out infinite, aurora-in 2s ease 0.2s forwards;
         }
 
         .aurora-blob:nth-child(2) {
-            width: 500px;
-            height: 400px;
-            background: radial-gradient(ellipse at center, rgba(60, 60, 160, 0.3), rgba(40, 40, 130, 0.12), transparent 70%);
+            width: 650px;
+            height: 500px;
+            background: radial-gradient(ellipse at center, rgba(70, 60, 190, 0.45), rgba(50, 40, 160, 0.2), transparent 70%);
             bottom: -15%;
             right: -8%;
             animation: drift-b 34s ease-in-out infinite, aurora-in 2s ease 0.6s forwards;
         }
 
         .aurora-blob:nth-child(3) {
-            width: 450px;
-            height: 300px;
-            background: radial-gradient(ellipse at center, rgba(100, 60, 170, 0.25), rgba(70, 40, 140, 0.1), transparent 70%);
+            width: 550px;
+            height: 380px;
+            background: radial-gradient(ellipse at center, rgba(120, 60, 190, 0.4), rgba(90, 40, 160, 0.18), transparent 70%);
             top: 40%;
             left: 50%;
-            margin-left: -225px;
+            margin-left: -275px;
             animation: drift-c 22s ease-in-out infinite, aurora-in 2s ease 1s forwards;
         }
 
         .aurora-blob:nth-child(4) {
-            width: 380px;
-            height: 280px;
-            background: radial-gradient(ellipse at center, rgba(50, 70, 140, 0.2), rgba(60, 50, 120, 0.08), transparent 70%);
+            width: 480px;
+            height: 350px;
+            background: radial-gradient(ellipse at center, rgba(60, 80, 170, 0.35), rgba(70, 50, 150, 0.15), transparent 70%);
             top: 5%;
             right: -5%;
             animation: drift-d 26s ease-in-out infinite, aurora-in 2s ease 1.4s forwards;
@@ -109,7 +109,7 @@
         .vignette {
             position: fixed;
             inset: 0;
-            background: radial-gradient(ellipse at center, transparent 30%, rgba(6, 4, 10, 0.6) 100%);
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(6, 4, 10, 0.55) 100%);
             pointer-events: none;
             z-index: 1;
         }
@@ -166,65 +166,84 @@
         .products {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-bottom: 3rem;
-            animation: fade-up 0.5s ease 0.2s both;
         }
 
+        .product:nth-child(1) { animation: fade-up 0.5s ease 0.15s both; }
+        .product:nth-child(2) { animation: fade-up 0.5s ease 0.22s both; }
+        .product:nth-child(3) { animation: fade-up 0.5s ease 0.29s both; }
+        .product:nth-child(4) { animation: fade-up 0.5s ease 0.36s both; }
+        .product:nth-child(5) { animation: fade-up 0.5s ease 0.43s both; }
+
         .product {
-            background: rgba(26, 21, 37, 0.7);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid #2d2640;
-            padding: 1.25rem 1.5rem;
+            background: rgba(26, 21, 37, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(45, 38, 64, 0.6);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
             text-decoration: none;
             color: #c4b8db;
-            transition: all 0.25s ease;
+            transition: all 0.3s ease;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
         .product:hover {
-            background: rgba(36, 30, 50, 0.8);
-            border-color: rgba(140, 100, 200, 0.3);
+            background: rgba(40, 32, 58, 0.75);
+            border-color: rgba(140, 100, 200, 0.35);
             color: #e8e4f0;
-            box-shadow: 0 0 25px rgba(120, 80, 180, 0.08), inset 0 0 0 1px rgba(140, 100, 200, 0.06);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 24px rgba(120, 80, 180, 0.12), 0 0 0 1px rgba(140, 100, 200, 0.08);
+        }
+
+        .product-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            object-fit: cover;
         }
 
         .product-info {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            gap: 0.25rem;
+            gap: 0.15rem;
+            flex: 1;
+            min-width: 0;
         }
 
         .product-name {
             font-weight: 500;
+            font-size: 0.95rem;
         }
 
         .product-platform {
             color: #6b5d80;
-            margin-left: 1rem;
+            margin-left: auto;
             flex-shrink: 0;
+            padding-left: 0.75rem;
         }
 
         .product-platform svg {
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             fill: currentColor;
         }
 
         .product-desc {
-            font-size: 0.85rem;
-            color: #8b7aa8;
+            font-size: 0.8rem;
+            color: #7a6d94;
             font-weight: 400;
         }
 
         .contact {
             font-size: 0.85rem;
             color: #6b5d80;
-            animation: fade-up 0.4s ease 0.35s both;
+            animation: fade-up 0.4s ease 0.55s both;
         }
 
         .contact a {
@@ -271,6 +290,7 @@
 
         <div class="products">
             <a href="https://mirrorps.hexul.com" class="product">
+                <img src="mirrorps/icon.png" alt="" class="product-icon" width="44" height="44">
                 <div class="product-info">
                     <span class="product-name">Mirror for Photoshop</span>
                     <span class="product-desc">Real-time design preview on device</span>
@@ -278,6 +298,7 @@
                 <span class="product-platform"><svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
             </a>
             <a href="https://hex-forge.hexul.com/" class="product">
+                <img src="hex-forge/icon.png" alt="" class="product-icon" width="44" height="44">
                 <div class="product-info">
                     <span class="product-name">hex-forge</span>
                     <span class="product-desc">Strength training with smart progression</span>
@@ -285,25 +306,28 @@
                 <span class="product-platform"><svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
             </a>
             <a href="https://phosphor.hexul.com" class="product">
+                <img src="phosphor/icon.png" alt="" class="product-icon" width="44" height="44">
                 <div class="product-info">
                     <span class="product-name">Phosphor</span>
                     <span class="product-desc">LED matrix display simulator</span>
                 </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:20px;height:16px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg> <svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
+                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg> <svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
             </a>
             <a href="https://stash.hexul.com" class="product">
+                <img src="stash/icon.png" alt="" class="product-icon" width="44" height="44">
                 <div class="product-info">
                     <span class="product-name">Stash</span>
                     <span class="product-desc">Clipboard history manager</span>
                 </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:20px;height:16px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
+                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
             </a>
             <a href="https://claide.hexul.com" class="product">
+                <img src="claide/icon.png" alt="" class="product-icon" width="44" height="44">
                 <div class="product-info">
                     <span class="product-name">Claide</span>
                     <span class="product-desc">Claude Code companion</span>
                 </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:20px;height:16px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
+                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
             </a>
         </div>
 
