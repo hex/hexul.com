@@ -6,96 +6,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stash - Clipboard History for macOS</title>
-    <meta name="description" content="A lightweight macOS clipboard history manager that lives in your menu bar. Search, browse, and re-paste anything you've copied.">
+    <meta name="description" content="A lightweight macOS clipboard history manager that lives in your menu bar. Browse and re-paste anything you've copied.">
     <meta name="theme-color" content="#06061a">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
     <style>
         :root {
-            --stash-blue: #60a5fa;
-            --stash-purple: #a78bfa;
-            --stash-dim: #6366f1;
-            --stash-glow: rgba(99, 102, 241, 0.35);
-            --stash-faint: rgba(99, 102, 241, 0.06);
+            --blue: #60a5fa;
+            --purple: #a78bfa;
+            --indigo: #6366f1;
+            --glow: rgba(99, 102, 241, 0.3);
             --bg: #06061a;
-            --surface: rgba(99, 102, 241, 0.04);
-            --border: rgba(99, 102, 241, 0.1);
+            --surface: rgba(255, 255, 255, 0.04);
+            --surface-hover: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-accent: rgba(99, 102, 241, 0.12);
             --text: #c8c8d8;
-            --text-muted: #5a5a78;
+            --text-dim: #7a7a94;
+            --text-faint: #4a4a64;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.7;
+            line-height: 1.6;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Floating clipboard layers */
-        .layers {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
-        }
-
+        /* Floating layers */
+        .layers { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
         .layer {
             position: absolute;
             border-radius: 12px;
-            border: 1px solid rgba(99, 102, 241, 0.05);
-            background: linear-gradient(135deg, rgba(96, 165, 250, 0.03), rgba(167, 139, 250, 0.02));
+            border: 1px solid rgba(99, 102, 241, 0.04);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.02), rgba(167, 139, 250, 0.015));
         }
-
-        .layer:nth-child(1) { width: 280px; height: 180px; top: 8%; left: -5%; transform: rotate(-12deg); animation: drift-a 25s ease-in-out infinite; }
-        .layer:nth-child(2) { width: 200px; height: 130px; top: 15%; right: -3%; transform: rotate(8deg); animation: drift-b 30s ease-in-out infinite; }
-        .layer:nth-child(3) { width: 240px; height: 160px; top: 50%; left: -8%; transform: rotate(-6deg); animation: drift-c 28s ease-in-out infinite; }
-        .layer:nth-child(4) { width: 180px; height: 120px; top: 60%; right: -6%; transform: rotate(15deg); animation: drift-b 22s ease-in-out infinite reverse; }
-        .layer:nth-child(5) { width: 320px; height: 200px; top: 80%; left: 10%; transform: rotate(-3deg); animation: drift-a 35s ease-in-out infinite reverse; }
+        .layer:nth-child(1) { width: 260px; height: 170px; top: 5%; left: -4%; transform: rotate(-12deg); animation: drift-a 28s ease-in-out infinite; }
+        .layer:nth-child(2) { width: 200px; height: 130px; top: 20%; right: -2%; transform: rotate(8deg); animation: drift-b 32s ease-in-out infinite; }
+        .layer:nth-child(3) { width: 220px; height: 150px; top: 55%; left: -6%; transform: rotate(-5deg); animation: drift-c 26s ease-in-out infinite; }
+        .layer:nth-child(4) { width: 180px; height: 120px; top: 70%; right: -4%; transform: rotate(12deg); animation: drift-b 24s ease-in-out infinite reverse; }
 
         @keyframes drift-a {
             0%, 100% { transform: rotate(-12deg) translate(0, 0); }
-            33% { transform: rotate(-10deg) translate(15px, -20px); }
-            66% { transform: rotate(-14deg) translate(-10px, 15px); }
+            50% { transform: rotate(-10deg) translate(12px, -15px); }
         }
         @keyframes drift-b {
             0%, 100% { transform: rotate(8deg) translate(0, 0); }
-            50% { transform: rotate(10deg) translate(-20px, 10px); }
+            50% { transform: rotate(10deg) translate(-15px, 10px); }
         }
         @keyframes drift-c {
-            0%, 100% { transform: rotate(-6deg) translate(0, 0); }
-            33% { transform: rotate(-4deg) translate(10px, 15px); }
-            66% { transform: rotate(-8deg) translate(-15px, -10px); }
-        }
-
-        .ambient {
-            position: fixed;
-            width: 800px;
-            height: 800px;
-            top: -200px;
-            left: 50%;
-            margin-left: -400px;
-            background: radial-gradient(ellipse, rgba(96, 165, 250, 0.08) 0%, rgba(139, 92, 246, 0.04) 40%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            animation: ambient-pulse 20s ease-in-out infinite;
-        }
-
-        @keyframes ambient-pulse {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
+            0%, 100% { transform: rotate(-5deg) translate(0, 0); }
+            50% { transform: rotate(-3deg) translate(10px, 12px); }
         }
 
         .vignette {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
-            pointer-events: none;
-            z-index: 0;
+            position: fixed; inset: 0;
+            background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.55) 100%);
+            pointer-events: none; z-index: 0;
         }
 
         .page {
@@ -103,236 +74,307 @@
             z-index: 1;
             max-width: 680px;
             margin: 0 auto;
-            padding: 0 1.5rem 3rem;
+            padding: 3.5rem 1.5rem 3rem;
         }
 
-        /* --- Hero: horizontal layout (icon left, text right) --- */
-        .hero {
+        /* --- Intro: icon + name + tagline --- */
+        .intro {
             display: flex;
             align-items: center;
-            gap: 2rem;
-            padding: 4.5rem 0 3rem;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
         }
 
-        .icon-frame {
-            position: relative;
-            width: 128px;
-            height: 128px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 28px;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.06),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.2),
-                0 8px 32px rgba(0, 0, 0, 0.4),
-                0 0 80px rgba(99, 102, 241, 0.06);
-            overflow: hidden;
+        .intro img {
+            width: 64px;
+            height: 64px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 0 40px rgba(99, 102, 241, 0.06);
         }
 
-        .icon-frame::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 28px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 40%, transparent 60%, rgba(255, 255, 255, 0.02) 100%);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .icon-frame img {
-            display: block;
-            width: 112px;
-            height: 112px;
-            border-radius: 22px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-text {
-            display: flex;
-            flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        h1 {
-            font-size: 2.5rem;
+        .intro-text h1 {
+            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-size: 1.75rem;
             font-weight: 700;
-            letter-spacing: 0.06em;
-            background: linear-gradient(135deg, var(--stash-blue), var(--stash-purple));
+            letter-spacing: 0.04em;
+            background: linear-gradient(135deg, var(--blue), var(--purple));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            filter: drop-shadow(0 0 20px var(--stash-glow));
-            line-height: 1.1;
+            filter: drop-shadow(0 0 16px var(--glow));
+            line-height: 1.2;
         }
 
-        .tagline {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            letter-spacing: 0.02em;
-            font-weight: 400;
+        .intro-text p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
         }
 
-        .platform-badge {
+        .intro-text .badge {
             display: inline-block;
-            margin-top: 0.5rem;
-            font-size: 0.7rem;
-            color: var(--stash-dim);
-            border: 1px solid var(--border);
-            padding: 0.2rem 0.6rem;
-            border-radius: 4px;
+            margin-top: 0.3rem;
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.65rem;
+            color: var(--indigo);
+            border: 1px solid var(--border-accent);
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
             letter-spacing: 0.04em;
-            width: fit-content;
+        }
+
+        /* --- Popover mockup: the hero element --- */
+        .mockup {
+            background: rgba(30, 30, 42, 0.85);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow:
+                0 24px 80px rgba(0, 0, 0, 0.5),
+                0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            margin-bottom: 3rem;
+        }
+
+        /* Popover pointer triangle */
+        .mockup-wrap {
+            position: relative;
+            padding-top: 10px;
+        }
+        .mockup-wrap::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            margin-left: -8px;
+            width: 16px;
+            height: 10px;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            background: rgba(30, 30, 42, 0.85);
+            border-top: 1px solid var(--border);
+        }
+
+        .mock-entry {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.65rem;
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.15s;
+        }
+
+        .mock-entry:last-child { border-bottom: none; }
+        .mock-entry:first-child { background: rgba(99, 102, 241, 0.08); }
+
+        .mock-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .mock-icon svg {
+            width: 12px;
+            height: 12px;
+            fill: none;
+            stroke: var(--text-dim);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .mock-icon.img-icon { background: rgba(167, 139, 250, 0.1); }
+        .mock-icon.img-icon svg { stroke: var(--purple); }
+        .mock-icon.url-icon { background: rgba(96, 165, 250, 0.1); }
+        .mock-icon.url-icon svg { stroke: var(--blue); }
+        .mock-icon.file-icon { background: rgba(250, 204, 21, 0.08); }
+        .mock-icon.file-icon svg { stroke: #facc15; }
+
+        .mock-content { flex: 1; min-width: 0; }
+
+        .mock-preview {
+            font-size: 0.78rem;
+            color: var(--text);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+        }
+
+        .mock-meta {
+            font-size: 0.65rem;
+            color: var(--text-faint);
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1px;
+        }
+
+        .mock-pin {
+            color: var(--indigo);
+            font-size: 0.65rem;
+            margin-left: auto;
+            flex-shrink: 0;
+            align-self: center;
+        }
+
+        .mock-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .mock-bar svg {
+            width: 13px;
+            height: 13px;
+            fill: none;
+            stroke: var(--text-faint);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .mock-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .mock-toggle {
+            width: 28px;
+            height: 16px;
+            border-radius: 8px;
+            background: rgba(99, 102, 241, 0.5);
+            position: relative;
+        }
+
+        .mock-toggle::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            right: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- Description --- */
+        .desc {
+            font-size: 0.92rem;
+            color: var(--text-dim);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+            max-width: 560px;
+        }
+
+        /* --- Features as pills --- */
+        .features {
+            margin-bottom: 2.5rem;
+        }
+
+        .features h2 {
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.15);
+        }
+
+        .pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .pill {
+            font-size: 0.78rem;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.4rem 0.75rem;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .pill:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-accent);
+            color: #e0e0f0;
         }
 
         /* --- Divider --- */
         .divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
-            margin: 0 0 2.5rem;
+            background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
+            margin: 0 0 2rem;
         }
-
-        /* --- About --- */
-        .about {
-            margin-bottom: 2.5rem;
-        }
-
-        .about p {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            color: var(--text);
-        }
-
-        h2 {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--stash-blue);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1rem;
-            text-shadow: 0 0 8px rgba(96, 165, 250, 0.15);
-        }
-
-        /* --- Features: individual cards --- */
-        .features { margin-bottom: 2.5rem; }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-        }
-
-        .feature {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 0.75rem 0.875rem;
-            font-size: 0.82rem;
-            color: var(--text);
-            display: flex;
-            align-items: baseline;
-            gap: 0.6rem;
-            transition: background 0.2s, border-color 0.2s;
-        }
-
-        .feature:hover {
-            background: rgba(99, 102, 241, 0.06);
-            border-color: rgba(99, 102, 241, 0.15);
-        }
-
-        .feature::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--stash-dim);
-            box-shadow: 0 0 6px var(--stash-glow);
-            flex-shrink: 0;
-            position: relative;
-            top: 1px;
-            animation: dot-in 0.3s ease both;
-        }
-
-        @keyframes dot-in {
-            from { opacity: 0; transform: scale(0); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        .feature:nth-child(1)::before { animation-delay: 0.3s; }
-        .feature:nth-child(2)::before { animation-delay: 0.38s; }
-        .feature:nth-child(3)::before { animation-delay: 0.46s; }
-        .feature:nth-child(4)::before { animation-delay: 0.54s; }
-        .feature:nth-child(5)::before { animation-delay: 0.62s; }
-        .feature:nth-child(6)::before { animation-delay: 0.70s; }
-        .feature:nth-child(7)::before { animation-delay: 0.78s; }
-        .feature:nth-child(8)::before { animation-delay: 0.86s; }
 
         /* --- Links --- */
         .links {
             display: flex;
             gap: 1.5rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .links a {
-            font-size: 0.85rem;
-            color: var(--stash-dim);
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.8rem;
+            color: var(--indigo);
             text-decoration: none;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
             padding-bottom: 2px;
             transition: color 0.2s, border-color 0.2s;
         }
 
         .links a:hover {
-            color: var(--stash-blue);
-            border-color: var(--stash-dim);
+            color: var(--blue);
+            border-color: var(--indigo);
         }
 
         /* --- Footer --- */
         footer {
-            padding-top: 1.5rem;
+            padding-top: 1.25rem;
             border-top: 1px solid rgba(255, 255, 255, 0.04);
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.75rem;
+            color: var(--text-faint);
         }
 
-        footer a {
-            color: var(--text-muted);
-            text-decoration: none;
-        }
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--indigo); }
 
-        footer a:hover { color: var(--stash-dim); }
-
-        /* --- Fade in --- */
+        /* --- Animations --- */
         @keyframes fade-up {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(16px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .hero { animation: fade-up 0.6s ease both; }
-        .about { animation: fade-up 0.6s ease 0.1s both; }
-        .features { animation: fade-up 0.6s ease 0.2s both; }
-        .links { animation: fade-up 0.6s ease 0.3s both; }
-        footer { animation: fade-up 0.6s ease 0.35s both; }
+        .intro { animation: fade-up 0.5s ease both; }
+        .mockup-wrap { animation: fade-up 0.6s ease 0.08s both; }
+        .desc { animation: fade-up 0.5s ease 0.16s both; }
+        .features { animation: fade-up 0.5s ease 0.24s both; }
+        .links { animation: fade-up 0.5s ease 0.3s both; }
+        footer { animation: fade-up 0.5s ease 0.34s both; }
 
         /* --- Responsive --- */
-        @media (max-width: 540px) {
-            .hero {
-                flex-direction: column;
-                text-align: center;
-                gap: 1.25rem;
-            }
-            .platform-badge { margin: 0.5rem auto 0; }
-            h1 { font-size: 2rem; }
-            .hero { padding: 3rem 0 2rem; }
-            .feature-grid { grid-template-columns: 1fr; }
+        @media (max-width: 480px) {
+            .intro { gap: 1rem; }
+            .intro img { width: 48px; height: 48px; border-radius: 11px; }
+            .intro-text h1 { font-size: 1.5rem; }
+            .page { padding-top: 2.5rem; }
             .links { flex-direction: column; gap: 0.75rem; }
         }
     </style>
@@ -343,42 +385,73 @@
         <div class="layer"></div>
         <div class="layer"></div>
         <div class="layer"></div>
-        <div class="layer"></div>
     </div>
-    <div class="ambient" aria-hidden="true"></div>
     <div class="vignette" aria-hidden="true"></div>
 
     <div class="page">
-        <div class="hero">
-            <div class="icon-frame">
-                <img src="icon.png" alt="Stash app icon" width="112" height="112">
-            </div>
-            <div class="hero-text">
+        <div class="intro">
+            <img src="icon.png" alt="Stash" width="64" height="64">
+            <div class="intro-text">
                 <h1>Stash</h1>
-                <p class="tagline">Clipboard history for macOS</p>
-                <span class="platform-badge">macOS</span>
+                <p>Clipboard history for macOS</p>
+                <span class="badge">macOS 14+</span>
             </div>
         </div>
 
-        <div class="divider"></div>
+        <div class="mockup-wrap">
+            <div class="mockup">
+                <div class="mock-entry">
+                    <div class="mock-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h12"/></svg></div>
+                    <div class="mock-content">
+                        <div class="mock-preview">Meeting notes for Q1 product review...</div>
+                        <div class="mock-meta"><span>Notes</span><span>2m ago</span></div>
+                    </div>
+                    <span class="mock-pin">&#x1F4CC;</span>
+                </div>
+                <div class="mock-entry">
+                    <div class="mock-icon img-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg></div>
+                    <div class="mock-content">
+                        <div class="mock-preview" style="color:var(--purple)">Screenshot 1284x720</div>
+                        <div class="mock-meta"><span>Safari</span><span>15m ago</span></div>
+                    </div>
+                </div>
+                <div class="mock-entry">
+                    <div class="mock-icon url-icon"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
+                    <div class="mock-content">
+                        <div class="mock-preview">https://developer.apple.com/documentation/swiftdata</div>
+                        <div class="mock-meta"><span>Arc</span><span>1h ago</span></div>
+                    </div>
+                </div>
+                <div class="mock-entry">
+                    <div class="mock-icon file-icon"><svg viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg></div>
+                    <div class="mock-content">
+                        <div class="mock-preview">~/Documents/report.pdf</div>
+                        <div class="mock-meta"><span>Finder</span><span>3h ago</span></div>
+                    </div>
+                </div>
+                <div class="mock-bar">
+                    <svg viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <div class="mock-bar-right">
+                        <div class="mock-toggle"></div>
+                        <svg viewBox="0 0 24 24" style="stroke:#e55"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <section class="about">
-            <h2>About</h2>
-            <p>Stash lives in your menu bar and quietly captures everything you copy &#x2014; text, rich text, images, URLs, file paths &#x2014; so nothing is ever lost.</p>
-            <p>Click the menu bar icon to browse your recent entries with content previews and image thumbnails. Click any entry to paste it, or right-click for quick actions like pin, delete, and full-size image preview.</p>
-        </section>
+        <p class="desc">Stash lives in your menu bar and quietly captures everything you copy. Click the icon to browse your recent entries with content previews and image thumbnails. Click any entry to paste it, or right-click to pin, delete, or preview.</p>
 
         <section class="features">
             <h2>Features</h2>
-            <div class="feature-grid">
-                <div class="feature">Text, rich text, images, URLs, files</div>
-                <div class="feature">AES-256-GCM encrypted storage</div>
-                <div class="feature">Password manager auto-filtering</div>
-                <div class="feature">Pin entries to keep them safe</div>
-                <div class="feature">Source app detection per entry</div>
-                <div class="feature">All data local &#x2014; no cloud, no network</div>
-                <div class="feature">Configurable retention and auto-delete</div>
-                <div class="feature">Auto-update via Sparkle</div>
+            <div class="pills">
+                <span class="pill">Text, rich text, images, URLs, files</span>
+                <span class="pill">AES-256-GCM encrypted storage</span>
+                <span class="pill">Password manager filtering</span>
+                <span class="pill">Pinned entries</span>
+                <span class="pill">Source app detection</span>
+                <span class="pill">All data local</span>
+                <span class="pill">Auto-delete &amp; retention</span>
+                <span class="pill">Auto-update via Sparkle</span>
             </div>
         </section>
 
