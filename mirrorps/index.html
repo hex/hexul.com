@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mirror for Photoshop - Real-time Preview on iOS</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        /* Video background */
+        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: -2; }
+        .video-bg iframe { position: absolute; top: 50%; left: 50%; width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 177.78vh; transform: translate(-50%, -50%); }
+        .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% 30%, rgba(10,26,46,0.85) 0%, rgba(0,0,0,0.95) 50%); z-index: -1; }
+
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #000; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 3rem 1.5rem; text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        .container { max-width: 700px; text-align: center; position: relative; z-index: 1; }
+        h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .subtitle { font-size: 1.25rem; color: #888; margin-bottom: 2rem; }
+        .description { line-height: 1.6; color: #ccc; margin-bottom: 2.5rem; }
+
+        /* Quick Start */
+        .quickstart { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 2rem; margin-bottom: 3rem; text-align: left; }
+        .quickstart h2 { text-align: center; margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .quickstart-steps { display: flex; flex-direction: column; gap: 1rem; }
+        .quickstart-step { display: flex; align-items: flex-start; gap: 0.75rem; text-align: left; }
+        .step-number { background: #0a84ff; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; flex-shrink: 0; }
+        .step-content { color: #ccc; line-height: 1.5; padding-top: 0.2rem; }
+        .step-content strong { color: #fff; }
+        .step-content a { color: #0a84ff; text-decoration: none; }
+        .step-content a:hover { text-decoration: underline; }
+
+        /* Diagram */
+        .diagram { margin-bottom: 3rem; padding: 2rem 1rem; }
+        .diagram h2 { font-size: 1.5rem; margin-bottom: 1.5rem; }
+        .diagram-flow { display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+        .diagram-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.875rem; color: #ccc; display: flex; align-items: center; gap: 0.5rem; }
+        .diagram-box svg { width: 20px; height: 20px; fill: #0a84ff; flex-shrink: 0; }
+        .diagram-arrow { color: #0a84ff; font-size: 1.25rem; }
+
+        /* Sections */
+        section { width: 100%; margin-bottom: 3rem; }
+        section h2 { font-size: 1.5rem; margin-bottom: 1.5rem; text-align: center; color: #fff; }
+        .section-number { display: inline-flex; align-items: center; justify-content: center; background: #0a84ff; color: #fff; width: 32px; height: 32px; border-radius: 50%; font-weight: 600; margin-right: 0.75rem; font-size: 1rem; }
+        .section-row { display: flex; gap: 2rem; justify-content: center; margin-bottom: 3rem; }
+        .section-row section { width: auto; flex: 1; max-width: 300px; margin-bottom: 0; }
+
+        .app-store-badge { display: block; }
+        .app-store-badge img { height: 54px; }
+        .app-store-badge:hover { opacity: 0.85; }
+        .links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; align-items: center; }
+        .links a { color: #0a84ff; text-decoration: none; border: 2px solid #0a84ff; border-radius: 12px; padding: 0 1.5rem; height: 54px; display: inline-flex; align-items: center; font-size: 1rem; font-weight: 500; transition: background 0.2s, color 0.2s; }
+        .links a:hover { background: #0a84ff; color: #fff; }
+
+        .install-section { text-align: left; }
+        .platform { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem; margin-bottom: 1rem; }
+        .platform h3 { font-size: 1rem; color: #888; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .platform h3 svg { width: 18px; height: 18px; fill: currentColor; }
+        .method { margin-bottom: 1rem; }
+        .method:last-child { margin-bottom: 0; }
+        .method-label { font-size: 0.75rem; color: #666; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+        .method-label .recommended { color: #34c759; margin-left: 0.5rem; text-transform: none; letter-spacing: normal; }
+        pre { background: #0d1117; border: 1px solid #21262d; border-radius: 8px; padding: 1rem; overflow-x: auto; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; font-size: 0.875rem; color: #c9d1d9; text-shadow: none; }
+        pre code { white-space: pre-wrap; word-break: break-all; }
+        .note { font-size: 0.8125rem; color: #666; margin-top: 0.75rem; line-height: 1.5; }
+        .note a { color: #0a84ff; text-decoration: none; }
+        .note a:hover { text-decoration: underline; }
+
+        /* Requirements */
+        .requirements { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1.5rem 2rem; margin-bottom: 3rem; }
+        .requirements h2 { font-size: 1.5rem; margin-bottom: 1rem; text-align: center; }
+        .requirements ul { list-style: none; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+        .requirements li { color: #888; font-size: 0.875rem; }
+
+        /* Footer */
+        footer { margin-top: auto; padding-top: 2rem; font-size: 0.875rem; color: #555; text-align: center; }
+        footer a { color: #555; text-decoration: none; }
+        footer a:hover { color: #888; }
+        footer .sep { margin: 0 0.75rem; }
+    </style>
+</head>
+<body>
+    <div class="video-bg">
+        <iframe src="https://www.youtube.com/embed/9kBo3Ttsv_g?autoplay=1&mute=1&controls=0&loop=1&playlist=9kBo3Ttsv_g&showinfo=0&rel=0&modestbranding=1&playsinline=1" title="Background video" allow="autoplay" frameborder="0"></iframe>
+    </div>
+    <div class="video-overlay"></div>
+
+    <div class="container">
+        <img src="/assets/app-icon.png" alt="Mirror for Photoshop" style="width: 128px; height: 128px; border-radius: 24px; margin-bottom: 1.5rem;">
+        <h1>Mirror for Photoshop</h1>
+        <p class="subtitle">Real-time Photoshop preview on iOS</p>
+        <p class="description">Stream your Photoshop artboards directly to your iPhone or iPad. See exactly how your designs look on the actual device as you work.</p>
+
+        <div class="quickstart">
+            <h2>Quick Start</h2>
+            <div class="quickstart-steps">
+                <div class="quickstart-step">
+                    <span class="step-number">1</span>
+                    <div class="step-content"><strong><a href="https://apps.apple.com/app/id6756228220">Install the iOS app</a></strong> from the App Store</div>
+                </div>
+                <div class="quickstart-step">
+                    <span class="step-number">2</span>
+                    <div class="step-content"><strong><a href="https://adobe.com/go/cc_plugins_discover_plugin?pluginId=490df4f8&workflow=share">Install the Photoshop plugin</a></strong> and load it in Photoshop</div>
+                </div>
+                <div class="quickstart-step">
+                    <span class="step-number">3</span>
+                    <div class="step-content"><strong><a href="#install-server">Install and run the server</a></strong> on your Mac or PC (same network)</div>
+                </div>
+                <div class="quickstart-step">
+                    <span class="step-number">4</span>
+                    <div class="step-content"><strong>Connect</strong> from Photoshop and your design appears on your device</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="diagram">
+            <h2>How It Works</h2>
+            <div class="diagram-flow">
+                <div class="diagram-box">
+                    <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7.8 11.17c-.36.27-.84.41-1.46.41H8.5V17H7v-6h2.74c.62 0 1.1.14 1.46.41.36.28.54.69.54 1.24v1.28c0 .55-.18.96-.54 1.24zM17 13.31c0 .55-.18.96-.54 1.24-.36.27-.84.41-1.46.41h-1.25V17H12.5v-6h2.74c.62 0 1.1.14 1.46.41.36.28.54.69.54 1.24v.66zM8.5 12.5h1.24c.19 0 .35-.06.46-.17.11-.11.17-.26.17-.46v-.68c0-.2-.06-.35-.17-.46a.622.622 0 0 0-.46-.17H8.5v1.94zm5.25 0h1.24c.19 0 .35-.06.46-.17.11-.11.17-.26.17-.46v-.68c0-.2-.06-.35-.17-.46a.622.622 0 0 0-.46-.17h-1.24v1.94z"/></svg>
+                    Photoshop
+                </div>
+                <span class="diagram-arrow">&rarr;</span>
+                <div class="diagram-box">
+                    <svg viewBox="0 0 24 24"><path d="M4 1h16c1.1 0 2 .9 2 2v18c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V3c0-1.1.9-2 2-2zm0 2v18h16V3H4zm2 4h12v2H6V7zm0 4h12v2H6v-2zm0 4h8v2H6v-2z"/></svg>
+                    Server
+                </div>
+                <span class="diagram-arrow">&rarr;</span>
+                <div class="diagram-box">
+                    <svg viewBox="0 0 24 24"><path d="M15.5 1h-8C6.12 1 5 2.12 5 3.5v17C5 21.88 6.12 23 7.5 23h8c1.38 0 2.5-1.12 2.5-2.5v-17C18 2.12 16.88 1 15.5 1zm-4 21c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4.5-4H7V4h9v14z"/></svg>
+                    iOS App
+                </div>
+            </div>
+        </div>
+
+        <div class="section-row">
+            <section>
+                <h2><span class="section-number">1</span>Get the iOS App</h2>
+                <a href="https://apps.apple.com/app/id6756228220" class="app-store-badge">
+                    <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/white/en-us?size=250x83" alt="Download on the App Store">
+                </a>
+            </section>
+
+            <section>
+                <h2><span class="section-number">2</span>Get the Plugin</h2>
+                <div class="links">
+                    <a href="https://adobe.com/go/cc_plugins_discover_plugin?pluginId=490df4f8&workflow=share">Download Photoshop Plugin</a>
+                </div>
+            </section>
+        </div>
+
+        <section id="install-server" class="install-section">
+            <h2><span class="section-number">3</span>Install the Server</h2>
+
+            <div class="platform">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                    macOS
+                </h3>
+                <div class="method">
+                    <div class="method-label">Homebrew<span class="recommended">(recommended)</span></div>
+                    <pre><code>brew install hex/mirror-for-photoshop/mirror-for-photoshop-server</code></pre>
+                </div>
+                <div class="method">
+                    <div class="method-label">Run</div>
+                    <pre><code>mirrorps</code></pre>
+                    <p class="note">Short alias for <code style="background:#0d1117;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.8125rem;">mirror-for-photoshop-server</code>. Default port: 8765. Custom port: <code style="background:#0d1117;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.8125rem;">mirrorps --port 9000</code></p>
+                    <p class="note">Or run as a background service: <code style="background:#0d1117;padding:0.15rem 0.4rem;border-radius:4px;font-size:0.8125rem;">brew services start mirror-for-photoshop-server</code></p>
+                </div>
+                <p class="note">Alternatively, download the standalone app from <a href="https://github.com/hex/mirror-for-photoshop-server/releases/latest">GitHub Releases</a>.</p>
+            </div>
+
+            <div class="platform">
+                <h3>
+                    <svg viewBox="0 0 24 24"><path d="M3 12V6.75l6-1.32v6.48L3 12zm.039 6.24L9 17.26v-5.26l-5.961.11v6.13zm6.961.23l8.001 1.11V12h-8v6.47zm8-6.47v-6.69L10 4v6h8z"/></svg>
+                    Windows
+                </h3>
+                <div class="method">
+                    <div class="method-label">Winget<span class="recommended">(recommended)</span></div>
+                    <pre><code>winget install Hex.MirrorForPhotoshopServer</code></pre>
+                </div>
+                <p class="note">Or download from <a href="https://github.com/hex/mirror-for-photoshop-server/releases/latest">GitHub Releases</a>.</p>
+            </div>
+        </section>
+
+        <div class="requirements">
+            <h2>Requirements</h2>
+            <ul>
+                <li>Photoshop 2023 (v24.0) or later</li>
+                <li>iOS 17+ / iPadOS 17+</li>
+                <li>macOS 12+ or Windows 10+</li>
+                <li>Same Wi-Fi network</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <a href="/support">Support</a>
+        <span class="sep">&middot;</span>
+        <a href="/privacy">Privacy</a>
+        <span class="sep">&middot;</span>
+        &copy; 2025 hexul
+    </footer>
+</body>
+</html>

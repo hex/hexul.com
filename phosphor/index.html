@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phosphor - LED Matrix Display Simulator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+        h1 {
+            font-size: 2rem;
+            color: #4ade80;
+            margin-bottom: 0.5rem;
+        }
+        .tagline {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        h2 {
+            font-size: 1.2rem;
+            color: #4ade80;
+            margin: 2rem 0 0.75rem;
+            border-bottom: 1px solid #222;
+            padding-bottom: 0.25rem;
+        }
+        p { margin-bottom: 1rem; }
+        ul { margin: 0 0 1rem 1.5rem; }
+        li { margin-bottom: 0.25rem; }
+        a { color: #4ade80; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #222;
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Phosphor</h1>
+        <p class="tagline">LED matrix display simulator for macOS and iOS.</p>
+
+        <h2>About</h2>
+        <p>Phosphor simulates a physical LED dot-matrix display on your screen. It renders text, images, and animations using a Metal-based renderer with authentic visual effects like phosphor persistence, dome highlights, and chromatic aberration.</p>
+        <p>Control the display over your local network via a built-in HTTP API, or use the web admin panel from any browser on the same network.</p>
+
+        <h2>Features</h2>
+        <ul>
+            <li>Metal SDF renderer with per-dot glow</li>
+            <li>Scrolling text with adjustable speed and color</li>
+            <li>Full RGB per-pixel grid control</li>
+            <li>GIF animation playback</li>
+            <li>12 visual effect toggles</li>
+            <li>Built-in web admin panel</li>
+            <li>HTTP API for local network control</li>
+            <li>Clock mode</li>
+        </ul>
+
+        <h2><a href="privacy.html">Privacy Policy</a></h2>
+        <p>Phosphor collects no data. <a href="privacy.html">Read the full privacy policy.</a></p>
+
+        <div class="footer">
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a>. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

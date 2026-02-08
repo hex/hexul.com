@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hex-forge — Hypertrophy Workout Tracker</title>
+    <meta name="description" content="Hypertrophy-focused workout tracker with smart weight predictions, RIR tracking, and mesocycle programming. Build muscle efficiently with hex-forge.">
+    <meta name="theme-color" content="#0a0612">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="hex-grid" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header>
+        <a href="/" class="logo">hex-forge</a>
+        <a href="https://apps.apple.com/app/hex-forge/id6756227996" class="header-cta">Download</a>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="icon-wrapper">
+                <div class="icon-glow" aria-hidden="true"></div>
+                <img src="icon.png" alt="hex-forge app icon" class="app-icon" width="200" height="200">
+            </div>
+            <p class="eyebrow">Hypertrophy Workout Tracker</p>
+            <h1>Train smarter.<br>Grow stronger.</h1>
+            <p class="hero-sub">Mesocycle-based programming with smart weight predictions, RIR tracking, and volume management. Built for lifters who take their training seriously.</p>
+            <div class="hero-actions">
+                <a href="https://apps.apple.com/app/hex-forge/id6756227996" class="app-store-badge">
+                    <img src="app-store-badge.svg" alt="Download on the App Store" height="54">
+                </a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card" style="--delay: 0">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h3>Mesocycle Programming</h3>
+                <p>Structure your training in 4-6 week blocks that progressively overload volume and intensity. Use proven templates like Push/Pull/Legs or build your own from scratch.</p>
+            </div>
+
+            <div class="feature-card" style="--delay: 1">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                </div>
+                <h3>RIR-Based Training</h3>
+                <p>Log every set with weight, reps, and Reps In Reserve. Autoregulate your training intensity based on how each set actually feels, not just what the spreadsheet says.</p>
+            </div>
+
+            <div class="feature-card" style="--delay: 2">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                </div>
+                <h3>Smart Weight Predictions</h3>
+                <p>hex-forge uses your performance history to predict optimal weights for your next session. When you change weight, rep targets adjust automatically to preserve effort level.</p>
+            </div>
+
+            <div class="feature-card" style="--delay: 3">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 20V10"/>
+                        <path d="M12 20V4"/>
+                        <path d="M6 20v-6"/>
+                    </svg>
+                </div>
+                <h3>Volume Management</h3>
+                <p>Track weekly sets per muscle group and stay within your recoverable volume. Maximize gains without overtraining with clear volume landmarks per muscle.</p>
+            </div>
+
+            <div class="feature-card" style="--delay: 4">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h3>Exercise Videos</h3>
+                <p>Find form demonstration videos for exercises in your workouts. Learn proper technique from curated YouTube content without leaving the app.</p>
+            </div>
+
+            <div class="feature-card" style="--delay: 5">
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </div>
+                <h3>HealthKit Integration</h3>
+                <p>Sync your workouts with Apple Health automatically. Your training data flows seamlessly into your health dashboard alongside all your other fitness metrics.</p>
+            </div>
+        </section>
+
+        <section class="closing">
+            <h2>Built for lifters who take their training seriously.</h2>
+            <a href="https://apps.apple.com/app/hex-forge/id6756227996" class="app-store-badge">
+                <img src="app-store-badge.svg" alt="Download on the App Store" height="54">
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <nav class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="mailto:support@hexul.com">Contact</a>
+        </nav>
+        <p class="copyright">&copy; 2026 hexul</p>
+    </footer>
+</body>
+</html>
