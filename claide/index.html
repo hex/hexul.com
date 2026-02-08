@@ -1,0 +1,501 @@
+<!-- ABOUTME: Product landing page for Claide, a macOS Claude Code companion app.
+     ABOUTME: Self-contained HTML with inline CSS, no external dependencies. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claide - Claude Code Companion for macOS</title>
+    <meta name="description" content="A macOS companion app for Claude Code sessions. GPU-accelerated terminal, kanban board, dependency graph, and live file monitoring in one window.">
+    <meta name="theme-color" content="#0a0d14">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <style>
+        :root {
+            --cyan: #57c7ff;
+            --cyan-bright: #9aedfe;
+            --cyan-glow: rgba(87, 199, 255, 0.4);
+            --cyan-faint: rgba(87, 199, 255, 0.08);
+            --green: #4dbf73;
+            --yellow: #f3f99d;
+            --magenta: #ff6ac1;
+            --bg: #0a0d14;
+            --bg-elevated: #111620;
+            --surface: rgba(87, 199, 255, 0.03);
+            --border: rgba(87, 199, 255, 0.06);
+            --text: #e0e6eb;
+            --text-dim: #808794;
+            --text-faint: #3e4555;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Graph-paper grid */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(87, 199, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(87, 199, 255, 0.02) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* CRT scanlines */
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.02) 2px,
+                rgba(0, 0, 0, 0.02) 4px
+            );
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* Edge vignette */
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.5) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 4rem 1.5rem 3rem;
+        }
+
+        /* --- Header --- */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header img {
+            width: 56px;
+            height: 56px;
+            border-radius: 13px;
+            box-shadow: 0 0 30px rgba(87, 199, 255, 0.12), 0 0 60px rgba(87, 199, 255, 0.04);
+        }
+
+        .header h1 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--cyan);
+            text-shadow:
+                0 0 7px rgba(87, 199, 255, 0.6),
+                0 0 30px rgba(87, 199, 255, 0.2),
+                0 0 80px rgba(87, 199, 255, 0.08);
+            line-height: 1;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 0.78em;
+            background: var(--cyan);
+            margin-left: 4px;
+            vertical-align: baseline;
+            border-radius: 1px;
+            animation: blink 1s step-end infinite;
+            box-shadow: 0 0 8px var(--cyan-glow);
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .tagline {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            color: var(--cyan);
+            border: 1px solid var(--cyan-faint);
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            letter-spacing: 0.05em;
+            margin-bottom: 3rem;
+        }
+
+        /* --- Screenshot hero --- */
+        .hero {
+            position: relative;
+            margin-bottom: 3rem;
+            perspective: 1200px;
+        }
+
+        /* Ambient glow behind screen */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -80px;
+            right: -80px;
+            bottom: -50px;
+            background: radial-gradient(
+                ellipse at center,
+                rgba(87, 199, 255, 0.1) 0%,
+                rgba(87, 199, 255, 0.03) 45%,
+                transparent 70%
+            );
+            pointer-events: none;
+            z-index: -1;
+            animation: breathe 5s ease-in-out infinite;
+        }
+
+        /* Light spill below screen */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 15%;
+            right: 15%;
+            height: 30px;
+            background: radial-gradient(
+                ellipse at center top,
+                rgba(87, 199, 255, 0.05) 0%,
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.75; }
+            50% { opacity: 1; }
+        }
+
+        .hero img {
+            width: 100%;
+            border-radius: 10px;
+            border: 1px solid rgba(87, 199, 255, 0.1);
+            transform: rotateX(2deg);
+            transform-origin: bottom center;
+            box-shadow:
+                0 0 1px rgba(255, 255, 255, 0.08),
+                0 8px 40px rgba(0, 0, 0, 0.5),
+                0 0 80px rgba(87, 199, 255, 0.04);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .hero img:hover {
+            transform: rotateX(0deg);
+            box-shadow:
+                0 0 1px rgba(255, 255, 255, 0.1),
+                0 12px 50px rgba(0, 0, 0, 0.5),
+                0 0 120px rgba(87, 199, 255, 0.08);
+        }
+
+        /* --- Description --- */
+        .desc {
+            font-size: 0.88rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-dim);
+            line-height: 1.75;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+        }
+
+        /* --- Install --- */
+        .install {
+            margin-bottom: 2.5rem;
+        }
+
+        .section-label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 0.65rem;
+            text-shadow: 0 0 8px rgba(87, 199, 255, 0.1);
+        }
+
+        .terminal {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 0.6rem;
+        }
+
+        .terminal-bar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 12px;
+            background: rgba(255, 255, 255, 0.015);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .terminal-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .terminal-body {
+            padding: 0.8rem 1rem;
+            font-size: 0.82rem;
+            color: var(--text);
+        }
+
+        .terminal-body .prompt {
+            color: var(--green);
+            user-select: none;
+        }
+
+        .install-alt {
+            font-size: 0.75rem;
+            color: var(--text-faint);
+        }
+
+        .install-alt a {
+            color: var(--cyan);
+            opacity: 0.6;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(87, 199, 255, 0.1);
+            padding-bottom: 1px;
+            transition: opacity 0.2s;
+        }
+
+        .install-alt a:hover { opacity: 1; }
+
+        .install-note {
+            font-size: 0.68rem;
+            color: var(--text-faint);
+            margin-top: 0.4rem;
+        }
+
+        /* --- Features --- */
+        .features {
+            margin-bottom: 2.5rem;
+        }
+
+        .feature {
+            display: flex;
+            align-items: baseline;
+            gap: 1.25rem;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.025);
+        }
+
+        .feature:last-child { border-bottom: none; }
+
+        .feature-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 0.45em;
+            align-self: flex-start;
+        }
+
+        .feature-name {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--cyan-bright);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            width: 72px;
+            flex-shrink: 0;
+        }
+
+        .feature-desc {
+            font-size: 0.82rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-dim);
+        }
+
+        /* --- Tech line --- */
+        .tech {
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.02em;
+        }
+
+        .tech span {
+            color: var(--text-dim);
+        }
+
+        /* --- Divider --- */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyan-faint), transparent);
+            margin-bottom: 1.5rem;
+        }
+
+        /* --- Links --- */
+        .links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .links a {
+            font-size: 0.78rem;
+            color: var(--text-faint);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .links a:hover {
+            color: var(--cyan);
+            border-color: var(--cyan-faint);
+        }
+
+        /* --- Footer --- */
+        footer {
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.025);
+        }
+
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--cyan); }
+
+        /* --- Animations --- */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes glow-in {
+            from { opacity: 0; filter: brightness(0.3); }
+            40% { opacity: 1; filter: brightness(1.3); }
+            to { opacity: 1; filter: brightness(1); }
+        }
+
+        .header { animation: fade-up 0.5s ease both; }
+        .tagline { animation: fade-up 0.5s ease 0.06s both; }
+        .badge-wrap { animation: fade-up 0.4s ease 0.1s both; }
+        .hero { animation: glow-in 1s ease 0.25s both; }
+        .desc { animation: fade-up 0.5s ease 0.5s both; }
+        .install { animation: fade-up 0.5s ease 0.56s both; }
+        .features { animation: fade-up 0.5s ease 0.62s both; }
+        .tech { animation: fade-up 0.4s ease 0.68s both; }
+        .divider { animation: fade-up 0.3s ease 0.72s both; }
+        .links { animation: fade-up 0.4s ease 0.76s both; }
+        footer { animation: fade-up 0.4s ease 0.8s both; }
+
+        /* --- Responsive --- */
+        @media (max-width: 520px) {
+            .header { gap: 0.8rem; }
+            .header img { width: 44px; height: 44px; border-radius: 10px; }
+            .header h1 { font-size: 1.9rem; }
+            .page { padding-top: 2.5rem; }
+            .hero img { transform: none; }
+            .hero img:hover { transform: none; }
+            .feature { flex-wrap: wrap; gap: 0.2rem 1.25rem; }
+            .feature-name { width: auto; }
+            .links { flex-direction: column; gap: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <div class="page">
+        <div class="header">
+            <img src="icon.png" alt="Claide" width="56" height="56">
+            <h1>Claide<span class="cursor"></span></h1>
+        </div>
+        <p class="tagline">A macOS companion app for Claude Code sessions</p>
+        <div class="badge-wrap"><span class="badge">macOS 14+ &middot; MIT License</span></div>
+
+        <div class="hero">
+            <img src="screenshot.png" alt="Claide running with terminal, kanban board, and file changes" width="1200" height="700">
+        </div>
+
+        <p class="desc">Terminal, issue tracker, dependency graph, and file monitor in one window. Claide sits alongside Claude Code and surfaces project context without switching apps.</p>
+
+        <section class="install">
+            <div class="section-label">Install</div>
+            <div class="terminal">
+                <div class="terminal-bar">
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot"></div>
+                    <div class="terminal-dot"></div>
+                </div>
+                <div class="terminal-body"><span class="prompt">$</span> brew install --cask hex/tap/claide</div>
+            </div>
+            <p class="install-alt">Or <a href="https://github.com/hex/Claide/releases/latest">download from GitHub Releases</a></p>
+        </section>
+
+        <section class="features">
+            <div class="section-label">Capabilities</div>
+            <div class="feature">
+                <div class="feature-dot" style="background: var(--cyan)"></div>
+                <span class="feature-name">Terminal</span>
+                <span class="feature-desc">GPU-accelerated rendering powered by Metal and Rust</span>
+            </div>
+            <div class="feature">
+                <div class="feature-dot" style="background: var(--yellow)"></div>
+                <span class="feature-name">Board</span>
+                <span class="feature-desc">Kanban view with beads issues and Claude Code tasks</span>
+            </div>
+            <div class="feature">
+                <div class="feature-dot" style="background: var(--magenta)"></div>
+                <span class="feature-name">Graph</span>
+                <span class="feature-desc">Interactive force-directed dependency visualization</span>
+            </div>
+            <div class="feature">
+                <div class="feature-dot" style="background: var(--green)"></div>
+                <span class="feature-name">Files</span>
+                <span class="feature-desc">Live monitoring of changes during sessions</span>
+            </div>
+            <div class="feature">
+                <div class="feature-dot" style="background: #57c7ff"></div>
+                <span class="feature-name">Status</span>
+                <span class="feature-desc">Claude Code context window tracking</span>
+            </div>
+        </section>
+
+        <p class="tech"><span>Swift 6</span> &middot; <span>Metal</span> &middot; <span>Rust</span> &middot; 165 tests</p>
+
+        <div class="divider"></div>
+
+        <div class="links">
+            <a href="https://github.com/hex/Claide">GitHub</a>
+            <a href="privacy/">Privacy</a>
+            <a href="mailto:support@hexul.com">Support</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -6,6 +6,7 @@ const SUBDOMAIN_MAP = {
   'mirrorps': '/mirrorps',
   'hex-forge': '/hex-forge',
   'stash': '/stash',
+  'claide': '/claide',
 };
 
 export default {
