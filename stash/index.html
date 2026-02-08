@@ -315,6 +315,72 @@
             color: #e0e0f0;
         }
 
+        /* --- Install section --- */
+        .install {
+            margin-bottom: 2.5rem;
+        }
+
+        .install h2 {
+            font-family: 'SF Mono', 'Menlo', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.15);
+        }
+
+        .install-code {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.7rem 1rem;
+            margin-bottom: 0.6rem;
+            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.82rem;
+            color: var(--text);
+            transition: border-color 0.2s;
+        }
+
+        .install-code:hover {
+            border-color: var(--border-accent);
+        }
+
+        .install-code .prompt {
+            color: var(--indigo);
+            user-select: none;
+        }
+
+        .install-alt {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .install-alt a {
+            color: var(--indigo);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+            padding-bottom: 1px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .install-alt a:hover {
+            color: var(--blue);
+            border-color: var(--indigo);
+        }
+
+        .install-note {
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            margin-top: 0.5rem;
+            line-height: 1.5;
+        }
+
         /* --- Divider --- */
         .divider {
             height: 1px;
@@ -365,9 +431,10 @@
         .intro { animation: fade-up 0.5s ease both; }
         .mockup-wrap { animation: fade-up 0.6s ease 0.08s both; }
         .desc { animation: fade-up 0.5s ease 0.16s both; }
-        .features { animation: fade-up 0.5s ease 0.24s both; }
-        .links { animation: fade-up 0.5s ease 0.3s both; }
-        footer { animation: fade-up 0.5s ease 0.34s both; }
+        .install { animation: fade-up 0.5s ease 0.22s both; }
+        .features { animation: fade-up 0.5s ease 0.28s both; }
+        .links { animation: fade-up 0.5s ease 0.34s both; }
+        footer { animation: fade-up 0.5s ease 0.38s both; }
 
         /* --- Responsive --- */
         @media (max-width: 480px) {
@@ -441,6 +508,13 @@
 
         <p class="desc">Stash lives in your menu bar and quietly captures everything you copy. Click the icon to browse your recent entries with content previews and image thumbnails. Click any entry to paste it, or right-click to pin, delete, or preview.</p>
 
+        <section class="install">
+            <h2>Install</h2>
+            <div class="install-code"><span class="prompt">$</span> brew install --cask hex/tap/stash</div>
+            <p class="install-alt">Or <a href="https://github.com/hex/Stash/releases/latest">download directly</a> from GitHub Releases.</p>
+            <p class="install-note">Ad-hoc signed. On first launch, right-click the app and choose Open to bypass Gatekeeper.</p>
+        </section>
+
         <section class="features">
             <h2>Features</h2>
             <div class="pills">
@@ -458,6 +532,7 @@
         <div class="divider"></div>
 
         <div class="links">
+            <a href="https://github.com/hex/Stash">GitHub</a>
             <a href="privacy/">Privacy Policy</a>
             <a href="mailto:support@hexul.com">Support</a>
         </div>
