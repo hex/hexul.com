@@ -5,6 +5,7 @@ const SUBDOMAIN_MAP = {
   'phosphor': '/phosphor',
   'mirrorps': '/mirrorps',
   'hex-forge': '/hex-forge',
+  'stash': '/stash',
 };
 
 export default {

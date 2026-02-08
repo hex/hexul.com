@@ -1,0 +1,397 @@
+<!-- ABOUTME: Product landing page for Stash, a macOS clipboard history manager.
+     ABOUTME: Self-contained HTML with inline CSS, no external dependencies. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stash - Clipboard History for macOS</title>
+    <meta name="description" content="A lightweight macOS clipboard history manager that lives in your menu bar. Search, browse, and re-paste anything you've copied.">
+    <meta name="theme-color" content="#06061a">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <style>
+        :root {
+            --stash-blue: #60a5fa;
+            --stash-purple: #a78bfa;
+            --stash-dim: #6366f1;
+            --stash-glow: rgba(99, 102, 241, 0.35);
+            --stash-faint: rgba(99, 102, 241, 0.06);
+            --bg: #06061a;
+            --surface: rgba(99, 102, 241, 0.04);
+            --border: rgba(99, 102, 241, 0.1);
+            --text: #c8c8d8;
+            --text-muted: #5a5a78;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Floating clipboard layers */
+        .layers {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .layer {
+            position: absolute;
+            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.05);
+            background: linear-gradient(135deg, rgba(96, 165, 250, 0.03), rgba(167, 139, 250, 0.02));
+        }
+
+        .layer:nth-child(1) { width: 280px; height: 180px; top: 8%; left: -5%; transform: rotate(-12deg); animation: drift-a 25s ease-in-out infinite; }
+        .layer:nth-child(2) { width: 200px; height: 130px; top: 15%; right: -3%; transform: rotate(8deg); animation: drift-b 30s ease-in-out infinite; }
+        .layer:nth-child(3) { width: 240px; height: 160px; top: 50%; left: -8%; transform: rotate(-6deg); animation: drift-c 28s ease-in-out infinite; }
+        .layer:nth-child(4) { width: 180px; height: 120px; top: 60%; right: -6%; transform: rotate(15deg); animation: drift-b 22s ease-in-out infinite reverse; }
+        .layer:nth-child(5) { width: 320px; height: 200px; top: 80%; left: 10%; transform: rotate(-3deg); animation: drift-a 35s ease-in-out infinite reverse; }
+
+        @keyframes drift-a {
+            0%, 100% { transform: rotate(-12deg) translate(0, 0); }
+            33% { transform: rotate(-10deg) translate(15px, -20px); }
+            66% { transform: rotate(-14deg) translate(-10px, 15px); }
+        }
+        @keyframes drift-b {
+            0%, 100% { transform: rotate(8deg) translate(0, 0); }
+            50% { transform: rotate(10deg) translate(-20px, 10px); }
+        }
+        @keyframes drift-c {
+            0%, 100% { transform: rotate(-6deg) translate(0, 0); }
+            33% { transform: rotate(-4deg) translate(10px, 15px); }
+            66% { transform: rotate(-8deg) translate(-15px, -10px); }
+        }
+
+        .ambient {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            top: -200px;
+            left: 50%;
+            margin-left: -400px;
+            background: radial-gradient(ellipse, rgba(96, 165, 250, 0.08) 0%, rgba(139, 92, 246, 0.04) 40%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+            animation: ambient-pulse 20s ease-in-out infinite;
+        }
+
+        @keyframes ambient-pulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        /* --- Hero: horizontal layout (icon left, text right) --- */
+        .hero {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 4.5rem 0 3rem;
+        }
+
+        .icon-frame {
+            position: relative;
+            width: 128px;
+            height: 128px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 80px rgba(99, 102, 241, 0.06);
+            overflow: hidden;
+        }
+
+        .icon-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 40%, transparent 60%, rgba(255, 255, 255, 0.02) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .icon-frame img {
+            display: block;
+            width: 112px;
+            height: 112px;
+            border-radius: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            background: linear-gradient(135deg, var(--stash-blue), var(--stash-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px var(--stash-glow));
+            line-height: 1.1;
+        }
+
+        .tagline {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            font-weight: 400;
+        }
+
+        .platform-badge {
+            display: inline-block;
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--stash-dim);
+            border: 1px solid var(--border);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+            width: fit-content;
+        }
+
+        /* --- Divider --- */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 0 0 2.5rem;
+        }
+
+        /* --- About --- */
+        .about {
+            margin-bottom: 2.5rem;
+        }
+
+        .about p {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        h2 {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--stash-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 8px rgba(96, 165, 250, 0.15);
+        }
+
+        /* --- Features: individual cards --- */
+        .features { margin-bottom: 2.5rem; }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .feature {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 0.875rem;
+            font-size: 0.82rem;
+            color: var(--text);
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        .feature:hover {
+            background: rgba(99, 102, 241, 0.06);
+            border-color: rgba(99, 102, 241, 0.15);
+        }
+
+        .feature::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--stash-dim);
+            box-shadow: 0 0 6px var(--stash-glow);
+            flex-shrink: 0;
+            position: relative;
+            top: 1px;
+            animation: dot-in 0.3s ease both;
+        }
+
+        @keyframes dot-in {
+            from { opacity: 0; transform: scale(0); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .feature:nth-child(1)::before { animation-delay: 0.3s; }
+        .feature:nth-child(2)::before { animation-delay: 0.38s; }
+        .feature:nth-child(3)::before { animation-delay: 0.46s; }
+        .feature:nth-child(4)::before { animation-delay: 0.54s; }
+        .feature:nth-child(5)::before { animation-delay: 0.62s; }
+        .feature:nth-child(6)::before { animation-delay: 0.70s; }
+        .feature:nth-child(7)::before { animation-delay: 0.78s; }
+        .feature:nth-child(8)::before { animation-delay: 0.86s; }
+
+        /* --- Links --- */
+        .links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .links a {
+            font-size: 0.85rem;
+            color: var(--stash-dim);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .links a:hover {
+            color: var(--stash-blue);
+            border-color: var(--stash-dim);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        footer a:hover { color: var(--stash-dim); }
+
+        /* --- Fade in --- */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero { animation: fade-up 0.6s ease both; }
+        .about { animation: fade-up 0.6s ease 0.1s both; }
+        .features { animation: fade-up 0.6s ease 0.2s both; }
+        .links { animation: fade-up 0.6s ease 0.3s both; }
+        footer { animation: fade-up 0.6s ease 0.35s both; }
+
+        /* --- Responsive --- */
+        @media (max-width: 540px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.25rem;
+            }
+            .platform-badge { margin: 0.5rem auto 0; }
+            h1 { font-size: 2rem; }
+            .hero { padding: 3rem 0 2rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .links { flex-direction: column; gap: 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="layers" aria-hidden="true">
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+        <div class="layer"></div>
+    </div>
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <div class="page">
+        <div class="hero">
+            <div class="icon-frame">
+                <img src="icon.png" alt="Stash app icon" width="112" height="112">
+            </div>
+            <div class="hero-text">
+                <h1>Stash</h1>
+                <p class="tagline">Clipboard history for macOS</p>
+                <span class="platform-badge">macOS</span>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <section class="about">
+            <h2>About</h2>
+            <p>Stash lives in your menu bar and quietly captures everything you copy &#x2014; text, rich text, images, URLs, file paths &#x2014; so nothing is ever lost.</p>
+            <p>Click the menu bar icon to browse your recent entries with content previews and image thumbnails. Click any entry to paste it, or right-click for quick actions like pin, delete, and full-size image preview.</p>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature">Text, rich text, images, URLs, files</div>
+                <div class="feature">AES-256-GCM encrypted storage</div>
+                <div class="feature">Password manager auto-filtering</div>
+                <div class="feature">Pin entries to keep them safe</div>
+                <div class="feature">Source app detection per entry</div>
+                <div class="feature">All data local &#x2014; no cloud, no network</div>
+                <div class="feature">Configurable retention and auto-delete</div>
+                <div class="feature">Auto-update via Sparkle</div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <div class="links">
+            <a href="privacy/">Privacy Policy</a>
+            <a href="mailto:support@hexul.com">Support</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </div>
+</body>
+</html>
