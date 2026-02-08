@@ -44,8 +44,8 @@
             position: fixed;
             inset: 0;
             background-image:
-                linear-gradient(rgba(87, 199, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(87, 199, 255, 0.02) 1px, transparent 1px);
+                linear-gradient(rgba(87, 199, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(87, 199, 255, 0.03) 1px, transparent 1px);
             background-size: 48px 48px;
             pointer-events: none;
             z-index: 0;
@@ -154,14 +154,14 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50px;
-            left: -80px;
-            right: -80px;
-            bottom: -50px;
+            top: -60px;
+            left: -100px;
+            right: -100px;
+            bottom: -60px;
             background: radial-gradient(
                 ellipse at center,
-                rgba(87, 199, 255, 0.1) 0%,
-                rgba(87, 199, 255, 0.03) 45%,
+                rgba(87, 199, 255, 0.18) 0%,
+                rgba(87, 199, 255, 0.06) 45%,
                 transparent 70%
             );
             pointer-events: none;
@@ -173,13 +173,13 @@
         .hero::after {
             content: '';
             position: absolute;
-            bottom: -30px;
-            left: 15%;
-            right: 15%;
-            height: 30px;
+            bottom: -40px;
+            left: 10%;
+            right: 10%;
+            height: 40px;
             background: radial-gradient(
                 ellipse at center top,
-                rgba(87, 199, 255, 0.05) 0%,
+                rgba(87, 199, 255, 0.08) 0%,
                 transparent 70%
             );
             pointer-events: none;
@@ -193,22 +193,24 @@
         .hero img {
             width: 100%;
             border-radius: 10px;
-            border: 1px solid rgba(87, 199, 255, 0.1);
+            border: 1px solid rgba(87, 199, 255, 0.18);
             transform: rotateX(2deg);
             transform-origin: bottom center;
             box-shadow:
-                0 0 1px rgba(255, 255, 255, 0.08),
-                0 8px 40px rgba(0, 0, 0, 0.5),
-                0 0 80px rgba(87, 199, 255, 0.04);
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                0 8px 40px rgba(0, 0, 0, 0.6),
+                0 0 60px rgba(87, 199, 255, 0.1),
+                0 0 120px rgba(87, 199, 255, 0.05);
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .hero img:hover {
             transform: rotateX(0deg);
             box-shadow:
-                0 0 1px rgba(255, 255, 255, 0.1),
-                0 12px 50px rgba(0, 0, 0, 0.5),
-                0 0 120px rgba(87, 199, 255, 0.08);
+                0 0 0 1px rgba(255, 255, 255, 0.08),
+                0 12px 50px rgba(0, 0, 0, 0.6),
+                0 0 80px rgba(87, 199, 255, 0.15),
+                0 0 160px rgba(87, 199, 255, 0.08);
         }
 
         /* --- Description --- */
