@@ -1,76 +1,298 @@
+<!-- ABOUTME: Product landing page for Phosphor, an LED matrix display simulator.
+     ABOUTME: Self-contained HTML with inline CSS, no external dependencies. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phosphor - LED Matrix Display Simulator</title>
+    <meta name="description" content="Simulate a physical LED dot-matrix display on macOS and iOS. Metal-based renderer with authentic phosphor glow, HTTP API, and web admin panel.">
+    <meta name="theme-color" content="#050505">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
-            line-height: 1.6;
+        :root {
+            --phosphor: #4ade80;
+            --phosphor-dim: #22c55e;
+            --phosphor-glow: rgba(74, 222, 128, 0.4);
+            --phosphor-faint: rgba(74, 222, 128, 0.06);
+            --bg: #050505;
+            --surface: rgba(74, 222, 128, 0.03);
+            --border: rgba(74, 222, 128, 0.08);
+            --text: #c8c8c8;
+            --text-muted: #666;
+            --dot-size: 16px;
         }
-        .container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Dot-matrix grid overlay across the entire page */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(circle, var(--phosphor-faint) 1px, transparent 1px);
+            background-size: var(--dot-size) var(--dot-size);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+
+        .icon-frame {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .icon-frame img {
+            display: block;
+            width: 128px;
+            height: 128px;
+            border-radius: 28px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .icon-frame::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 34px;
+            background: radial-gradient(circle, var(--phosphor-glow) 0%, transparent 70%);
+            z-index: 0;
+            animation: icon-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes icon-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
         h1 {
-            font-size: 2rem;
-            color: #4ade80;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--phosphor);
+            text-shadow: 0 0 20px var(--phosphor-glow), 0 0 40px rgba(74, 222, 128, 0.15);
             margin-bottom: 0.5rem;
         }
+
         .tagline {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            font-weight: 400;
         }
+
+        .platforms {
+            margin-top: 1.25rem;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .platform-badge {
+            font-size: 0.75rem;
+            color: var(--phosphor-dim);
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+        }
+
+        /* --- Divider --- */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 0 0 2.5rem;
+        }
+
+        /* --- Sections --- */
         h2 {
-            font-size: 1.2rem;
-            color: #4ade80;
-            margin: 2rem 0 0.75rem;
-            border-bottom: 1px solid #222;
-            padding-bottom: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--phosphor);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 8px rgba(74, 222, 128, 0.2);
         }
-        p { margin-bottom: 1rem; }
-        ul { margin: 0 0 1rem 1.5rem; }
-        li { margin-bottom: 0.25rem; }
-        a { color: #4ade80; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .footer {
-            margin-top: 3rem;
-            padding-top: 1rem;
-            border-top: 1px solid #222;
-            color: #666;
+
+        .about p {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .about {
+            margin-bottom: 2.5rem;
+        }
+
+        /* --- Features grid --- */
+        .features {
+            margin-bottom: 2.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .feature {
+            background: var(--bg);
+            padding: 0.875rem 1rem;
+            font-size: 0.82rem;
+            color: var(--text);
+            display: flex;
+            align-items: baseline;
+            gap: 0.6rem;
+        }
+
+        .feature::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--phosphor-dim);
+            box-shadow: 0 0 6px var(--phosphor-glow);
+            flex-shrink: 0;
+            position: relative;
+            top: 1px;
+        }
+
+        /* --- Links --- */
+        .links {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .links a {
             font-size: 0.85rem;
+            color: var(--phosphor-dim);
+            text-decoration: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .links a:hover {
+            color: var(--phosphor);
+            border-color: var(--phosphor-dim);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: var(--phosphor-dim);
+        }
+
+        /* --- Fade in --- */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero { animation: fade-up 0.6s ease both; }
+        .about { animation: fade-up 0.6s ease 0.1s both; }
+        .features { animation: fade-up 0.6s ease 0.2s both; }
+        .links { animation: fade-up 0.6s ease 0.3s both; }
+        footer { animation: fade-up 0.6s ease 0.35s both; }
+
+        /* --- Responsive --- */
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .hero { padding: 3rem 0 2.5rem; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .links { flex-direction: column; gap: 0.75rem; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Phosphor</h1>
-        <p class="tagline">LED matrix display simulator for macOS and iOS.</p>
-
-        <h2>About</h2>
-        <p>Phosphor simulates a physical LED dot-matrix display on your screen. It renders text, images, and animations using a Metal-based renderer with authentic visual effects like phosphor persistence, dome highlights, and chromatic aberration.</p>
-        <p>Control the display over your local network via a built-in HTTP API, or use the web admin panel from any browser on the same network.</p>
-
-        <h2>Features</h2>
-        <ul>
-            <li>Metal SDF renderer with per-dot glow</li>
-            <li>Scrolling text with adjustable speed and color</li>
-            <li>Full RGB per-pixel grid control</li>
-            <li>GIF animation playback</li>
-            <li>12 visual effect toggles</li>
-            <li>Built-in web admin panel</li>
-            <li>HTTP API for local network control</li>
-            <li>Clock mode</li>
-        </ul>
-
-        <h2><a href="privacy.html">Privacy Policy</a></h2>
-        <p>Phosphor collects no data. <a href="privacy.html">Read the full privacy policy.</a></p>
-
-        <div class="footer">
-            <p>&copy; 2026 <a href="https://hexul.com">hexul</a>. All rights reserved.</p>
+    <div class="page">
+        <div class="hero">
+            <div class="icon-frame">
+                <img src="icon.png" alt="Phosphor app icon" width="128" height="128">
+            </div>
+            <h1>Phosphor</h1>
+            <p class="tagline">LED matrix display simulator</p>
+            <div class="platforms">
+                <span class="platform-badge">macOS</span>
+                <span class="platform-badge">iOS</span>
+            </div>
         </div>
+
+        <div class="divider"></div>
+
+        <section class="about">
+            <h2>About</h2>
+            <p>Phosphor simulates a physical LED dot-matrix display on your screen. It renders text, images, and animations using a Metal-based renderer with authentic visual effects like phosphor persistence, dome highlights, and chromatic aberration.</p>
+            <p>Control the display over your local network via a built-in HTTP API, or use the web admin panel from any browser on the same network.</p>
+        </section>
+
+        <section class="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature">Metal SDF renderer with per-dot glow</div>
+                <div class="feature">Scrolling text with adjustable speed and color</div>
+                <div class="feature">Full RGB per-pixel grid control</div>
+                <div class="feature">GIF animation playback</div>
+                <div class="feature">12 visual effect toggles</div>
+                <div class="feature">Built-in web admin panel</div>
+                <div class="feature">HTTP API for local network control</div>
+                <div class="feature">Clock mode</div>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <div class="links">
+            <a href="privacy/">Privacy Policy</a>
+            <a href="mailto:support@hexul.com">Support</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
     </div>
 </body>
 </html>
