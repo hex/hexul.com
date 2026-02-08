@@ -147,7 +147,6 @@
         .hero {
             position: relative;
             margin-bottom: 3rem;
-            perspective: 1200px;
         }
 
         /* Ambient glow behind screen */
@@ -194,18 +193,15 @@
             width: 100%;
             border-radius: 10px;
             border: 1px solid rgba(87, 199, 255, 0.18);
-            transform: rotateX(2deg);
-            transform-origin: bottom center;
             box-shadow:
                 0 0 0 1px rgba(255, 255, 255, 0.05),
                 0 8px 40px rgba(0, 0, 0, 0.6),
                 0 0 60px rgba(87, 199, 255, 0.1),
                 0 0 120px rgba(87, 199, 255, 0.05);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            transition: box-shadow 0.4s ease;
         }
 
         .hero img:hover {
-            transform: rotateX(0deg);
             box-shadow:
                 0 0 0 1px rgba(255, 255, 255, 0.08),
                 0 12px 50px rgba(0, 0, 0, 0.6),
@@ -416,9 +412,7 @@
             .header img { width: 44px; height: 44px; border-radius: 10px; }
             .header h1 { font-size: 1.9rem; }
             .page { padding-top: 2.5rem; }
-            .hero img { transform: none; }
-            .hero img:hover { transform: none; }
-            .feature { flex-wrap: wrap; gap: 0.2rem 1.25rem; }
+.feature { flex-wrap: wrap; gap: 0.2rem 1.25rem; }
             .feature-name { width: auto; }
             .links { flex-direction: column; gap: 0.75rem; }
         }
