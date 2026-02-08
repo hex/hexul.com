@@ -397,6 +397,7 @@
             h1 { font-size: 2rem; }
             .hero { padding: 3rem 0 2.5rem; }
             .feature-grid { grid-template-columns: 1fr; }
+            .showcase-pair { grid-template-columns: 1fr; }
             .links { flex-direction: column; gap: 0.75rem; }
         }
     </style>
@@ -430,6 +431,23 @@
             <h2>About</h2>
             <p>Phosphor simulates a physical LED dot-matrix display on your screen. It renders text, images, and animations using a Metal-based renderer with authentic visual effects like phosphor persistence, dome highlights, and chromatic aberration.</p>
             <p>Control the display over your local network via a built-in HTTP API, or use the web admin panel from any browser on the same network.</p>
+        </section>
+
+        <section class="showcase">
+            <h2>Preview</h2>
+            <div class="showcase-hero">
+                <div class="screen">
+                    <img src="screen-gradient.jpg" alt="Full RGB gradient display" loading="lazy" width="1280" height="800">
+                </div>
+            </div>
+            <div class="showcase-pair">
+                <div class="screen">
+                    <img src="screen-default.jpg" alt="Green text on dot-matrix display" loading="lazy" width="1280" height="800">
+                </div>
+                <div class="screen">
+                    <img src="screen-effects.jpg" alt="Visual effects enabled" loading="lazy" width="1280" height="800">
+                </div>
+            </div>
         </section>
 
         <section class="features">
