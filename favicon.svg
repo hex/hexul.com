@@ -1,0 +1,6 @@
+<!-- ABOUTME: Hexul favicon - hexagon with 'h' letterform.
+     ABOUTME: Lavender fill (#b8a4d6) with dark knockout letter. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <polygon points="16,1 29,8.5 29,23.5 16,31 3,23.5 3,8.5" fill="#b8a4d6"/>
+  <path d="M10.5,7 L13,7 L13,14 L21.5,14 L21.5,25 L19,25 L19,16.5 L13,16.5 L13,25 L10.5,25 Z" fill="#0d0a12"/>
+</svg>
