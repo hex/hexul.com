@@ -61,23 +61,17 @@
             position: fixed;
             top: 0;
             right: calc(50% - 540px);
-            width: 100px;
+            width: 120px;
             height: 100vh;
             pointer-events: none;
             overflow: hidden;
             z-index: 0;
         }
 
-        .helix-bg svg {
+        .helix-bg canvas {
             width: 100%;
-            height: auto;
-            opacity: 0.12;
-            animation: helix-drift 40s linear infinite;
-        }
-
-        @keyframes helix-drift {
-            from { transform: translateY(0); }
-            to { transform: translateY(-12.5%); }
+            height: 100%;
+            opacity: 0.18;
         }
 
         /* --- Intro --- */
@@ -373,22 +367,7 @@
 <body>
     <div class="accent-bar" aria-hidden="true"></div>
 
-    <div class="helix-bg" aria-hidden="true">
-        <svg viewBox="0 0 80 2400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M40,0 C52,0 70,25 70,75 C70,125 52,150 40,150 C28,150 10,175 10,225 C10,275 28,300 40,300 C52,300 70,325 70,375 C70,425 52,450 40,450 C28,450 10,475 10,525 C10,575 28,600 40,600 C52,600 70,625 70,675 C70,725 52,750 40,750 C28,750 10,775 10,825 C10,875 28,900 40,900 C52,900 70,925 70,975 C70,1025 52,1050 40,1050 C28,1050 10,1075 10,1125 C10,1175 28,1200 40,1200 C52,1200 70,1225 70,1275 C70,1325 52,1350 40,1350 C28,1350 10,1375 10,1425 C10,1475 28,1500 40,1500 C52,1500 70,1525 70,1575 C70,1625 52,1650 40,1650 C28,1650 10,1675 10,1725 C10,1775 28,1800 40,1800 C52,1800 70,1825 70,1875 C70,1925 52,1950 40,1950 C28,1950 10,1975 10,2025 C10,2075 28,2100 40,2100 C52,2100 70,2125 70,2175 C70,2225 52,2250 40,2250 C28,2250 10,2275 10,2325 C10,2375 28,2400 40,2400" stroke="#3194d0" stroke-width="1.5"/>
-            <path d="M40,0 C28,0 10,25 10,75 C10,125 28,150 40,150 C52,150 70,175 70,225 C70,275 52,300 40,300 C28,300 10,325 10,375 C10,425 28,450 40,450 C52,450 70,475 70,525 C70,575 52,600 40,600 C28,600 10,625 10,675 C10,725 28,750 40,750 C52,750 70,775 70,825 C70,875 52,900 40,900 C28,900 10,925 10,975 C10,1025 28,1050 40,1050 C52,1050 70,1075 70,1125 C70,1175 52,1200 40,1200 C28,1200 10,1225 10,1275 C10,1325 28,1350 40,1350 C52,1350 70,1375 70,1425 C70,1475 52,1500 40,1500 C28,1500 10,1525 10,1575 C10,1625 28,1650 40,1650 C52,1650 70,1675 70,1725 C70,1775 52,1800 40,1800 C28,1800 10,1825 10,1875 C10,1925 28,1950 40,1950 C52,1950 70,1975 70,2025 C70,2075 52,2100 40,2100 C28,2100 10,2125 10,2175 C10,2225 28,2250 40,2250 C52,2250 70,2275 70,2325 C70,2375 52,2400 40,2400" stroke="#3dbcb0" stroke-width="1.5"/>
-            <g stroke="#c0ccda" stroke-width="0.75">
-                <line x1="10" y1="75" x2="70" y2="75"/><line x1="10" y1="225" x2="70" y2="225"/>
-                <line x1="10" y1="375" x2="70" y2="375"/><line x1="10" y1="525" x2="70" y2="525"/>
-                <line x1="10" y1="675" x2="70" y2="675"/><line x1="10" y1="825" x2="70" y2="825"/>
-                <line x1="10" y1="975" x2="70" y2="975"/><line x1="10" y1="1125" x2="70" y2="1125"/>
-                <line x1="10" y1="1275" x2="70" y2="1275"/><line x1="10" y1="1425" x2="70" y2="1425"/>
-                <line x1="10" y1="1575" x2="70" y2="1575"/><line x1="10" y1="1725" x2="70" y2="1725"/>
-                <line x1="10" y1="1875" x2="70" y2="1875"/><line x1="10" y1="2025" x2="70" y2="2025"/>
-                <line x1="10" y1="2175" x2="70" y2="2175"/><line x1="10" y1="2325" x2="70" y2="2325"/>
-            </g>
-        </svg>
-    </div>
+    <div class="helix-bg" aria-hidden="true"></div>
 
     <div class="page">
         <div class="intro">
@@ -483,5 +462,106 @@
             <div class="footer-tech"><span>Swift 5.9</span> &middot; <span>SwiftUI</span> &middot; <span>Sparkle</span></div>
         </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js"></script>
+    <script>
+    (function () {
+        if (window.innerWidth <= 640) return;
+        var el = document.querySelector('.helix-bg');
+        if (!el) return;
+
+        var canvas = document.createElement('canvas');
+        el.appendChild(canvas);
+
+        var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        var scene = new THREE.Scene();
+
+        // Lighting for 3D strand shading
+        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+        var dir = new THREE.DirectionalLight(0xffffff, 0.8);
+        dir.position.set(3, 5, 8);
+        scene.add(dir);
+
+        // Helix parameters
+        var R = 1.0;            // helix radius
+        var tubeR = 0.12;       // strand thickness
+        var turns = 14;         // extends beyond viewport
+        var ppTurn = 48;        // curve fidelity per turn
+        var hPerTurn = 2.2;     // vertical distance per turn
+        var totalH = turns * hPerTurn;
+        var totalPts = turns * ppTurn;
+
+        function helixPts(phase) {
+            var pts = [];
+            for (var i = 0; i <= totalPts; i++) {
+                var t = (i / ppTurn) * Math.PI * 2 + phase;
+                var y = (i / totalPts) * totalH - totalH / 2;
+                pts.push(new THREE.Vector3(R * Math.cos(t), y, R * Math.sin(t)));
+            }
+            return pts;
+        }
+
+        var curve1 = new THREE.CatmullRomCurve3(helixPts(0));
+        var curve2 = new THREE.CatmullRomCurve3(helixPts(Math.PI));
+
+        var mat1 = new THREE.MeshPhongMaterial({ color: 0x3194d0, shininess: 40 });
+        var mat2 = new THREE.MeshPhongMaterial({ color: 0x3dbcb0, shininess: 40 });
+
+        var group = new THREE.Group();
+        group.add(new THREE.Mesh(new THREE.TubeGeometry(curve1, totalPts, tubeR, 8, false), mat1));
+        group.add(new THREE.Mesh(new THREE.TubeGeometry(curve2, totalPts, tubeR, 8, false), mat2));
+
+        // Base pair rungs connecting the two strands
+        var bpMat = new THREE.MeshPhongMaterial({ color: 0xb4bfcc, shininess: 10 });
+        var bpPerTurn = 5;
+        var totalBp = turns * bpPerTurn;
+
+        for (var i = 0; i <= totalBp; i++) {
+            var t = (i / bpPerTurn) * Math.PI * 2;
+            var y = (i / totalBp) * totalH - totalH / 2;
+            var p1 = new THREE.Vector3(R * Math.cos(t), y, R * Math.sin(t));
+            var p2 = new THREE.Vector3(R * Math.cos(t + Math.PI), y, R * Math.sin(t + Math.PI));
+            var d = new THREE.Vector3().subVectors(p2, p1);
+            var len = d.length();
+            var geo = new THREE.CylinderGeometry(0.03, 0.03, len, 4);
+            var mesh = new THREE.Mesh(geo, bpMat);
+            mesh.position.lerpVectors(p1, p2, 0.5);
+            mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
+            group.add(mesh);
+        }
+
+        group.rotation.x = 0.08;
+        scene.add(group);
+
+        // Orthographic camera looking down Z axis
+        var camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
+        camera.position.set(0, 0, 10);
+
+        function onResize() {
+            var w = el.clientWidth, h = el.clientHeight;
+            if (!w || !h) return;
+            renderer.setSize(w, h);
+            var aspect = w / h;
+            var fW = 3.2;
+            var fH = fW / aspect;
+            camera.left = -fW / 2;
+            camera.right = fW / 2;
+            camera.top = fH / 2;
+            camera.bottom = -fH / 2;
+            camera.updateProjectionMatrix();
+        }
+        onResize();
+        window.addEventListener('resize', onResize);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            group.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+    })();
+    </script>
 </body>
 </html>
