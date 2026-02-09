@@ -71,7 +71,7 @@
         .helix-bg canvas {
             width: 100%;
             height: 100%;
-            opacity: 0.45;
+            opacity: 0.75;
         }
 
         /* --- Intro --- */
@@ -533,10 +533,10 @@
             geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             var mat = new THREE.PointsMaterial({
-                size: 0.1,
+                size: 0.13,
                 map: dotTexture,
                 transparent: true,
-                opacity: 0.8,
+                opacity: 0.9,
                 vertexColors: true,
                 blending: THREE.AdditiveBlending,
                 depthWrite: false,
@@ -547,8 +547,8 @@
         }
 
         // Two helical particle strands
-        var strand1 = createStrand(0, 0x3194d0, 0x3dbcb0);
-        var strand2 = createStrand(Math.PI, 0x3dbcb0, 0x3194d0);
+        var strand1 = createStrand(0, 0x1a8fe3, 0x22d3ee);
+        var strand2 = createStrand(Math.PI, 0x22d3ee, 0x1a8fe3);
         group.add(strand1, strand2);
 
         // Base pair rungs as particle lines between strands
@@ -559,7 +559,7 @@
         var rungGeo = new THREE.BufferGeometry();
         var rungPos = new Float32Array(totalRungParticles * 3);
         var rungCol = new Float32Array(totalRungParticles * 3);
-        var rungColor = new THREE.Color(0xb4bfcc);
+        var rungColor = new THREE.Color(0x7ec8f0);
         var idx = 0;
 
         for (var r = 0; r < rungCount; r++) {
@@ -586,10 +586,10 @@
         rungGeo.setAttribute('position', new THREE.BufferAttribute(rungPos, 3));
         rungGeo.setAttribute('color', new THREE.BufferAttribute(rungCol, 3));
         var rungMat = new THREE.PointsMaterial({
-            size: 0.055,
+            size: 0.07,
             map: dotTexture,
             transparent: true,
-            opacity: 0.6,
+            opacity: 0.7,
             vertexColors: true,
             blending: THREE.AdditiveBlending,
             depthWrite: false,
@@ -622,8 +622,8 @@
             group.rotation.y += 0.0015;
 
             // Breathing pulse on strand opacity
-            strand1.material.opacity = 0.7 + 0.15 * Math.sin(time * 2);
-            strand2.material.opacity = 0.7 + 0.15 * Math.sin(time * 2 + 0.5);
+            strand1.material.opacity = 0.8 + 0.15 * Math.sin(time * 2);
+            strand2.material.opacity = 0.8 + 0.15 * Math.sin(time * 2 + 0.5);
 
             renderer.render(scene, camera);
         }
