@@ -493,10 +493,10 @@
 
         // Helix parameters
         var R = 0.85;
-        var tubeR = 0.14;
+        var tubeR = 0.22;
         var turns = 16;
         var ppTurn = 48;
-        var radSegs = 12;
+        var radSegs = 16;
         var hPerTurn = 2.0;
         var totalH = turns * hPerTurn;
         var totalPts = turns * ppTurn;
@@ -573,7 +573,7 @@
 
         // Base pair rungs (shared geometry since all are same length)
         var bpLen = 2 * R;
-        var bpGeo = new THREE.CylinderGeometry(0.04, 0.04, bpLen, 8);
+        var bpGeo = new THREE.CylinderGeometry(0.045, 0.045, bpLen, 8);
         var bpMat = new THREE.MeshPhysicalMaterial({
             color: 0xb4bfcc, emissive: 0x3194d0, emissiveIntensity: 0.08,
             metalness: 0, roughness: 0.3
