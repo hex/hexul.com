@@ -478,7 +478,7 @@
 
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-        camera.position.z = 12;
+        camera.position.z = 18;
 
         var group = new THREE.Group();
         scene.add(group);
@@ -546,8 +546,8 @@
         }
 
         // Two helical particle strands
-        var strand1 = createStrand(0, 0x398ecd, 0x4ac6d2);
-        var strand2 = createStrand(Math.PI, 0x4ac6d2, 0x398ecd);
+        var strand1 = createStrand(0, 0x2088d3, 0x2088d3);
+        var strand2 = createStrand(Math.PI, 0x46cdd1, 0x46cdd1);
         group.add(strand1, strand2);
 
         // Base pair rungs as particle lines between strands
