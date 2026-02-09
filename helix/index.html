@@ -537,18 +537,20 @@
         addGradient(geo1, 0x2680c2, 0x3dbcb0);
         addGradient(geo2, 0x3dbcb0, 0x2680c2);
 
-        // Glass-like strand materials with clearcoat and emissive glow
+        // Glass strand materials with transmission, refraction, and clearcoat
         var mat1 = new THREE.MeshPhysicalMaterial({
             vertexColors: true,
-            emissive: 0x3194d0, emissiveIntensity: 0.12,
-            metalness: 0.05, roughness: 0.08,
-            clearcoat: 1.0, clearcoatRoughness: 0.05
+            emissive: 0x3194d0, emissiveIntensity: 0.15,
+            metalness: 0, roughness: 0.08,
+            transmission: 0.92, thickness: 0.6, ior: 1.52,
+            clearcoat: 1.0, clearcoatRoughness: 0.1
         });
         var mat2 = new THREE.MeshPhysicalMaterial({
             vertexColors: true,
-            emissive: 0x3dbcb0, emissiveIntensity: 0.12,
-            metalness: 0.05, roughness: 0.08,
-            clearcoat: 1.0, clearcoatRoughness: 0.05
+            emissive: 0x3dbcb0, emissiveIntensity: 0.15,
+            metalness: 0, roughness: 0.08,
+            transmission: 0.92, thickness: 0.6, ior: 1.52,
+            clearcoat: 1.0, clearcoatRoughness: 0.1
         });
 
         var group = new THREE.Group();
