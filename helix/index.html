@@ -516,7 +516,7 @@
                 var y = (t - 0.5) * height;
 
                 // Volumetric fuzz around the helix path
-                var drift = Math.random() * 0.35;
+                var drift = Math.random() * 0.2;
                 var driftAngle = Math.random() * Math.PI * 2;
 
                 positions[i * 3] = Math.cos(angle) * radius + Math.cos(driftAngle) * drift;
@@ -533,12 +533,11 @@
             geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
             var mat = new THREE.PointsMaterial({
-                size: 0.13,
+                size: 0.25,
                 map: dotTexture,
                 transparent: true,
-                opacity: 0.9,
+                opacity: 0.7,
                 vertexColors: true,
-                blending: THREE.AdditiveBlending,
                 depthWrite: false,
                 sizeAttenuation: true
             });
@@ -586,12 +585,11 @@
         rungGeo.setAttribute('position', new THREE.BufferAttribute(rungPos, 3));
         rungGeo.setAttribute('color', new THREE.BufferAttribute(rungCol, 3));
         var rungMat = new THREE.PointsMaterial({
-            size: 0.07,
+            size: 0.15,
             map: dotTexture,
             transparent: true,
-            opacity: 0.7,
+            opacity: 0.5,
             vertexColors: true,
-            blending: THREE.AdditiveBlending,
             depthWrite: false,
             sizeAttenuation: true
         });
@@ -622,8 +620,8 @@
             group.rotation.y += 0.0015;
 
             // Breathing pulse on strand opacity
-            strand1.material.opacity = 0.8 + 0.15 * Math.sin(time * 2);
-            strand2.material.opacity = 0.8 + 0.15 * Math.sin(time * 2 + 0.5);
+            strand1.material.opacity = 0.6 + 0.15 * Math.sin(time * 2);
+            strand2.material.opacity = 0.6 + 0.15 * Math.sin(time * 2 + 0.5);
 
             renderer.render(scene, camera);
         }
