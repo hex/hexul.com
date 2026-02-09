@@ -547,8 +547,8 @@
         }
 
         // Two helical particle strands
-        var strand1 = createStrand(0, 0x1a8fe3, 0x22d3ee);
-        var strand2 = createStrand(Math.PI, 0x22d3ee, 0x1a8fe3);
+        var strand1 = createStrand(0, 0x398ecd, 0x4ac6d2);
+        var strand2 = createStrand(Math.PI, 0x4ac6d2, 0x398ecd);
         group.add(strand1, strand2);
 
         // Base pair rungs as particle lines between strands
@@ -559,7 +559,7 @@
         var rungGeo = new THREE.BufferGeometry();
         var rungPos = new Float32Array(totalRungParticles * 3);
         var rungCol = new Float32Array(totalRungParticles * 3);
-        var rungColor = new THREE.Color(0x7ec8f0);
+        var rungColor = new THREE.Color(0x6bb4d4);
         var idx = 0;
 
         for (var r = 0; r < rungCount; r++) {
