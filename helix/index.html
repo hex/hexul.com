@@ -1,514 +1,485 @@
 <!-- ABOUTME: Product landing page for Helix, a macOS menu bar app for mutagen file sync.
-     ABOUTME: Self-contained HTML with inline CSS, arctic white theme with blue-teal accents. -->
+     ABOUTME: Arctic white theme with app screenshots as hero, blue-teal accent from icon. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helix - Mutagen File Sync for macOS</title>
-    <meta name="description" content="A native macOS menu bar app for managing mutagen file sync and network forwarding sessions. Session dashboard, conflict resolution, and endpoint support in one place.">
-    <meta name="theme-color" content="#f4f7fa">
+    <meta name="description" content="A native macOS menu bar app for managing mutagen file sync and network forwarding sessions. Session dashboard, conflict resolution, and endpoint support.">
+    <meta name="theme-color" content="#fafbfc">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blue: #2b7cb5;
-            --blue-mid: #3ba0d6;
-            --teal: #3dbcb0;
-            --teal-bright: #4dd8c0;
-            --accent: #3194d0;
-            --bg: #f8fafb;
-            --bg-warm: #f4f7fa;
+            --blue: #2680c2;
+            --teal: #2bb5a0;
+            --grad: linear-gradient(135deg, #3194d0, #3dbcb0);
+            --bg: #fafbfc;
             --surface: #ffffff;
-            --border: rgba(43, 124, 181, 0.10);
-            --border-light: rgba(0, 0, 0, 0.06);
-            --text: #1a2a3a;
-            --text-mid: #4a5e72;
-            --text-dim: #7a8e9e;
-            --text-faint: #b0bcc6;
+            --border: #e8ecf0;
+            --border-strong: #d0d7de;
+            --text: #1c2733;
+            --text-mid: #4a5567;
+            --text-dim: #8493a5;
+            --text-faint: #b4bfcc;
+            --radius: 16px;
+            --shadow-card: 0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06);
+            --shadow-hero: 0 2px 8px rgba(0,0,0,0.06), 0 16px 48px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'SF Mono', 'Menlo', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* Subtle gradient wash */
-        .wash {
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 90% 60% at 20% 10%, rgba(59, 160, 214, 0.05) 0%, transparent 50%),
-                radial-gradient(ellipse 70% 50% at 80% 80%, rgba(61, 188, 176, 0.04) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
+        /* Top accent bar */
+        .accent-bar {
+            height: 3px;
+            background: var(--grad);
         }
 
         .page {
-            position: relative;
-            z-index: 1;
-            max-width: 700px;
+            max-width: 920px;
             margin: 0 auto;
-            padding: 5rem 1.5rem 3rem;
+            padding: 0 1.5rem;
         }
 
-        /* --- Header --- */
-        .header {
+        /* --- Intro --- */
+        .intro {
+            padding: 4.5rem 0 3rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+        }
+
+        .intro-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 17px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow-card);
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
+        .intro-text h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.15;
+            margin-bottom: 0.35rem;
+        }
+
+        .intro-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-mid);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            max-width: 540px;
+        }
+
+        .intro-meta {
             display: flex;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
 
-        .header img {
-            width: 56px;
-            height: 56px;
-            border-radius: 13px;
-            box-shadow:
-                0 2px 12px rgba(43, 124, 181, 0.10),
-                0 0 0 1px rgba(43, 124, 181, 0.06);
-        }
-
-        .header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: 0.06em;
-            color: var(--text);
-            line-height: 1;
-        }
-
-        .tagline {
-            font-size: 0.85rem;
+        .pill {
+            font-size: 0.75rem;
+            font-weight: 500;
             color: var(--text-dim);
-            margin-bottom: 0.5rem;
-        }
-
-        .badge {
-            display: inline-block;
-            font-size: 0.6rem;
-            color: var(--accent);
-            border: 1px solid var(--border);
-            padding: 0.15rem 0.5rem;
-            border-radius: 3px;
-            letter-spacing: 0.05em;
-            margin-bottom: 3rem;
-        }
-
-        /* --- Description --- */
-        .desc {
-            font-size: 0.88rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            color: var(--text-mid);
-            line-height: 1.8;
-            margin-bottom: 2.5rem;
-            max-width: 580px;
-        }
-
-        /* --- Sync visual --- */
-        .sync-visual {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1.8rem;
-            margin-bottom: 2.5rem;
-            padding: 1.6rem 2rem;
             background: var(--surface);
-            border: 1px solid var(--border-light);
-            border-radius: 12px;
-        }
-
-        .endpoint {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.45rem;
-        }
-
-        .endpoint-box {
-            width: 42px;
-            height: 42px;
-            border-radius: 10px;
-            background: var(--bg-warm);
-            border: 1px solid var(--border-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-dim);
-            transition: border-color 0.3s, color 0.3s;
-        }
-
-        .sync-visual:hover .endpoint-box {
-            border-color: var(--border);
-            color: var(--accent);
-        }
-
-        .endpoint-label {
-            font-size: 0.58rem;
-            color: var(--text-faint);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-        }
-
-        .sync-arrows {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            position: relative;
-        }
-
-        .sync-arrows svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        .sync-arrows .arrow-right {
-            color: var(--blue-mid);
-            opacity: 0.4;
-            animation: pulse-arrow 3s ease-in-out infinite;
-        }
-
-        .sync-arrows .arrow-left {
-            color: var(--teal);
-            opacity: 0.4;
-            animation: pulse-arrow 3s ease-in-out 1.5s infinite;
-        }
-
-        @keyframes pulse-arrow {
-            0%, 100% { opacity: 0.25; }
-            50% { opacity: 0.7; }
-        }
-
-        .sync-line {
-            position: absolute;
-            top: 50%;
-            left: -24px;
-            right: -24px;
-            height: 1px;
-            background: linear-gradient(90deg, var(--blue-mid), var(--teal));
-            opacity: 0.12;
-        }
-
-        /* --- Download --- */
-        .install {
-            margin-bottom: 2.5rem;
-        }
-
-        .section-label {
-            font-size: 0.6rem;
-            font-weight: 600;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            margin-bottom: 0.65rem;
-        }
-
-        .install-link {
+            border: 1px solid var(--border);
+            padding: 0.25rem 0.65rem;
+            border-radius: 100px;
             display: inline-flex;
             align-items: center;
-            gap: 0.6rem;
-            background: var(--surface);
-            border: 1px solid var(--border-light);
-            border-radius: 8px;
-            padding: 0.65rem 1.1rem;
-            text-decoration: none;
-            color: var(--text-mid);
-            font-size: 0.82rem;
-            transition: all 0.3s ease;
+            gap: 0.35rem;
         }
 
-        .install-link:hover {
-            border-color: var(--border);
-            color: var(--text);
-            box-shadow: 0 2px 12px rgba(43, 124, 181, 0.08);
-        }
-
-        .install-link svg {
-            width: 15px;
-            height: 15px;
-            flex-shrink: 0;
+        .pill svg {
+            width: 12px;
+            height: 12px;
             opacity: 0.5;
         }
 
-        .install-note {
-            font-size: 0.68rem;
+        .pill-accent {
+            color: var(--blue);
+            border-color: rgba(38, 128, 194, 0.2);
+            background: rgba(38, 128, 194, 0.04);
+        }
+
+        /* --- Hero screenshots --- */
+        .hero {
+            margin-bottom: 4rem;
+        }
+
+        .hero-card {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-hero);
+            background: var(--surface);
+            position: relative;
+        }
+
+        .hero-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .hero-caption {
+            font-size: 0.72rem;
             color: var(--text-faint);
-            margin-top: 0.55rem;
+            text-align: center;
+            margin-top: 0.75rem;
         }
 
-        .install-note a {
-            color: var(--text-dim);
-            text-decoration: none;
-            border-bottom: 1px solid var(--border-light);
+        /* --- Feature columns --- */
+        .features-section {
+            margin-bottom: 4rem;
         }
 
-        .install-note a:hover {
-            color: var(--accent);
+        .section-heading {
+            font-size: 0.68rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-faint);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        /* --- Features --- */
-        .features {
-            margin-bottom: 2.5rem;
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.25rem 3rem;
         }
 
         .feature {
-            display: flex;
-            align-items: baseline;
-            gap: 1.25rem;
-            padding: 0.6rem 0;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .feature:last-child { border-bottom: none; }
-
-        .feature-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            margin-top: 0.45em;
-            align-self: flex-start;
+        .feature:nth-last-child(-n+2) {
+            border-bottom: none;
         }
 
         .feature-name {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            width: 84px;
-            flex-shrink: 0;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.15rem;
         }
 
         .feature-desc {
             font-size: 0.82rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-            color: var(--text-mid);
+            color: var(--text-dim);
+            line-height: 1.5;
         }
 
-        /* --- Endpoints --- */
-        .endpoints {
-            margin-bottom: 2.5rem;
+        /* --- Endpoints row --- */
+        .endpoints-section {
+            margin-bottom: 4rem;
         }
 
-        .endpoint-list {
-            display: flex;
-            gap: 0.65rem;
-            flex-wrap: wrap;
+        .endpoint-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
         }
 
-        .endpoint-tag {
-            font-size: 0.72rem;
-            color: var(--text-mid);
+        .ep-card {
             background: var(--surface);
-            border: 1px solid var(--border-light);
-            border-radius: 6px;
-            padding: 0.35rem 0.7rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
         }
 
-        .endpoint-tag svg {
-            width: 13px;
-            height: 13px;
-            opacity: 0.4;
+        .ep-card svg {
+            width: 28px;
+            height: 28px;
+            color: var(--text-dim);
+            margin-bottom: 0.6rem;
         }
 
-        /* --- Tech line --- */
-        .tech {
-            font-size: 0.7rem;
-            color: var(--text-faint);
-            margin-bottom: 2.5rem;
-            letter-spacing: 0.02em;
+        .ep-card-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text);
+            margin-bottom: 0.15rem;
         }
 
-        .tech span {
+        .ep-card-desc {
+            font-size: 0.75rem;
             color: var(--text-dim);
         }
 
-        /* --- Divider --- */
-        .divider {
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(43, 124, 181, 0.08), rgba(61, 188, 176, 0.08), transparent);
-            margin-bottom: 1.5rem;
-        }
-
-        /* --- Links --- */
-        .links {
+        /* --- Intro actions --- */
+        .intro-actions {
             display: flex;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            flex-wrap: wrap;
         }
 
-        .links a {
-            font-size: 0.78rem;
+        .intro-note {
+            font-size: 0.75rem;
             color: var(--text-faint);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-            padding-bottom: 2px;
-            transition: color 0.2s, border-color 0.2s;
+            margin-top: 0.6rem;
         }
 
-        .links a:hover {
-            color: var(--accent);
-            border-color: var(--border);
+        .intro-note a {
+            color: var(--text-dim);
+            text-decoration: underline;
+            text-decoration-color: var(--border);
+            text-underline-offset: 2px;
+        }
+
+        .intro-note a:hover {
+            color: var(--blue);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--text);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            background: #2d3a4a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        .btn-primary svg {
+            width: 15px;
+            height: 15px;
+            opacity: 0.7;
+        }
+
+        .btn-ghost {
+            color: var(--text-dim);
+            border: 1px solid var(--border);
+            background: var(--surface);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .btn-ghost svg {
+            width: 15px;
+            height: 15px;
+            opacity: 0.5;
         }
 
         /* --- Footer --- */
-        footer {
-            font-size: 0.72rem;
-            color: var(--text-faint);
-            padding-top: 1.25rem;
-            border-top: 1px solid rgba(0, 0, 0, 0.04);
+        .footer {
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
         }
 
-        footer a { color: var(--text-faint); text-decoration: none; }
-        footer a:hover { color: var(--accent); }
+        .footer-left {
+            font-size: 0.75rem;
+            color: var(--text-faint);
+        }
+
+        .footer-left a {
+            color: var(--text-dim);
+            text-decoration: none;
+        }
+
+        .footer-left a:hover {
+            color: var(--blue);
+        }
+
+        .footer-tech {
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .footer-tech span {
+            color: var(--text-dim);
+        }
 
         /* --- Animations --- */
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(16px); }
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .header { animation: fade-up 0.5s ease both; }
-        .tagline { animation: fade-up 0.5s ease 0.06s both; }
-        .badge-wrap { animation: fade-up 0.4s ease 0.1s both; }
-        .desc { animation: fade-up 0.5s ease 0.18s both; }
-        .sync-visual { animation: fade-up 0.5s ease 0.26s both; }
-        .install { animation: fade-up 0.5s ease 0.34s both; }
-        .features { animation: fade-up 0.5s ease 0.42s both; }
-        .endpoints { animation: fade-up 0.5s ease 0.50s both; }
-        .tech { animation: fade-up 0.4s ease 0.56s both; }
-        .divider { animation: fade-up 0.3s ease 0.60s both; }
-        .links { animation: fade-up 0.4s ease 0.64s both; }
-        footer { animation: fade-up 0.4s ease 0.68s both; }
+        @keyframes rise-slow {
+            from { opacity: 0; transform: translateY(28px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .intro { animation: rise 0.6s ease both; }
+        .hero { animation: rise-slow 0.7s ease 0.15s both; }
+        .features-section { animation: rise 0.5s ease 0.35s both; }
+        .endpoints-section { animation: rise 0.5s ease 0.45s both; }
+        .footer { animation: rise 0.4s ease 0.55s both; }
 
         /* --- Responsive --- */
-        @media (max-width: 520px) {
-            .header { gap: 0.8rem; }
-            .header img { width: 44px; height: 44px; border-radius: 10px; }
-            .header h1 { font-size: 1.9rem; }
-            .page { padding-top: 3rem; }
-            .feature { flex-wrap: wrap; gap: 0.2rem 1.25rem; }
-            .feature-name { width: auto; }
-            .links { flex-direction: column; gap: 0.75rem; }
-            .sync-visual { gap: 1rem; padding: 1.2rem 1rem; }
+        @media (max-width: 640px) {
+            .intro {
+                flex-direction: column;
+                gap: 1rem;
+                padding-top: 3rem;
+            }
+            .intro-icon { width: 56px; height: 56px; border-radius: 13px; }
+            .intro-text h1 { font-size: 1.65rem; }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+            .feature:last-child {
+                border-bottom: none;
+            }
+            .endpoint-cards {
+                grid-template-columns: 1fr;
+            }
+            .footer {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="wash" aria-hidden="true"></div>
+    <div class="accent-bar" aria-hidden="true"></div>
 
     <div class="page">
-        <div class="header">
-            <img src="icon.png" alt="Helix" width="56" height="56">
-            <h1>Helix</h1>
-        </div>
-        <p class="tagline">A macOS menu bar app for mutagen file sync</p>
-        <div class="badge-wrap"><span class="badge">macOS 14+ &middot; MIT License</span></div>
-
-        <p class="desc">Session dashboard, conflict resolution, and endpoint management for mutagen. Helix wraps the CLI in a native SwiftUI interface so you can monitor, create, and edit sync and forwarding sessions from the menu bar.</p>
-
-        <div class="sync-visual">
-            <div class="endpoint">
-                <div class="endpoint-box">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h4"/><path d="M7 12h6"/><path d="M7 16h2"/></svg>
+        <div class="intro">
+            <img src="icon.png" alt="Helix" class="intro-icon" width="72" height="72">
+            <div class="intro-text">
+                <h1>Helix</h1>
+                <p class="intro-subtitle">A native macOS menu bar app for managing mutagen file sync and network forwarding sessions.</p>
+                <div class="intro-meta">
+                    <span class="pill pill-accent">
+                        <svg viewBox="0 0 384 512" fill="currentColor"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+                        macOS 14+
+                    </span>
+                    <span class="pill">MIT License</span>
+                    <span class="pill">v2026.2.0</span>
                 </div>
-                <span class="endpoint-label">Local</span>
-            </div>
-            <div class="sync-arrows">
-                <svg class="arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
-                <svg class="arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-                <div class="sync-line"></div>
-            </div>
-            <div class="endpoint">
-                <div class="endpoint-box">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
+                <div class="intro-actions">
+                    <a href="https://github.com/hex/Helix/releases/latest" class="btn btn-primary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download latest release
+                    </a>
+                    <a href="https://github.com/hex/Helix" class="btn btn-ghost">
+                        <svg viewBox="0 0 496 512" fill="currentColor"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
+                        View source
+                    </a>
                 </div>
-                <span class="endpoint-label">Remote</span>
+                <p class="intro-note">Requires <a href="https://mutagen.io">mutagen</a> installed on your system</p>
             </div>
         </div>
 
-        <section class="install">
-            <div class="section-label">Download</div>
-            <a href="https://github.com/hex/Helix/releases/latest" class="install-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download from GitHub Releases
-            </a>
-            <p class="install-note">Requires <a href="https://mutagen.io">mutagen</a> installed on your system</p>
-        </section>
-
-        <section class="features">
-            <div class="section-label">Capabilities</div>
-            <div class="feature">
-                <div class="feature-dot" style="background: var(--blue)"></div>
-                <span class="feature-name" style="color: var(--blue)">Dashboard</span>
-                <span class="feature-desc">Browse, search, and filter all sync and forward sessions</span>
+        <div class="hero">
+            <div class="hero-card">
+                <img src="screenshot-dashboard.png" alt="Helix session dashboard showing three-column layout with sidebar, session list, and detail view" width="2382" height="1256">
             </div>
-            <div class="feature">
-                <div class="feature-dot" style="background: var(--teal)"></div>
-                <span class="feature-name" style="color: var(--teal)">Conflicts</span>
-                <span class="feature-desc">Inspect per-file conflicts side by side, resolve with one click</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot" style="background: var(--blue-mid)"></div>
-                <span class="feature-name" style="color: var(--blue-mid)">Create</span>
-                <span class="feature-desc">Step-by-step wizard for sync sessions, streamlined form for forwarding</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot" style="background: var(--teal-bright)"></div>
-                <span class="feature-name" style="color: var(--teal)">Console</span>
-                <span class="feature-desc">Timestamped log of every CLI command, result, and error</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot" style="background: var(--blue)"></div>
-                <span class="feature-name" style="color: var(--blue)">Status</span>
-                <span class="feature-desc">Menu bar icon reflects session health at a glance</span>
-            </div>
-            <div class="feature">
-                <div class="feature-dot" style="background: var(--teal)"></div>
-                <span class="feature-name" style="color: var(--teal)">Preview</span>
-                <span class="feature-desc">See the exact mutagen command before you run it</span>
-            </div>
-        </section>
-
-        <section class="endpoints">
-            <div class="section-label">Endpoints</div>
-            <div class="endpoint-list">
-                <span class="endpoint-tag">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-                    Local
-                </span>
-                <span class="endpoint-tag">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>
-                    SSH
-                </span>
-                <span class="endpoint-tag">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12A10 10 0 0 0 12 2c-4 0-7.5 2.5-9 6"/><path d="M2 12a10 10 0 0 0 10 10c4 0 7.5-2.5 9-6"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/></svg>
-                    Docker
-                </span>
-            </div>
-        </section>
-
-        <p class="tech"><span>Swift 5.9</span> &middot; <span>SwiftUI</span> &middot; <span>Sparkle</span> &middot; macOS 14+</p>
-
-        <div class="divider"></div>
-
-        <div class="links">
-            <a href="https://github.com/hex/Helix">GitHub</a>
-            <a href="https://mutagen.io">Mutagen</a>
-            <a href="mailto:support@hexul.com">Support</a>
+            <p class="hero-caption">Session dashboard with endpoints, configuration, and ignore rules</p>
         </div>
 
-        <footer>
-            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        <section class="features-section">
+            <h2 class="section-heading">Capabilities</h2>
+            <div class="feature-grid">
+                <div class="feature">
+                    <div class="feature-name">Session dashboard</div>
+                    <div class="feature-desc">Browse, search, and filter all sync and forward sessions in a three-column layout</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">Conflict resolution</div>
+                    <div class="feature-desc">Inspect per-file conflicts side by side, keep either side with one click</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">Create and edit</div>
+                    <div class="feature-desc">Step-by-step wizard for sync sessions, streamlined form for port forwarding</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">CLI preview</div>
+                    <div class="feature-desc">See the exact mutagen command before you run it, with a copy button</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">Menu bar status</div>
+                    <div class="feature-desc">Live icon reflects overall session health: healthy, syncing, conflicts, errors</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">Console log</div>
+                    <div class="feature-desc">Timestamped panel showing every CLI command, result, and error</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">Auto-update</div>
+                    <div class="feature-desc">Built-in Sparkle integration checks for updates from the menu bar</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-name">Keyboard shortcuts</div>
+                    <div class="feature-desc">Cmd+N new sync, Cmd+Shift+N new forward, Cmd+R refresh</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="endpoints-section">
+            <h2 class="section-heading">Endpoints</h2>
+            <div class="endpoint-cards">
+                <div class="ep-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    <div class="ep-card-name">Local</div>
+                    <div class="ep-card-desc">Any path on your Mac</div>
+                </div>
+                <div class="ep-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                    <div class="ep-card-name">SSH</div>
+                    <div class="ep-card-desc">Remote servers via OpenSSH</div>
+                </div>
+                <div class="ep-card">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+                    <div class="ep-card-name">Docker</div>
+                    <div class="ep-card-desc">Containers on any host</div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-left">&copy; 2026 <a href="https://hexul.com">hexul</a> &middot; <a href="mailto:support@hexul.com">support</a></div>
+            <div class="footer-tech"><span>Swift 5.9</span> &middot; <span>SwiftUI</span> &middot; <span>Sparkle</span></div>
         </footer>
     </div>
 </body>
