@@ -7,6 +7,7 @@ const SUBDOMAIN_MAP = {
   'hex-forge': '/hex-forge',
   'stash': '/stash',
   'claide': '/claide',
+  'helix': '/helix',
 };
 
 export default {
