@@ -60,8 +60,8 @@
         .helix-bg {
             position: fixed;
             top: 0;
-            right: calc(50% - 540px);
-            width: 120px;
+            right: calc(50% - 560px);
+            width: 180px;
             height: 100vh;
             pointer-events: none;
             overflow: hidden;
@@ -71,7 +71,7 @@
         .helix-bg canvas {
             width: 100%;
             height: 100%;
-            opacity: 0.18;
+            opacity: 0.28;
         }
 
         /* --- Intro --- */
@@ -475,21 +475,29 @@
 
         var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.3;
 
         var scene = new THREE.Scene();
 
-        // Lighting for 3D strand shading
-        scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-        var dir = new THREE.DirectionalLight(0xffffff, 0.8);
-        dir.position.set(3, 5, 8);
-        scene.add(dir);
+        // Ambient + 3 orbiting colored point lights for dynamic rim highlights
+        scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+        var pointLights = [];
+        var lightColors = [0x3194d0, 0x3dbcb0, 0xffffff];
+        for (var li = 0; li < 3; li++) {
+            var pl = new THREE.PointLight(lightColors[li], 1.5, 20);
+            pl.position.set(Math.cos(li * 2.094) * 3, 0, Math.sin(li * 2.094) * 3 + 5);
+            scene.add(pl);
+            pointLights.push(pl);
+        }
 
         // Helix parameters
-        var R = 1.0;            // helix radius
-        var tubeR = 0.12;       // strand thickness
-        var turns = 14;         // extends beyond viewport
-        var ppTurn = 48;        // curve fidelity per turn
-        var hPerTurn = 2.2;     // vertical distance per turn
+        var R = 0.85;
+        var tubeR = 0.14;
+        var turns = 16;
+        var ppTurn = 48;
+        var radSegs = 12;
+        var hPerTurn = 2.0;
         var totalH = turns * hPerTurn;
         var totalPts = turns * ppTurn;
 
@@ -503,61 +511,146 @@
             return pts;
         }
 
+        // Apply blue-to-teal gradient as vertex colors along tube length
+        function addGradient(geo, c1hex, c2hex) {
+            var count = geo.attributes.position.count;
+            var colors = new Float32Array(count * 3);
+            var c1 = new THREE.Color(c1hex);
+            var c2 = new THREE.Color(c2hex);
+            var c = new THREE.Color();
+            var ring = radSegs + 1;
+            for (var i = 0; i < count; i++) {
+                var t = Math.floor(i / ring) / totalPts;
+                c.lerpColors(c1, c2, t);
+                colors[i * 3] = c.r;
+                colors[i * 3 + 1] = c.g;
+                colors[i * 3 + 2] = c.b;
+            }
+            geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        }
+
         var curve1 = new THREE.CatmullRomCurve3(helixPts(0));
         var curve2 = new THREE.CatmullRomCurve3(helixPts(Math.PI));
 
-        var mat1 = new THREE.MeshPhongMaterial({ color: 0x3194d0, shininess: 40 });
-        var mat2 = new THREE.MeshPhongMaterial({ color: 0x3dbcb0, shininess: 40 });
+        var geo1 = new THREE.TubeGeometry(curve1, totalPts, tubeR, radSegs, false);
+        var geo2 = new THREE.TubeGeometry(curve2, totalPts, tubeR, radSegs, false);
+        addGradient(geo1, 0x2680c2, 0x3dbcb0);
+        addGradient(geo2, 0x3dbcb0, 0x2680c2);
+
+        // Glass-like strand materials with clearcoat and emissive glow
+        var mat1 = new THREE.MeshPhysicalMaterial({
+            vertexColors: true,
+            emissive: 0x3194d0, emissiveIntensity: 0.12,
+            metalness: 0.05, roughness: 0.08,
+            clearcoat: 1.0, clearcoatRoughness: 0.05
+        });
+        var mat2 = new THREE.MeshPhysicalMaterial({
+            vertexColors: true,
+            emissive: 0x3dbcb0, emissiveIntensity: 0.12,
+            metalness: 0.05, roughness: 0.08,
+            clearcoat: 1.0, clearcoatRoughness: 0.05
+        });
 
         var group = new THREE.Group();
-        group.add(new THREE.Mesh(new THREE.TubeGeometry(curve1, totalPts, tubeR, 8, false), mat1));
-        group.add(new THREE.Mesh(new THREE.TubeGeometry(curve2, totalPts, tubeR, 8, false), mat2));
+        group.add(new THREE.Mesh(geo1, mat1));
+        group.add(new THREE.Mesh(geo2, mat2));
 
-        // Base pair rungs connecting the two strands
-        var bpMat = new THREE.MeshPhongMaterial({ color: 0xb4bfcc, shininess: 10 });
+        // Glow halos: thicker tubes with additive blending (no extra CDN needed)
+        var glowGeo1 = new THREE.TubeGeometry(curve1, Math.floor(totalPts / 2), tubeR * 2.5, 6, false);
+        var glowGeo2 = new THREE.TubeGeometry(curve2, Math.floor(totalPts / 2), tubeR * 2.5, 6, false);
+        var glowMat1 = new THREE.MeshBasicMaterial({
+            color: 0x3194d0, transparent: true, opacity: 0.1,
+            blending: THREE.AdditiveBlending, depthWrite: false
+        });
+        var glowMat2 = new THREE.MeshBasicMaterial({
+            color: 0x3dbcb0, transparent: true, opacity: 0.1,
+            blending: THREE.AdditiveBlending, depthWrite: false
+        });
+        group.add(new THREE.Mesh(glowGeo1, glowMat1));
+        group.add(new THREE.Mesh(glowGeo2, glowMat2));
+
+        // Base pair rungs (shared geometry since all are same length)
+        var bpLen = 2 * R;
+        var bpGeo = new THREE.CylinderGeometry(0.04, 0.04, bpLen, 8);
+        var bpMat = new THREE.MeshPhysicalMaterial({
+            color: 0xb4bfcc, emissive: 0x3194d0, emissiveIntensity: 0.08,
+            metalness: 0, roughness: 0.3
+        });
         var bpPerTurn = 5;
         var totalBp = turns * bpPerTurn;
+        var upVec = new THREE.Vector3(0, 1, 0);
 
         for (var i = 0; i <= totalBp; i++) {
             var t = (i / bpPerTurn) * Math.PI * 2;
             var y = (i / totalBp) * totalH - totalH / 2;
             var p1 = new THREE.Vector3(R * Math.cos(t), y, R * Math.sin(t));
             var p2 = new THREE.Vector3(R * Math.cos(t + Math.PI), y, R * Math.sin(t + Math.PI));
-            var d = new THREE.Vector3().subVectors(p2, p1);
-            var len = d.length();
-            var geo = new THREE.CylinderGeometry(0.03, 0.03, len, 4);
-            var mesh = new THREE.Mesh(geo, bpMat);
-            mesh.position.lerpVectors(p1, p2, 0.5);
-            mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), d.normalize());
-            group.add(mesh);
+            var d = new THREE.Vector3().subVectors(p2, p1).normalize();
+            var bp = new THREE.Mesh(bpGeo, bpMat);
+            bp.position.lerpVectors(p1, p2, 0.5);
+            bp.quaternion.setFromUnitVectors(upVec, d);
+            group.add(bp);
         }
 
-        group.rotation.x = 0.08;
+        // Nucleotide particles: small glowing spheres drifting along strands
+        var nucGeo = new THREE.IcosahedronGeometry(0.05, 1);
+        var nucMat = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff, emissive: 0x3194d0, emissiveIntensity: 0.35,
+            metalness: 0.1, roughness: 0.0, transparent: true, opacity: 0.85
+        });
+        var nucCount = 80;
+        var nucs = new THREE.InstancedMesh(nucGeo, nucMat, nucCount);
+        var nucMatrix = new THREE.Matrix4();
+        var curves = [curve1, curve2];
+        for (var ni = 0; ni < nucCount; ni++) {
+            var ci = ni < nucCount / 2 ? 0 : 1;
+            var pos = curves[ci].getPointAt(Math.random());
+            pos.x += (Math.random() - 0.5) * 0.25;
+            pos.y += (Math.random() - 0.5) * 0.25;
+            pos.z += (Math.random() - 0.5) * 0.25;
+            nucMatrix.setPosition(pos);
+            nucs.setMatrixAt(ni, nucMatrix);
+        }
+        nucs.instanceMatrix.needsUpdate = true;
+        group.add(nucs);
+
+        group.rotation.x = 0.1;
         scene.add(group);
 
-        // Orthographic camera looking down Z axis
-        var camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 100);
+        // Perspective camera for subtle depth
+        var camera = new THREE.PerspectiveCamera(55, 1, 0.1, 100);
         camera.position.set(0, 0, 10);
 
         function onResize() {
             var w = el.clientWidth, h = el.clientHeight;
             if (!w || !h) return;
             renderer.setSize(w, h);
-            var aspect = w / h;
-            var fW = 3.2;
-            var fH = fW / aspect;
-            camera.left = -fW / 2;
-            camera.right = fW / 2;
-            camera.top = fH / 2;
-            camera.bottom = -fH / 2;
+            camera.aspect = w / h;
             camera.updateProjectionMatrix();
         }
         onResize();
         window.addEventListener('resize', onResize);
 
+        // Scroll-linked parallax
+        window.addEventListener('scroll', function () {
+            var t = window.scrollY / (document.body.scrollHeight - window.innerHeight || 1);
+            group.rotation.x = 0.1 + t * 0.15;
+        });
+
+        var time = 0;
         function animate() {
             requestAnimationFrame(animate);
-            group.rotation.y += 0.002;
+            time += 0.01;
+            group.rotation.y += 0.0015;
+
+            // Orbit point lights for dynamic rim highlights
+            for (var i = 0; i < pointLights.length; i++) {
+                var a = time * 0.3 + i * 2.094;
+                pointLights[i].position.x = Math.cos(a) * 3;
+                pointLights[i].position.z = Math.sin(a) * 3 + 5;
+                pointLights[i].position.y = Math.sin(a * 0.7) * 2;
+            }
+
             renderer.render(scene, camera);
         }
         animate();
