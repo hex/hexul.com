@@ -10,6 +10,16 @@
     <meta name="theme-color" content="#050505">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
+    <link rel="canonical" href="https://phosphor.hexul.com">
+    <meta property="og:title" content="Phosphor - LED Matrix Display Simulator">
+    <meta property="og:description" content="Simulate a physical LED dot-matrix display on macOS and iOS. Metal-based renderer with authentic phosphor glow, HTTP API, and web admin panel.">
+    <meta property="og:image" content="https://phosphor.hexul.com/icon.png">
+    <meta property="og:url" content="https://phosphor.hexul.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Phosphor - LED Matrix Display Simulator">
+    <meta name="twitter:description" content="Simulate a physical LED dot-matrix display on macOS and iOS. Metal-based renderer with authentic phosphor glow, HTTP API, and web admin panel.">
+    <meta name="twitter:image" content="https://phosphor.hexul.com/icon.png">
     <style>
         :root {
             --phosphor: #4ade80;
@@ -408,6 +418,20 @@
             .links { flex-direction: column; gap: 0.75rem; }
         }
     </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Phosphor",
+        "operatingSystem": "macOS, iOS",
+        "applicationCategory": "UtilitiesApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
 </head>
 <body>
     <div class="vignette" aria-hidden="true"></div>
@@ -416,8 +440,8 @@
     <div class="persist" aria-hidden="true"></div>
     <div class="persist" aria-hidden="true"></div>
     <div class="persist" aria-hidden="true"></div>
-    <div class="page">
-        <div class="hero">
+    <main class="page">
+        <header class="hero">
             <div class="icon-frame">
                 <img src="icon.png" alt="Phosphor app icon" width="128" height="128">
             </div>
@@ -430,7 +454,7 @@
             <a href="https://apps.apple.com/app/id6758910779" class="app-store-badge" aria-label="Download on the App Store">
                 <img src="app-store-badge.svg" alt="Download on the App Store" height="50">
             </a>
-        </div>
+        </header>
 
         <div class="divider"></div>
 
@@ -487,7 +511,7 @@
         <footer>
             <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
         </footer>
-    </div>
+    </main>
     <script>
         document.addEventListener('mousemove', e => {
             document.documentElement.style.setProperty('--mx', e.clientX + 'px');

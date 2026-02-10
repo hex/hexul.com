@@ -8,8 +8,32 @@
     <title>Helix - Mutagen File Sync for macOS</title>
     <meta name="description" content="A native macOS menu bar app for managing mutagen file sync and network forwarding sessions. Session dashboard, conflict resolution, and endpoint support.">
     <meta name="theme-color" content="#fafbfc">
+    <meta property="og:title" content="Helix - Mutagen File Sync for macOS">
+    <meta property="og:description" content="A native macOS menu bar app for managing mutagen file sync and network forwarding sessions. Session dashboard, conflict resolution, and endpoint support.">
+    <meta property="og:image" content="https://helix.hexul.com/icon.png">
+    <meta property="og:url" content="https://helix.hexul.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Helix - Mutagen File Sync for macOS">
+    <meta name="twitter:description" content="A native macOS menu bar app for managing mutagen file sync and network forwarding sessions. Session dashboard, conflict resolution, and endpoint support.">
+    <meta name="twitter:image" content="https://helix.hexul.com/icon.png">
+    <link rel="canonical" href="https://helix.hexul.com">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Helix",
+        "operatingSystem": "macOS",
+        "applicationCategory": "DeveloperApplication",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
@@ -380,7 +404,7 @@
     <div class="helix-bg" aria-hidden="true"></div>
 
     <div class="page">
-        <div class="intro">
+        <header class="intro">
             <img src="icon.png" alt="Helix" class="intro-icon" width="72" height="72">
             <div class="intro-text">
                 <h1>Helix</h1>
@@ -399,8 +423,9 @@
                 </div>
                 <p class="intro-note">Or <a href="https://github.com/hex/Helix/releases/latest">download directly</a> from GitHub Releases. <a href="https://github.com/hex/Helix">View source.</a></p>
             </div>
-        </div>
+        </header>
 
+        <main>
         <div class="hero">
             <div class="hero-card">
                 <img src="screenshot-dashboard.png" alt="Helix session dashboard showing three-column layout with sidebar, session list, and detail view" width="2382" height="1256">
@@ -466,6 +491,7 @@
                 </div>
             </div>
         </section>
+        </main>
 
         <footer class="footer">
             <div class="footer-left">&copy; 2026 <a href="https://hexul.com">hexul</a> &middot; <a href="mailto:support@hexul.com">support</a></div>
