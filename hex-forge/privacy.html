@@ -7,206 +7,220 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - hex-forge</title>
     <meta name="description" content="Privacy policy for hex-forge.">
-    <meta name="theme-color" content="#1a0a2e">
+    <meta name="theme-color" content="#0a0612">
     <link rel="icon" type="image/png" href="icon.png">
     <link rel="apple-touch-icon" href="icon.png">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0a0612;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        .container { max-width: 640px; margin: 0 auto; padding: 2rem 1.5rem; }
+        h1 {
+            font-size: 2rem;
+            color: #8b5cf6;
+            margin-bottom: 0.25rem;
+        }
+        .updated {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        h2 {
+            font-size: 1.2rem;
+            color: #8b5cf6;
+            margin: 1.5rem 0 0.5rem;
+        }
+        h3 {
+            font-size: 1rem;
+            color: #a78bfa;
+            margin: 1.2rem 0 0.4rem;
+        }
+        p { margin-bottom: 1rem; }
+        ul, ol { margin-bottom: 1rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.25rem; }
+        a { color: #8b5cf6; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #222;
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1><a href="/">hex-forge</a></h1>
-    </header>
-    <main>
-        <div class="content">
-            <h2>Privacy Policy</h2>
-            <p class="updated">Last Updated: December 19, 2025</p>
+    <div class="container">
+        <h1>Privacy Policy</h1>
+        <p class="updated">Last Updated: December 19, 2025</p>
 
-            <section>
-                <h3>Overview</h3>
-                <p>hex-forge is a workout tracking app designed to help you log and optimize your hypertrophy training. Your privacy is important to us. This policy explains what data we collect, how we use it, and your choices.</p>
-            </section>
+        <h2>Overview</h2>
+        <p>hex-forge is a workout tracking app designed to help you log and optimize your hypertrophy training. Your privacy is important to us. This policy explains what data we collect, how we use it, and your choices.</p>
 
-            <section>
-                <h3>Data We Collect</h3>
+        <h2>Data We Collect</h2>
 
-                <h4>Workout Data</h4>
-                <ul>
-                    <li>Exercise selections, weights, reps, and sets</li>
-                    <li>Rest periods and workout duration</li>
-                    <li>Mesocycle and training program configurations</li>
-                    <li>Personal feedback on workouts (soreness, pump, difficulty)</li>
-                </ul>
-                <p><strong>Storage:</strong> Workout data is stored on your device using Apple's SwiftData framework and automatically synced to your personal iCloud account via Apple's CloudKit service. This enables your data to sync across all your devices signed into the same Apple ID. We do not have access to this data—it is stored in your private iCloud container.</p>
+        <h3>Workout Data</h3>
+        <ul>
+            <li>Exercise selections, weights, reps, and sets</li>
+            <li>Rest periods and workout duration</li>
+            <li>Mesocycle and training program configurations</li>
+            <li>Personal feedback on workouts (soreness, pump, difficulty)</li>
+        </ul>
+        <p><strong>Storage:</strong> Workout data is stored on your device using Apple's SwiftData framework and automatically synced to your personal iCloud account via Apple's CloudKit service. This enables your data to sync across all your devices signed into the same Apple ID. We do not have access to this data—it is stored in your private iCloud container.</p>
 
-                <h4>HealthKit Data (Optional)</h4>
-                <p>If you grant permission, hex-forge may read:</p>
-                <ul>
-                    <li><strong>Bodyweight:</strong> To auto-fill weight for bodyweight exercises</li>
-                    <li><strong>Sleep data:</strong> To provide recovery recommendations</li>
-                </ul>
-                <p><strong>Storage:</strong> HealthKit data is accessed read-only and is not stored separately by hex-forge. Apple manages HealthKit data according to their privacy policies.</p>
+        <h3>HealthKit Data (Optional)</h3>
+        <p>If you grant permission, hex-forge may read:</p>
+        <ul>
+            <li><strong>Bodyweight:</strong> To auto-fill weight for bodyweight exercises</li>
+            <li><strong>Sleep data:</strong> To provide recovery recommendations</li>
+        </ul>
+        <p><strong>Storage:</strong> HealthKit data is accessed read-only and is not stored separately by hex-forge. Apple manages HealthKit data according to their privacy policies.</p>
 
-                <h4>Game Center Data (Optional)</h4>
-                <p>If you enable Game Center integration:</p>
-                <ul>
-                    <li>Weekly/monthly training volume scores</li>
-                    <li>Workout streaks</li>
-                    <li>Achievement progress</li>
-                </ul>
-                <p><strong>Storage:</strong> Game Center data is managed by Apple. We submit scores to Apple's servers for leaderboard functionality.</p>
-            </section>
+        <h3>Game Center Data (Optional)</h3>
+        <p>If you enable Game Center integration:</p>
+        <ul>
+            <li>Weekly/monthly training volume scores</li>
+            <li>Workout streaks</li>
+            <li>Achievement progress</li>
+        </ul>
+        <p><strong>Storage:</strong> Game Center data is managed by Apple. We submit scores to Apple's servers for leaderboard functionality.</p>
 
-            <section>
-                <h3>Third-Party Services</h3>
+        <h2>Third-Party Services</h2>
 
-                <h4>YouTube (Exercise Videos)</h4>
-                <p>hex-forge displays exercise demonstration videos from YouTube to help you learn proper form. When you view a video:</p>
-                <ul>
-                    <li>Your device connects directly to YouTube's servers</li>
-                    <li>YouTube may collect data including your IP address, device information, and viewing activity</li>
-                    <li>hex-forge does not receive any data from YouTube about your viewing activity</li>
-                </ul>
-                <p><strong>Privacy-Enhanced Mode:</strong> hex-forge uses YouTube's privacy-enhanced embed domain (youtube-nocookie.com), which prevents YouTube from storing cookies on your device until you actively play a video.</p>
+        <h3>YouTube (Exercise Videos)</h3>
+        <p>hex-forge displays exercise demonstration videos from YouTube to help you learn proper form. When you view a video:</p>
+        <ul>
+            <li>Your device connects directly to YouTube's servers</li>
+            <li>YouTube may collect data including your IP address, device information, and viewing activity</li>
+            <li>hex-forge does not receive any data from YouTube about your viewing activity</li>
+        </ul>
+        <p><strong>Privacy-Enhanced Mode:</strong> hex-forge uses YouTube's privacy-enhanced embed domain (youtube-nocookie.com), which prevents YouTube from storing cookies on your device until you actively play a video.</p>
 
-                <h4>YouTube Data API</h4>
-                <p>hex-forge uses the YouTube Data API to search for exercise demonstration videos:</p>
-                <ul>
-                    <li>Search queries (exercise names like "Bench Press") are sent to YouTube's servers</li>
-                    <li>No personal information is included in these searches</li>
-                    <li>Search results are cached locally on your device to minimize API usage</li>
-                </ul>
-                <p>For more information about how YouTube handles data, see <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>.</p>
+        <h3>YouTube Data API</h3>
+        <p>hex-forge uses the YouTube Data API to search for exercise demonstration videos:</p>
+        <ul>
+            <li>Search queries (exercise names like "Bench Press") are sent to YouTube's servers</li>
+            <li>No personal information is included in these searches</li>
+            <li>Search results are cached locally on your device to minimize API usage</li>
+        </ul>
+        <p>For more information about how YouTube handles data, see <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>.</p>
 
-                <h4>Firebase (Crashlytics &amp; Analytics)</h4>
-                <p>hex-forge uses Google Firebase services to improve app stability and understand how features are used:</p>
+        <h3>Firebase (Crashlytics &amp; Analytics)</h3>
+        <p>hex-forge uses Google Firebase services to improve app stability and understand how features are used:</p>
 
-                <p><strong>Firebase Crashlytics</strong> collects crash reports when the app encounters errors:</p>
-                <ul>
-                    <li>Crash logs and stack traces</li>
-                    <li>Device model and operating system version</li>
-                    <li>App state at time of crash (memory usage, app version)</li>
-                    <li>A random installation identifier (not linked to your identity)</li>
-                </ul>
+        <p><strong>Firebase Crashlytics</strong> collects crash reports when the app encounters errors:</p>
+        <ul>
+            <li>Crash logs and stack traces</li>
+            <li>Device model and operating system version</li>
+            <li>App state at time of crash (memory usage, app version)</li>
+            <li>A random installation identifier (not linked to your identity)</li>
+        </ul>
 
-                <p><strong>Firebase Analytics</strong> collects aggregated usage data:</p>
-                <ul>
-                    <li>App opens and session duration</li>
-                    <li>Feature usage (which screens are viewed)</li>
-                    <li>Device type and OS version</li>
-                    <li>Approximate location (country/region from IP address)</li>
-                </ul>
+        <p><strong>Firebase Analytics</strong> collects aggregated usage data:</p>
+        <ul>
+            <li>App opens and session duration</li>
+            <li>Feature usage (which screens are viewed)</li>
+            <li>Device type and OS version</li>
+            <li>Approximate location (country/region from IP address)</li>
+        </ul>
 
-                <p><strong>What Firebase does NOT collect:</strong></p>
-                <ul>
-                    <li>Your workout data, exercises, or personal records</li>
-                    <li>Your name, email, or any personal identifiers</li>
-                    <li>Advertising identifiers (IDFA)</li>
-                </ul>
+        <p><strong>What Firebase does NOT collect:</strong></p>
+        <ul>
+            <li>Your workout data, exercises, or personal records</li>
+            <li>Your name, email, or any personal identifiers</li>
+            <li>Advertising identifiers (IDFA)</li>
+        </ul>
 
-                <p>This data helps us identify and fix crashes, and understand which features are most useful. Data is processed by Google under their <a href="https://firebase.google.com/support/privacy">Firebase Privacy Policy</a>.</p>
-            </section>
+        <p>This data helps us identify and fix crashes, and understand which features are most useful. Data is processed by Google under their <a href="https://firebase.google.com/support/privacy">Firebase Privacy Policy</a>.</p>
 
-            <section>
-                <h3>Data We Do NOT Collect</h3>
-                <ul>
-                    <li>Personal identification information (name, email, phone)</li>
-                    <li>Precise location data</li>
-                    <li>Advertising identifiers (IDFA)</li>
-                    <li>Cross-app tracking data</li>
-                </ul>
-            </section>
+        <h2>Data We Do NOT Collect</h2>
+        <ul>
+            <li>Personal identification information (name, email, phone)</li>
+            <li>Precise location data</li>
+            <li>Advertising identifiers (IDFA)</li>
+            <li>Cross-app tracking data</li>
+        </ul>
 
-            <section>
-                <h3>Data Sharing</h3>
-                <p>We do not sell or share your personal data with third parties. External data transmission only occurs for:</p>
-                <ul>
-                    <li><strong>iCloud:</strong> Workout data syncs to your private iCloud container for cross-device access</li>
-                    <li><strong>YouTube:</strong> Exercise name searches are sent to YouTube's servers; video playback connects your device to YouTube</li>
-                    <li><strong>Firebase:</strong> Crash reports and aggregated usage analytics are sent to Google's Firebase servers</li>
-                    <li><strong>Game Center:</strong> If enabled, leaderboard scores are sent to Apple's Game Center service</li>
-                    <li><strong>HealthKit:</strong> Read-only access to data you explicitly authorize</li>
-                </ul>
-            </section>
+        <h2>Data Sharing</h2>
+        <p>We do not sell or share your personal data with third parties. External data transmission only occurs for:</p>
+        <ul>
+            <li><strong>iCloud:</strong> Workout data syncs to your private iCloud container for cross-device access</li>
+            <li><strong>YouTube:</strong> Exercise name searches are sent to YouTube's servers; video playback connects your device to YouTube</li>
+            <li><strong>Firebase:</strong> Crash reports and aggregated usage analytics are sent to Google's Firebase servers</li>
+            <li><strong>Game Center:</strong> If enabled, leaderboard scores are sent to Apple's Game Center service</li>
+            <li><strong>HealthKit:</strong> Read-only access to data you explicitly authorize</li>
+        </ul>
 
-            <section>
-                <h3>Data Storage and Security</h3>
-                <ul>
-                    <li>Workout data is stored on your device and synced to your private iCloud account</li>
-                    <li>Data is protected by iOS device encryption and iCloud encryption</li>
-                    <li>We do not have access to your iCloud data—only you can access it via your Apple ID</li>
-                    <li>We do not maintain our own servers or databases containing user data</li>
-                </ul>
-            </section>
+        <h2>Data Storage and Security</h2>
+        <ul>
+            <li>Workout data is stored on your device and synced to your private iCloud account</li>
+            <li>Data is protected by iOS device encryption and iCloud encryption</li>
+            <li>We do not have access to your iCloud data—only you can access it via your Apple ID</li>
+            <li>We do not maintain our own servers or databases containing user data</li>
+        </ul>
 
-            <section>
-                <h3>Your Choices</h3>
+        <h2>Your Choices</h2>
 
-                <h4>HealthKit</h4>
-                <p>You can enable or disable HealthKit access at any time in:</p>
-                <ul>
-                    <li>hex-forge Settings &gt; HealthKit toggle</li>
-                    <li>iOS Settings &gt; Privacy &amp; Security &gt; Health &gt; hex-forge</li>
-                </ul>
+        <h3>HealthKit</h3>
+        <p>You can enable or disable HealthKit access at any time in:</p>
+        <ul>
+            <li>hex-forge Settings &gt; HealthKit toggle</li>
+            <li>iOS Settings &gt; Privacy &amp; Security &gt; Health &gt; hex-forge</li>
+        </ul>
 
-                <h4>Game Center</h4>
-                <p>You can enable or disable Game Center at any time in:</p>
-                <ul>
-                    <li>hex-forge Settings &gt; Game Center toggle</li>
-                </ul>
+        <h3>Game Center</h3>
+        <p>You can enable or disable Game Center at any time in:</p>
+        <ul>
+            <li>hex-forge Settings &gt; Game Center toggle</li>
+        </ul>
 
-                <h4>iCloud Sync</h4>
-                <p>iCloud sync is automatic when signed into iCloud. To disable:</p>
-                <ul>
-                    <li>iOS Settings &gt; [Your Name] &gt; iCloud &gt; Apps Using iCloud &gt; hex-forge toggle</li>
-                </ul>
+        <h3>iCloud Sync</h3>
+        <p>iCloud sync is automatic when signed into iCloud. To disable:</p>
+        <ul>
+            <li>iOS Settings &gt; [Your Name] &gt; iCloud &gt; Apps Using iCloud &gt; hex-forge toggle</li>
+        </ul>
 
-                <h4>Data Deletion</h4>
-                <p>To delete all hex-forge data:</p>
-                <ol>
-                    <li>Uninstall the app from your device (removes local data)</li>
-                    <li>To delete iCloud data: iOS Settings &gt; [Your Name] &gt; iCloud &gt; Manage Storage &gt; hex-forge &gt; Delete Data</li>
-                    <li>If you used Game Center, your leaderboard scores remain on Apple's servers (managed by Apple's policies)</li>
-                </ol>
-            </section>
+        <h3>Data Deletion</h3>
+        <p>To delete all hex-forge data:</p>
+        <ol>
+            <li>Uninstall the app from your device (removes local data)</li>
+            <li>To delete iCloud data: iOS Settings &gt; [Your Name] &gt; iCloud &gt; Manage Storage &gt; hex-forge &gt; Delete Data</li>
+            <li>If you used Game Center, your leaderboard scores remain on Apple's servers (managed by Apple's policies)</li>
+        </ol>
 
-            <section>
-                <h3>Children's Privacy</h3>
-                <p>hex-forge is not directed at children under 13. We do not knowingly collect data from children.</p>
-            </section>
+        <h2>Children's Privacy</h2>
+        <p>hex-forge is not directed at children under 13. We do not knowingly collect data from children.</p>
 
-            <section>
-                <h3>Changes to This Policy</h3>
-                <p>We may update this policy occasionally. Significant changes will be noted in app updates.</p>
-            </section>
+        <h2>Changes</h2>
+        <p>We may update this policy occasionally. Significant changes will be noted in app updates.</p>
 
-            <section>
-                <h3>Apple App Store Requirements</h3>
-                <p>This app complies with Apple's App Store Guidelines regarding:</p>
-                <ul>
-                    <li>HealthKit data usage and privacy</li>
-                    <li>Game Center integration</li>
-                    <li>YouTube API usage</li>
-                    <li>Data collection and privacy practices</li>
-                </ul>
-            </section>
+        <h2>Apple App Store Requirements</h2>
+        <p>This app complies with Apple's App Store Guidelines regarding:</p>
+        <ul>
+            <li>HealthKit data usage and privacy</li>
+            <li>Game Center integration</li>
+            <li>YouTube API usage</li>
+            <li>Data collection and privacy practices</li>
+        </ul>
 
-            <section>
-                <h3>Changelog</h3>
-                <ul>
-                    <li><strong>December 19, 2025:</strong> Added Firebase Crashlytics and Analytics disclosure. Updated Data Sharing section.</li>
-                    <li><strong>December 14, 2025:</strong> Added iCloud sync disclosure, Third-Party Services section for YouTube integration. Updated Data Sharing and Data Storage sections.</li>
-                    <li><strong>December 7, 2025:</strong> Initial privacy policy.</li>
-                </ul>
-            </section>
+        <h2>Changelog</h2>
+        <ul>
+            <li><strong>December 19, 2025:</strong> Added Firebase Crashlytics and Analytics disclosure. Updated Data Sharing section.</li>
+            <li><strong>December 14, 2025:</strong> Added iCloud sync disclosure, Third-Party Services section for YouTube integration. Updated Data Sharing and Data Storage sections.</li>
+            <li><strong>December 7, 2025:</strong> Initial privacy policy.</li>
+        </ul>
 
-            <section>
-                <h3>Contact</h3>
-                <p>For privacy questions or concerns, contact us at: <a href="mailto:support@hexul.com">support@hexul.com</a></p>
-            </section>
+        <h2>Contact</h2>
+        <p>Questions about this policy can be directed to <a href="https://hexul.com">hexul.com</a>.</p>
+
+        <div class="footer">
+            <p><a href="/">Back to hex-forge</a></p>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a>. All rights reserved.</p>
         </div>
-    </main>
-    <footer>
-        <p>&copy; 2026 hexul. <a href="mailto:support@hexul.com">support@hexul.com</a></p>
-    </footer>
+    </div>
 </body>
 </html>
