@@ -164,8 +164,28 @@
             padding: 0.15rem 0.5rem;
             border-radius: 3px;
             letter-spacing: 0.05em;
-            margin-bottom: 3rem;
+            margin-bottom: 1.5rem;
         }
+
+        .notice {
+            font-size: 0.78rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            color: var(--text-dim);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .notice a {
+            color: var(--cyan);
+            text-decoration: none;
+            border-bottom: 1px solid var(--cyan-faint);
+            padding-bottom: 1px;
+        }
+
+        .notice a:hover { opacity: 0.8; }
 
         /* --- Screenshot hero --- */
         .hero {
@@ -425,6 +445,8 @@
         </div>
         <p class="tagline">A macOS companion app for Claude Code sessions</p>
         <div class="badge-wrap"><span class="badge">macOS 14+ &middot; MIT License</span></div>
+
+        <div class="notice">This project is no longer actively maintained. The source code remains available on <a href="https://github.com/hex/Claide">GitHub</a>.</div>
 
         <div class="hero">
             <img src="screenshot.png" alt="Claide running with terminal, kanban board, and file changes" width="2788" height="1386" loading="lazy">
