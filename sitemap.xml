@@ -46,16 +46,6 @@
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://claide.hexul.com</loc>
-    <lastmod>2026-02-10</lastmod>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://claide.hexul.com/privacy/</loc>
-    <lastmod>2026-02-10</lastmod>
-    <priority>0.3</priority>
-  </url>
-  <url>
     <loc>https://helix.hexul.com</loc>
     <lastmod>2026-02-10</lastmod>
     <priority>1.0</priority>
