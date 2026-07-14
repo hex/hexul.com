@@ -1,0 +1,389 @@
+<!-- ABOUTME: Product landing page for Snip, a macOS radial snippet-menu app.
+     ABOUTME: Self-contained HTML with inline CSS + inline SVG, no external dependencies. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snip - Radial Snippet Menu for macOS</title>
+    <meta name="description" content="A radial snippet menu for your Mac's menu bar. Hold a trigger, drag to a wedge, release — the snippet lands at your cursor.">
+    <meta name="theme-color" content="#0a0a0b">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="canonical" href="https://snip.hexul.com">
+    <meta property="og:title" content="Snip - Radial Snippet Menu for macOS">
+    <meta property="og:description" content="A radial snippet menu for your Mac's menu bar. Hold a trigger, drag to a wedge, release — the snippet lands at your cursor.">
+    <meta property="og:image" content="https://snip.hexul.com/icon.png">
+    <meta property="og:url" content="https://snip.hexul.com">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Snip - Radial Snippet Menu for macOS">
+    <meta name="twitter:description" content="A radial snippet menu for your Mac's menu bar. Hold a trigger, drag to a wedge, release — the snippet lands at your cursor.">
+    <meta name="twitter:image" content="https://snip.hexul.com/icon.png">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --metal: #16161a;
+            --metal-raised: #1e1e23;
+            --hairline: rgba(255, 255, 255, 0.08);
+            --hairline-soft: rgba(255, 255, 255, 0.045);
+            --signal: #eef1f6;
+            --signal-dim: rgba(238, 241, 246, 0.55);
+            --glow: rgba(226, 234, 248, 0.22);
+            --text: #c7c7cf;
+            --text-dim: #82828d;
+            --text-faint: #52525c;
+            --mono: 'SF Mono', ui-monospace, 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Machined "turning marks": faint concentric hairlines struck from the dial's center. */
+        .machining {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background:
+                repeating-radial-gradient(circle at 50% 34%,
+                    transparent 0 6px,
+                    rgba(255, 255, 255, 0.014) 6px 7px);
+            mask-image: radial-gradient(circle at 50% 34%, #000 0%, transparent 62%);
+            -webkit-mask-image: radial-gradient(circle at 50% 34%, #000 0%, transparent 62%);
+        }
+        .toplight {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(226, 234, 248, 0.05), transparent 70%);
+        }
+        .vignette {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(0, 0, 0, 0.6) 100%);
+        }
+
+        .page {
+            position: relative;
+            z-index: 1;
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 3.5rem 1.5rem 3rem;
+        }
+
+        /* --- Intro --- */
+        .intro {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 2.75rem;
+        }
+        .intro img {
+            width: 64px;
+            height: 64px;
+            border-radius: 15px;
+            box-shadow: 0 6px 26px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        .intro-text h1 {
+            font-family: var(--mono);
+            font-size: 1.7rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--signal);
+            background: linear-gradient(180deg, #ffffff, #9aa0ad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 22px rgba(226, 234, 248, 0.12);
+            line-height: 1.1;
+        }
+        .intro-text p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-top: 0.15rem;
+        }
+        .badge {
+            display: inline-block;
+            margin-top: 0.45rem;
+            font-family: var(--mono);
+            font-size: 0.62rem;
+            color: var(--text-dim);
+            border: 1px solid var(--hairline);
+            padding: 0.16rem 0.5rem;
+            border-radius: 3px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        /* --- Dial hero --- */
+        .dial-wrap {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 0 3.25rem;
+        }
+        .dial {
+            width: 260px;
+            height: 260px;
+            filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.6));
+        }
+        .lit-wedge { animation: breathe 4.5s ease-in-out infinite; transform-origin: 120px 120px; }
+        @keyframes breathe {
+            0%, 100% { opacity: 0.82; }
+            50% { opacity: 1; }
+        }
+
+        /* --- Description --- */
+        .desc {
+            font-size: 0.95rem;
+            color: var(--text-dim);
+            margin-bottom: 2.75rem;
+            line-height: 1.75;
+            max-width: 580px;
+        }
+        .desc .tok {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--hairline-soft);
+            border-radius: 4px;
+            padding: 0.05em 0.35em;
+        }
+
+        /* --- Section labels --- */
+        .label {
+            font-family: var(--mono);
+            font-size: 0.66rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--hairline), transparent);
+        }
+
+        /* --- Install --- */
+        .install { margin-bottom: 2.75rem; }
+        .install-code {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--metal);
+            border: 1px solid var(--hairline);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.7rem;
+            font-family: var(--mono);
+            font-size: 0.82rem;
+            color: var(--text);
+            transition: border-color 0.2s, background 0.2s;
+            user-select: all;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+        .install-code:hover { border-color: rgba(226, 234, 248, 0.2); background: var(--metal-raised); }
+        .install-code .prompt { color: var(--signal-dim); user-select: none; }
+        .install-alt { font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; }
+        .install-alt a, .links a, .install-note a {
+            color: var(--text);
+            text-decoration: none;
+            border-bottom: 1px solid var(--hairline);
+            padding-bottom: 1px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .install-alt a:hover { color: var(--signal); border-color: var(--signal-dim); }
+        .install-note {
+            font-size: 0.72rem;
+            color: var(--text-faint);
+            margin-top: 0.55rem;
+            line-height: 1.5;
+        }
+
+        /* --- Features: instrument key rows --- */
+        .features { margin-bottom: 2.75rem; }
+        .keys { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+        .key {
+            font-size: 0.78rem;
+            color: var(--text);
+            background: var(--metal);
+            border: 1px solid var(--hairline);
+            border-radius: 6px;
+            padding: 0.42rem 0.75rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03), 0 1px 2px rgba(0, 0, 0, 0.3);
+            transition: transform 0.16s ease, border-color 0.2s, background 0.2s;
+        }
+        .key:hover {
+            transform: translateY(-1px);
+            border-color: rgba(226, 234, 248, 0.22);
+            background: var(--metal-raised);
+        }
+
+        /* --- Links + footer --- */
+        .divider { height: 1px; background: linear-gradient(90deg, transparent, var(--hairline), transparent); margin: 0 0 2rem; }
+        .links { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+        .links a { font-family: var(--mono); font-size: 0.8rem; }
+        .links a:hover { color: var(--signal); border-color: var(--signal-dim); }
+        footer {
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--hairline-soft);
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--text-faint);
+        }
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--text-dim); }
+
+        /* --- Load animation --- */
+        @keyframes fade-up {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .intro { animation: fade-up 0.5s ease both; }
+        .dial-wrap { animation: fade-up 0.7s ease 0.08s both; }
+        .desc { animation: fade-up 0.5s ease 0.18s both; }
+        .install { animation: fade-up 0.5s ease 0.24s both; }
+        .features { animation: fade-up 0.5s ease 0.3s both; }
+        .links { animation: fade-up 0.5s ease 0.36s both; }
+        footer { animation: fade-up 0.5s ease 0.4s both; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lit-wedge { animation: none; }
+            .intro, .dial-wrap, .desc, .install, .features, .links, footer { animation: none; }
+        }
+
+        @media (max-width: 480px) {
+            .intro { gap: 1rem; }
+            .intro img { width: 52px; height: 52px; border-radius: 12px; }
+            .intro-text h1 { font-size: 1.4rem; letter-spacing: 0.16em; }
+            .dial { width: 210px; height: 210px; }
+            .page { padding-top: 2.5rem; }
+            .links { flex-direction: column; gap: 0.75rem; }
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Snip",
+        "operatingSystem": "macOS",
+        "applicationCategory": "UtilitiesApplication",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+</head>
+<body>
+    <div class="machining" aria-hidden="true"></div>
+    <div class="toplight" aria-hidden="true"></div>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <main class="page">
+        <div class="intro">
+            <img src="icon.png" alt="Snip" width="64" height="64">
+            <div class="intro-text">
+                <h1>Snip</h1>
+                <p>Radial snippet menu for macOS</p>
+                <span class="badge">macOS 14+</span>
+            </div>
+        </div>
+
+        <div class="dial-wrap">
+            <svg class="dial" viewBox="0 0 240 240" role="img" aria-label="Snip's radial menu: eight wedges around a hub, the top wedge lit">
+                <defs>
+                    <radialGradient id="metal" cx="50%" cy="38%" r="70%">
+                        <stop offset="0%" stop-color="#26262c"/>
+                        <stop offset="62%" stop-color="#191920"/>
+                        <stop offset="100%" stop-color="#101015"/>
+                    </radialGradient>
+                    <radialGradient id="wedgeGlow" cx="50%" cy="18%" r="80%">
+                        <stop offset="0%" stop-color="#ffffff"/>
+                        <stop offset="55%" stop-color="#dfe6f2"/>
+                        <stop offset="100%" stop-color="#9aa2b4"/>
+                    </radialGradient>
+                    <filter id="bloom" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="3.2" result="b"/>
+                        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                </defs>
+
+                <!-- bezel -->
+                <circle cx="120" cy="120" r="106" fill="url(#metal)" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+                <circle cx="120" cy="120" r="98" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+                <!-- lit wedge (top), an annular sector from -112.5deg to -67.5deg -->
+                <path class="lit-wedge" filter="url(#bloom)"
+                      d="M103.16 79.35 L83.26 31.31 A96 96 0 0 1 156.74 31.31 L136.84 79.35 A44 44 0 0 0 103.16 79.35 Z"
+                      fill="url(#wedgeGlow)" opacity="0.92"/>
+
+                <!-- 8 wedge separators: one base spoke rotated in 45deg steps, offset 22.5deg to sit on boundaries -->
+                <g stroke="rgba(255,255,255,0.13)" stroke-width="1.1" stroke-linecap="round">
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(22.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(67.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(112.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(157.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(202.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(247.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(292.5 120 120)"/>
+                    <line x1="120" y1="78" x2="120" y2="24" transform="rotate(337.5 120 120)"/>
+                </g>
+
+                <!-- hub boss + engraving -->
+                <circle cx="120" cy="120" r="40" fill="#14141a" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                <circle cx="120" cy="120" r="31" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="0.8"/>
+                <circle cx="120" cy="120" r="22" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.8"/>
+                <line x1="120" y1="108" x2="120" y2="132" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+                <line x1="108" y1="120" x2="132" y2="120" stroke="rgba(255,255,255,0.10)" stroke-width="0.8"/>
+                <circle cx="120" cy="120" r="2.1" fill="rgba(255,255,255,0.55)"/>
+            </svg>
+        </div>
+
+        <p class="desc">Snip waits in your menu bar. Hold your trigger — the middle mouse button, a thumb button, or a keyboard shortcut — and a ring of snippets blooms under the cursor. Drag toward a wedge, release, and the text lands wherever you're typing, in any app. Tokens like <span class="tok">{date}</span> and <span class="tok">{clipboard}</span> fill in as they go, and <span class="tok">$|</span> marks where the cursor should end up.</p>
+
+        <section class="install">
+            <h2 class="label">Install</h2>
+            <div class="install-code"><span class="prompt">$</span> brew install --cask hex/tap/snip</div>
+            <p class="install-alt">Or <a href="https://github.com/hex/Snip/releases/latest">download directly</a> from GitHub Releases.</p>
+            <p class="install-note">Developer ID signed and notarized by Apple.</p>
+        </section>
+
+        <section class="features">
+            <h2 class="label">Features</h2>
+            <div class="keys">
+                <span class="key">Radial insert at the cursor</span>
+                <span class="key">Hold, double-click, or shortcut</span>
+                <span class="key">Live loupe hub</span>
+                <span class="key">Visual ring editor</span>
+                <span class="key">$| caret &amp; {tokens}</span>
+                <span class="key">Works over fullscreen apps</span>
+                <span class="key">Per-app exceptions</span>
+                <span class="key">Follows your accent</span>
+                <span class="key">All data local</span>
+                <span class="key">Auto-update via Sparkle</span>
+            </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <div class="links">
+            <a href="https://github.com/hex/Snip">GitHub</a>
+            <a href="privacy/">Privacy</a>
+            <a href="mailto:support@hexul.com">Support</a>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </main>
+</body>
+</html>

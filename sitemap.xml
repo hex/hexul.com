@@ -46,6 +46,16 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://snip.hexul.com</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://snip.hexul.com/privacy/</loc>
+    <lastmod>2026-07-14</lastmod>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://helix.hexul.com</loc>
     <lastmod>2026-02-10</lastmod>
     <priority>1.0</priority>

@@ -1,0 +1,114 @@
+<!-- ABOUTME: Privacy policy for Snip. Self-contained HTML with inline CSS, no external dependencies. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snip - Privacy</title>
+    <meta name="description" content="Snip stores everything locally and sends no telemetry. Privacy policy.">
+    <meta name="theme-color" content="#0a0a0b">
+    <link rel="icon" type="image/png" href="../icon.png">
+    <link rel="apple-touch-icon" href="../icon.png">
+    <link rel="canonical" href="https://snip.hexul.com/privacy/">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --hairline: rgba(255, 255, 255, 0.08);
+            --hairline-soft: rgba(255, 255, 255, 0.045);
+            --signal: #eef1f6;
+            --text: #c7c7cf;
+            --text-dim: #82828d;
+            --text-faint: #52525c;
+            --mono: 'SF Mono', ui-monospace, 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .toplight {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(226, 234, 248, 0.05), transparent 70%);
+        }
+        .page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 3.5rem 1.5rem 3rem; }
+
+        .top { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.5rem; }
+        .top img { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+        .top h1 {
+            font-family: var(--mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--signal);
+        }
+        .top h1 span { color: var(--text-dim); font-weight: 400; }
+
+        h2 {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin: 2.25rem 0 0.75rem;
+            display: flex; align-items: center; gap: 0.7rem;
+        }
+        h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--hairline), transparent); }
+        h2:first-of-type { margin-top: 0; }
+
+        p { color: var(--text-dim); margin-bottom: 0.9rem; font-size: 0.92rem; }
+        strong { color: var(--text); font-weight: 600; }
+        code {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--hairline-soft);
+            border-radius: 4px;
+            padding: 0.05em 0.35em;
+        }
+
+        .back { display: inline-block; margin-top: 2.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+        .back:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+
+        footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--hairline-soft); font-family: var(--mono); font-size: 0.75rem; color: var(--text-faint); }
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <div class="toplight" aria-hidden="true"></div>
+    <main class="page">
+        <div class="top">
+            <img src="../icon.png" alt="Snip" width="40" height="40">
+            <h1>Snip <span>/ Privacy</span></h1>
+        </div>
+
+        <h2>The short version</h2>
+        <p>Snip keeps everything on your Mac. There are no accounts, no analytics, and no telemetry. Nothing you type, copy, or store ever leaves your machine.</p>
+
+        <h2>Your snippets</h2>
+        <p>Your snippet library is stored locally as a plain JSON file at <code>~/Library/Application Support/Snip/</code>. Snip never uploads, syncs, or transmits it anywhere.</p>
+
+        <h2>Accessibility permission</h2>
+        <p>Snip requires macOS's <strong>Accessibility</strong> permission for two things: noticing your trigger (a low-level event tap watches for the held button or shortcut) and inserting text (a synthesized paste into the app you're using). Snip does not read your screen, log your keystrokes, or observe anything beyond the trigger it is configured to watch for.</p>
+
+        <h2>Network</h2>
+        <p>The only network request Snip makes is an update check: it fetches a small <code>appcast.xml</code> file from Snip's public GitHub repository so it can tell you when a new version is available. No identifying information is sent with that request. You can turn automatic checks off in Settings.</p>
+
+        <h2>Changes</h2>
+        <p>If this policy ever changes, the updated version will be posted here.</p>
+
+        <a class="back" href="../">&larr; Back to Snip</a>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </main>
+</body>
+</html>
