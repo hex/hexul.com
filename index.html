@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>hexul - Small Batch Software</title>
+    <meta name="theme-color" content="#f3f3ef">
     <meta name="description" content="Small batch software by hexul. Native macOS and iOS apps for design, fitness, productivity, and developer tools.">
     <meta property="og:title" content="hexul - Small Batch Software">
     <meta property="og:description" content="Small batch software by hexul. Native macOS and iOS apps for design, fitness, productivity, and developer tools.">
@@ -18,528 +19,97 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
-            background: #0d0a12;
-            color: #e8e4f0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            overflow-x: hidden;
-        }
-
-        /* --- Aurora background --- */
-        .aurora {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .aurora-blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0;
-            mix-blend-mode: screen;
-            animation-fill-mode: forwards;
-        }
-
-        .aurora-blob:nth-child(1) {
-            width: 750px;
-            height: 450px;
-            background: radial-gradient(ellipse at center, rgba(140, 80, 200, 0.5), rgba(100, 50, 180, 0.25), transparent 70%);
-            top: -10%;
-            left: -10%;
-            animation: drift-a 28s ease-in-out infinite, aurora-in 2s ease 0.2s forwards;
-        }
-
-        .aurora-blob:nth-child(2) {
-            width: 650px;
-            height: 500px;
-            background: radial-gradient(ellipse at center, rgba(70, 60, 190, 0.45), rgba(50, 40, 160, 0.2), transparent 70%);
-            bottom: -15%;
-            right: -8%;
-            animation: drift-b 34s ease-in-out infinite, aurora-in 2s ease 0.6s forwards;
-        }
-
-        .aurora-blob:nth-child(3) {
-            width: 550px;
-            height: 380px;
-            background: radial-gradient(ellipse at center, rgba(120, 60, 190, 0.4), rgba(90, 40, 160, 0.18), transparent 70%);
-            top: 40%;
-            left: 50%;
-            margin-left: -275px;
-            animation: drift-c 22s ease-in-out infinite, aurora-in 2s ease 1s forwards;
-        }
-
-        .aurora-blob:nth-child(4) {
-            width: 480px;
-            height: 350px;
-            background: radial-gradient(ellipse at center, rgba(60, 80, 170, 0.35), rgba(70, 50, 150, 0.15), transparent 70%);
-            top: 5%;
-            right: -5%;
-            animation: drift-d 26s ease-in-out infinite, aurora-in 2s ease 1.4s forwards;
-        }
-
-        @keyframes aurora-in {
-            to { opacity: 1; }
-        }
-
-        @keyframes drift-a {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(80px, 40px) rotate(5deg); }
-            66% { transform: translate(30px, 70px) rotate(-3deg); }
-        }
-
-        @keyframes drift-b {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(-60px, -50px) rotate(-4deg); }
-            66% { transform: translate(-30px, -80px) rotate(6deg); }
-        }
-
-        @keyframes drift-c {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(40px, -30px) scale(1.15); }
-        }
-
-        @keyframes drift-d {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-50px, 40px) rotate(8deg); }
-        }
-
-        /* --- Vignette --- */
-        .vignette {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(ellipse at center, transparent 40%, rgba(6, 4, 10, 0.55) 100%);
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        /* --- Film grain --- */
-        .grain {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 100;
-            opacity: 0.35;
-        }
-
-        .grain::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 256px;
-        }
-
-        /* --- Content --- */
-        .container {
-            position: relative;
-            z-index: 2;
-            max-width: 720px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 3rem;
-            font-weight: 400;
-            color: #b8a4d6;
-            margin-bottom: 1.5rem;
-            letter-spacing: 0.1em;
-            animation: aberration 10s ease-in-out infinite, fade-up 0.6s ease both;
-        }
-
-        @keyframes aberration {
-            0%, 100% { text-shadow: -1.5px 0 rgba(255, 80, 100, 0.35), 1.5px 0 rgba(80, 130, 255, 0.35), 0 0 30px rgba(184, 164, 214, 0.08); }
-            25% { text-shadow: -2px 0.5px rgba(255, 80, 100, 0.45), 2px -0.5px rgba(80, 130, 255, 0.45), 0 0 40px rgba(184, 164, 214, 0.1); }
-            50% { text-shadow: -1px -0.5px rgba(255, 80, 100, 0.3), 1px 0.5px rgba(80, 130, 255, 0.3), 0 0 25px rgba(184, 164, 214, 0.06); }
-            75% { text-shadow: -2.5px 0 rgba(255, 80, 100, 0.4), 2.5px 0 rgba(80, 130, 255, 0.4), 0 0 35px rgba(184, 164, 214, 0.09); }
-        }
-
-        .tagline {
-            font-size: 1rem;
-            color: #8b7aa8;
-            margin-bottom: 3rem;
-            animation: fade-up 0.5s ease 0.1s both;
-        }
-
-        .products {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 3rem;
-        }
-
-        .product:nth-child(1) { animation: fade-up 0.5s ease 0.15s both; }
-        .product:nth-child(2) { animation: fade-up 0.5s ease 0.22s both; }
-        .product:nth-child(3) { animation: fade-up 0.5s ease 0.29s both; }
-        .product:nth-child(4) { animation: fade-up 0.5s ease 0.36s both; }
-        .product:nth-child(5) { animation: fade-up 0.5s ease 0.43s both; }
-
-        .product {
-            background: rgba(26, 21, 37, 0.5);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(45, 38, 64, 0.6);
-            border-radius: 12px;
-            padding: 1rem 1.25rem;
-            text-decoration: none;
-            color: #c4b8db;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .product:hover {
-            background: rgba(40, 32, 58, 0.75);
-            border-color: rgba(140, 100, 200, 0.35);
-            color: #e8e4f0;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 24px rgba(120, 80, 180, 0.12), 0 0 0 1px rgba(140, 100, 200, 0.08);
-        }
-
-        .icon-glass {
-            position: relative;
-            width: 44px;
-            height: 44px;
-            flex-shrink: 0;
-            border-radius: 11px;
-        }
-
-        .product-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 11px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .icon-glass::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 11px;
-            background: linear-gradient(
-                165deg,
-                rgba(255, 255, 255, 0.28) 0%,
-                rgba(255, 255, 255, 0.08) 30%,
-                rgba(255, 255, 255, 0) 50%,
-                rgba(255, 255, 255, 0.02) 80%,
-                rgba(255, 255, 255, 0.06) 100%
-            );
-            box-shadow:
-                inset 0 0.5px 0 0 rgba(255, 255, 255, 0.35),
-                inset 0 -0.5px 0 0 rgba(255, 255, 255, 0.06),
-                0 1px 3px rgba(0, 0, 0, 0.4),
-                0 4px 12px rgba(0, 0, 0, 0.15),
-                0 0 0 0.5px rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-        }
-
-        .product-info {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 0.15rem;
-            flex: 1;
-            min-width: 0;
-            text-align: left;
-        }
-
-        .product-name {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .product-badge {
-            font-size: 0.55rem;
-            color: #7a6d94;
-            font-weight: 400;
-            background: rgba(90, 77, 115, 0.2);
-            border: 1px solid rgba(90, 77, 115, 0.25);
-            border-radius: 9999px;
-            padding: 0.05rem 0.4rem;
-            letter-spacing: 0.03em;
-        }
-
-        .product-platform {
-            color: #6b5d80;
-            margin-left: auto;
-            flex-shrink: 0;
-            padding-left: 0.75rem;
-        }
-
-        .product-platform svg {
-            width: 14px;
-            height: 14px;
-            fill: currentColor;
-        }
-
-        .product-desc {
-            font-size: 0.8rem;
-            color: #7a6d94;
-            font-weight: 400;
-        }
-
-        .section-label {
-            font-size: 0.7rem;
-            color: #5a4d73;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            margin-bottom: 0.75rem;
-            text-align: left;
-            animation: fade-up 0.5s ease 0.57s both;
-        }
-
-        .plugins {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.75rem;
-            margin-bottom: 3rem;
-        }
-
-
-        .plugins .product:nth-child(1) { animation: fade-up 0.5s ease 0.64s both; }
-        .plugins .product:nth-child(2) { animation: fade-up 0.5s ease 0.71s both; }
-        .plugins .product:nth-child(3) { animation: fade-up 0.5s ease 0.78s both; }
-        .plugins .product:nth-child(4) { animation: fade-up 0.5s ease 0.85s both; }
-        .plugins .product:nth-child(5) { animation: fade-up 0.5s ease 0.92s both; }
-        .plugins .product:nth-child(6) { animation: fade-up 0.5s ease 0.99s both; }
-        .plugins .product:nth-child(7) { animation: fade-up 0.5s ease 1.06s both; }
-
-        .plugin-icon-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.25rem;
-            flex-shrink: 0;
-        }
-
-        .plugin-icon {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 11px;
-            background: rgba(60, 50, 90, 0.5);
-            border: 1px solid rgba(100, 80, 160, 0.15);
-            color: #9580b8;
-            font-size: 1.25rem;
-        }
-
-        .contact {
-            font-size: 0.85rem;
-            color: #6b5d80;
-            animation: fade-up 0.4s ease 1.06s both;
-        }
-
-        .contact a {
-            color: #9580b8;
-            text-decoration: none;
-        }
-
-        .contact a:hover {
-            color: #b8a4d6;
-        }
-
-        .separator {
-            margin: 0 0.75rem;
-            color: #4a3d66;
-        }
-
-        .github-link svg {
-            width: 16px;
-            height: 16px;
-            fill: currentColor;
-            vertical-align: middle;
-        }
-
-        .products .product:last-child:nth-child(odd) {
-            grid-column: 1 / -1;
-        }
-
-        @media (max-width: 600px) {
-            .products, .plugins {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* --- Animations --- */
-        @keyframes fade-up {
-            from { opacity: 0; transform: translateY(14px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+:root{--orange:#f3f3ef;--ink:#24211e;--blue:#173de8;--lime:#e2fa80;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--orange);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+a:focus-visible{outline:3px solid currentColor;outline-offset:5px}
+h1,h2,h3,p{margin:0}
+.masthead{padding:62px 4vw 30px}
+.topline{display:flex;justify-content:space-between;gap:20px;align-items:center;font:12px/1.5 var(--mono)}
+.topline nav{display:flex;gap:24px}
+.topline a{padding:8px 0;border-bottom:1px solid currentColor}
+h1{color:var(--blue);font-size:clamp(64px,11vw,150px);letter-spacing:-.09em;line-height:.86;font-weight:850;margin:18px 0 36px;transform:translateX(-.035em)}
+.intro{display:flex;justify-content:space-between;align-items:end;gap:24px;border-top:2px solid var(--ink);padding-top:20px}
+.intro p{font-size:clamp(18px,2.2vw,30px);line-height:1.2;max-width:32ch;letter-spacing:-.035em}
+.intro h2{font:12px/1.5 var(--mono);white-space:nowrap}
+.apps{padding:10px 4vw 72px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}
+.app{min-width:0;position:relative;display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:start;padding:24px 34px 26px 0;border-top:1px solid #24211e55}
+.app img{display:block;width:56px;height:56px;border-radius:13px;box-shadow:0 0 0 1px #24211e14;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.app h3{font-size:20px;line-height:1.2;letter-spacing:-.035em;font-weight:650}
+.app p{font-size:14px;line-height:1.45;margin-top:5px;max-width:36ch}
+.platform{display:block;font:11px/1.4 var(--mono);margin-top:8px;color:#5f5b56}
+.arrow{position:absolute;right:0;top:22px;font-size:25px;transition:transform .2s}
+.app:hover .arrow,.app:focus-visible .arrow{transform:translate(3px,-3px)}
+.app:hover img,.app:focus-visible img{transform:translateY(-3px)}
+.app:hover h3{text-decoration:underline;text-underline-offset:5px}
+.tools{background:var(--blue);color:#f3f5ff;padding:48px 4vw 68px}
+.tools-head{display:flex;align-items:start;justify-content:space-between;gap:24px;margin-bottom:45px}
+.tools h2{font-size:clamp(42px,6.5vw,100px);font-weight:600;line-height:.95;letter-spacing:-.065em;max-width:9ch}
+.tools-head p{font:12px/1.5 var(--mono);padding-top:6px}
+.tool-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}
+.tool{min-width:0;position:relative;padding:24px 30px 30px 0;border-top:1px solid #ffffff66}
+.tool h3{font:17px/1.35 var(--mono);overflow-wrap:anywhere}
+.tool p{font-size:15px;line-height:1.5;max-width:44ch;margin-top:10px;color:#e0e7ff}
+.tool>span{position:absolute;right:0;top:20px;font-size:25px;transition:transform .2s}
+.tool:hover>span,.tool:focus-visible>span{transform:translate(3px,-3px)}
+.tool:hover h3{text-decoration:underline;text-underline-offset:5px}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:28px 4vw 70px;font:12px/1.5 var(--mono)}
+footer a{padding:6px 0;border-bottom:1px solid currentColor}
+@media(max-width:760px){
+ .masthead{padding:60px 20px 24px}.topline{align-items:start}.topline nav{gap:16px}
+ h1{font-size:19vw;margin:24px 0}
+ .intro{align-items:start}.intro p{max-width:22ch}.intro h2{white-space:normal;max-width:7ch;text-align:right}
+ .apps{padding:0 20px 40px;grid-template-columns:1fr}
+ .app{grid-template-columns:44px 1fr;gap:14px;padding:18px 30px 20px 0}.app img{width:44px;height:44px;border-radius:10px}
+ .app h3{font-size:18px}.app p{font-size:13px}
+ .tools{padding:36px 20px}.tool-grid{column-gap:24px}.tool h3{font-size:15px}
+ footer{padding:24px 20px 72px}
+}
+@media(max-width:480px){
+ .topline{font-size:10px}.topline nav{gap:12px}.intro p{font-size:19px}
+ .apps{grid-template-columns:1fr}
+ .app h3{font-size:18px}.app p{font-size:13px;max-width:none}
+ .tools-head{margin-bottom:30px}.tools h2{font-size:49px}.tools-head p{max-width:9ch;text-align:right}
+ .tool-grid{grid-template-columns:minmax(0,1fr)}.tool h3{font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.app:hover img,.app:focus-visible img{transform:none}.app:hover .shape,.app:focus-visible .shape{transform:none}.tool:hover>span,.tool:focus-visible>span{transform:none}}
+</style>
 </head>
 <body>
-    <div class="aurora" aria-hidden="true">
-        <div class="aurora-blob"></div>
-        <div class="aurora-blob"></div>
-        <div class="aurora-blob"></div>
-        <div class="aurora-blob"></div>
-    </div>
-    <div class="vignette" aria-hidden="true"></div>
-    <div class="grain" aria-hidden="true"></div>
-
-    <main class="container">
-        <h1>hexul</h1>
-        <p class="tagline">small batch software</p>
-
-        <div class="products">
-            <a href="https://mirrorps.hexul.com" class="product">
-                <span class="icon-glass"><img src="mirrorps/icon.png" alt="Mirror for Photoshop" class="product-icon" width="44" height="44"></span>
-                <div class="product-info">
-                    <span class="product-name">Mirror for Photoshop</span>
-                    <span class="product-desc">Real-time design preview on device</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
-            </a>
-            <a href="https://hex-forge.hexul.com/" class="product">
-                <span class="icon-glass"><img src="hex-forge/icon.png" alt="hex-forge" class="product-icon" width="44" height="44"></span>
-                <div class="product-info">
-                    <span class="product-name">hex-forge</span>
-                    <span class="product-desc">Strength training with smart progression</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
-            </a>
-            <a href="https://phosphor.hexul.com" class="product">
-                <span class="icon-glass"><img src="phosphor/icon.png" alt="Phosphor" class="product-icon" width="44" height="44"></span>
-                <div class="product-info">
-                    <span class="product-name">Phosphor</span>
-                    <span class="product-desc">LED matrix display simulator</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg> <svg viewBox="0 0 384 512" aria-label="iOS"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg></span>
-            </a>
-            <a href="https://stash.hexul.com" class="product">
-                <span class="icon-glass"><img src="stash/icon.png" alt="Stash" class="product-icon" width="44" height="44"></span>
-                <div class="product-info">
-                    <span class="product-name">Stash</span>
-                    <span class="product-desc">Clipboard history manager</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
-            </a>
-            <a href="https://snip.hexul.com" class="product">
-                <span class="icon-glass"><img src="snip/icon.png" alt="Snip" class="product-icon" width="44" height="44"></span>
-                <div class="product-info">
-                    <span class="product-name">Snip</span>
-                    <span class="product-desc">Radial snippet menu</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
-            </a>
-            <a href="https://helix.hexul.com" class="product">
-                <span class="icon-glass"><img src="helix/icon.png" alt="Helix" class="product-icon" width="44" height="44"></span>
-                <div class="product-info">
-                    <span class="product-name">Helix</span>
-                    <span class="product-desc">Mutagen file sync manager</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 640 512" aria-label="macOS" style="width:16px;height:13px"><path d="M128 32C92.7 32 64 60.7 64 96v256c0 35.3 28.7 64 64 64h144v32H192c-17.7 0-32 14.3-32 32s14.3 32 32 32h256c17.7 0 32-14.3 32-32s-14.3-32-32-32H368v-32h144c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64H128zm0 64h384v256H128V96z"/></svg></span>
-            </a>
-        </div>
-
-        <h2 class="section-label">claude code</h2>
-        <div class="plugins">
-            <a href="https://github.com/hex/claude-council" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"/><circle cx="4" cy="19" r="3"/><circle cx="20" cy="19" r="3"/><line x1="12" y1="8" x2="4" y2="16"/><line x1="12" y1="8" x2="20" y2="16"/></svg></span>
-                    <span class="product-badge">plugin</span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-council</span>
-                    <span class="product-desc">Multi-agent perspectives from any LLM provider</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-            <a href="https://github.com/hex/claude-sessions" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="7" x2="16" y2="7"/><line x1="9" y1="11" x2="14" y2="11"/></svg></span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-sessions</span>
-                    <span class="product-desc">No project needed, just a task</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-            <a href="https://github.com/hex/claude-image-generation" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
-                    <span class="product-badge">plugin</span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-image-generation</span>
-                    <span class="product-desc">Generate and edit images with Gemini, OpenAI, and xAI</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-            <a href="https://github.com/hex/claude-guard" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
-                    <span class="product-badge">plugin</span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-guard</span>
-                    <span class="product-desc">Block destructive commands and credential exposure</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-            <a href="https://github.com/hex/claude-tmux" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg></span>
-                    <span class="product-badge">plugin</span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-tmux</span>
-                    <span class="product-desc">SSH into remote hosts via tmux panes</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-            <a href="https://github.com/hex/claude-taskmaster" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span>
-                    <span class="product-badge">plugin</span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-taskmaster</span>
-                    <span class="product-desc">Completion guard that prevents premature stopping</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-            <a href="https://github.com/hex/claude-crawl" class="product">
-                <div class="plugin-icon-group">
-                    <span class="plugin-icon"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-                    <span class="product-badge">plugin</span>
-                </div>
-                <div class="product-info">
-                    <span class="product-name">claude-crawl</span>
-                    <span class="product-desc">Web search, fetch, and crawl with Jina, Cloudflare, Firecrawl</span>
-                </div>
-                <span class="product-platform"><svg viewBox="0 0 496 512" aria-label="GitHub" style="width:16px;height:16px"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg></span>
-            </a>
-        </div>
-
-        <p class="contact">
-            <a href="mailto:contact@hexul.com">contact@hexul.com</a>
-            <span class="separator">|</span>
-            <a href="https://github.com/hex" class="github-link"><svg viewBox="0 0 496 512" aria-label="GitHub"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></a>
-        </p>
-    </main>
+<header class="masthead">
+ <div class="topline"><p>small batch software</p><nav aria-label="Sections"><a href="#apps">Native apps</a><a href="#tools">Claude Code tools</a></nav></div>
+ <h1>hexul</h1>
+ <div class="intro"><p>Native utilities for macOS and iOS, and open source tools for Claude Code.</p><h2 id="apps">Native apps</h2></div>
+</header>
+<main>
+ <section class="apps" aria-labelledby="apps"><a class="app" href="https://mirrorps.hexul.com">
+  <img src="mirrorps/icon.png" width="56" height="56" alt=""><div class="app-copy"><h3>Mirror for Photoshop</h3><p>Real-time design preview on device</p><span class="platform">iOS</span></div><span class="arrow" aria-hidden="true">↗</span>
+</a>
+<a class="app" href="https://hex-forge.hexul.com/">
+  <img src="hex-forge/icon.png" width="56" height="56" alt=""><div class="app-copy"><h3>hex-forge</h3><p>Strength training with smart progression</p><span class="platform">iOS</span></div><span class="arrow" aria-hidden="true">↗</span>
+</a>
+<a class="app" href="https://phosphor.hexul.com">
+  <img src="phosphor/icon.png" width="56" height="56" alt=""><div class="app-copy"><h3>Phosphor</h3><p>LED matrix display simulator</p><span class="platform">macOS · iOS</span></div><span class="arrow" aria-hidden="true">↗</span>
+</a>
+<a class="app" href="https://stash.hexul.com">
+  <img src="stash/icon.png" width="56" height="56" alt=""><div class="app-copy"><h3>Stash</h3><p>Clipboard history manager</p><span class="platform">macOS</span></div><span class="arrow" aria-hidden="true">↗</span>
+</a>
+<a class="app" href="https://snip.hexul.com">
+  <img src="snip/icon.png" width="56" height="56" alt=""><div class="app-copy"><h3>Snip</h3><p>Radial snippet menu</p><span class="platform">macOS</span></div><span class="arrow" aria-hidden="true">↗</span>
+</a>
+<a class="app" href="https://helix.hexul.com">
+  <img src="helix/icon.png" width="56" height="56" alt=""><div class="app-copy"><h3>Helix</h3><p>Mutagen file sync manager</p><span class="platform">macOS</span></div><span class="arrow" aria-hidden="true">↗</span>
+</a></section>
+ <section class="tools" id="tools" aria-labelledby="tools-title"><div class="tools-head"><h2 id="tools-title">Claude Code tools</h2><p>Open source<br>GitHub</p></div><div class="tool-grid"><a class="tool" href="https://github.com/hex/claude-council"><h3>claude-council</h3><p>Multi-agent perspectives from any LLM provider</p><span aria-hidden="true">↗</span></a>
+<a class="tool" href="https://github.com/hex/claude-sessions"><h3>claude-sessions</h3><p>No project needed, just a task</p><span aria-hidden="true">↗</span></a>
+<a class="tool" href="https://github.com/hex/claude-image-generation"><h3>claude-image-generation</h3><p>Generate and edit images with Gemini, OpenAI, and xAI</p><span aria-hidden="true">↗</span></a>
+<a class="tool" href="https://github.com/hex/claude-guard"><h3>claude-guard</h3><p>Block destructive commands and credential exposure</p><span aria-hidden="true">↗</span></a>
+<a class="tool" href="https://github.com/hex/claude-tmux"><h3>claude-tmux</h3><p>SSH into remote hosts via tmux panes</p><span aria-hidden="true">↗</span></a>
+<a class="tool" href="https://github.com/hex/claude-taskmaster"><h3>claude-taskmaster</h3><p>Completion guard that prevents premature stopping</p><span aria-hidden="true">↗</span></a>
+<a class="tool" href="https://github.com/hex/claude-crawl"><h3>claude-crawl</h3><p>Web search, fetch, and crawl with Jina, Cloudflare, Firecrawl</p><span aria-hidden="true">↗</span></a></div></section>
+</main>
+<footer><a href="mailto:contact@hexul.com">contact@hexul.com</a><a href="https://github.com/hex">github.com/hex</a></footer>
 </body>
 </html>
