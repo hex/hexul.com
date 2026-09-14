@@ -19,6 +19,7 @@
     <meta name="twitter:title" content="hexul - Small Batch Software">
     <meta name="twitter:description" content="Native utilities for macOS and iOS, and open source tools for Claude Code. Small batch software by hexul.">
     <meta name="twitter:image" content="https://hexul.com/og-image.png">
+    <meta name="twitter:image:alt" content="hexul: native utilities for macOS and iOS, and open source tools for Claude Code">
     <link rel="canonical" href="https://hexul.com">
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"Organization","name":"hexul","url":"https://hexul.com","logo":"https://hexul.com/apple-touch-icon.png","email":"contact@hexul.com","sameAs":["https://github.com/hex"],"description":"Native utilities for macOS and iOS, and open source tools for Claude Code. Small batch software by hexul."}
@@ -28,9 +29,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <style>
-:root{--orange:#f3f3ef;--ink:#24211e;--blue:#173de8;--lime:#e2fa80;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+:root{--background:#f3f3ef;--ink:#24211e;--blue:#173de8;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
 *{box-sizing:border-box}
-body{margin:0;background:var(--orange);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--background);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 a:focus-visible{outline:3px solid currentColor;outline-offset:5px}
 h1,h2,h3,p{margin:0}
@@ -38,16 +39,17 @@ h1,h2,h3,p{margin:0}
 .topline{display:flex;justify-content:space-between;gap:20px;align-items:center;font:12px/1.5 var(--mono)}
 .topline nav{display:flex;gap:24px}
 .topline a{padding:8px 0;border-bottom:1px solid currentColor}
-h1{color:var(--blue);font-size:clamp(64px,11vw,150px);letter-spacing:-.09em;line-height:.86;font-weight:850;margin:18px 0 36px;transform:translateX(-.035em)}
-.intro{display:flex;justify-content:space-between;align-items:end;gap:24px;border-top:2px solid var(--ink);padding-top:20px}
-.intro p{font-size:clamp(18px,2.2vw,30px);line-height:1.2;max-width:32ch;letter-spacing:-.035em}
-.intro h2{font:12px/1.5 var(--mono);white-space:nowrap}
+.mast-row{display:flex;justify-content:space-between;align-items:end;gap:40px;margin:18px 0 28px}
+h1{color:var(--blue);font-size:clamp(64px,11vw,150px);letter-spacing:-.09em;line-height:.86;font-weight:850;margin:0;transform:translateX(-.035em)}
+.lede{font-size:clamp(18px,2vw,26px);line-height:1.25;max-width:26ch;letter-spacing:-.03em;padding-bottom:.35em}
+.intro{border-top:2px solid var(--ink);padding-top:16px}
+.intro h2{font:12px/1.5 var(--mono)}
 .apps{padding:10px 4vw 72px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:48px}
 .app{min-width:0;position:relative;display:grid;grid-template-columns:56px 1fr;gap:20px;align-items:start;padding:24px 34px 26px 0;border-top:1px solid #24211e55}
 .app img{display:block;width:56px;height:56px;border-radius:13px;box-shadow:0 0 0 1px #24211e14;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
 .app h3{font-size:20px;line-height:1.2;letter-spacing:-.035em;font-weight:650}
 .app p{font-size:14px;line-height:1.45;margin-top:5px;max-width:36ch}
-.platform{display:block;font:11px/1.4 var(--mono);margin-top:8px;color:#5f5b56}
+.platform{display:block;font:12px/1.4 var(--mono);margin-top:8px;color:#5f5b56}
 .arrow{position:absolute;right:0;top:22px;font-size:25px;transition:transform .2s}
 .app:hover .arrow,.app:focus-visible .arrow{transform:translate(3px,-3px)}
 .app:hover img,.app:focus-visible img{transform:translateY(-3px)}
@@ -67,29 +69,29 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px;paddin
 footer a{padding:6px 0;border-bottom:1px solid currentColor}
 @media(max-width:760px){
  .masthead{padding:60px 20px 24px}.topline{align-items:start}.topline nav{gap:16px}
- h1{font-size:19vw;margin:24px 0}
- .intro{align-items:start}.intro p{max-width:22ch}.intro h2{white-space:normal;max-width:7ch;text-align:right}
+ .mast-row{flex-direction:column;align-items:start;gap:20px;margin:24px 0}
+ .lede{max-width:none}
  .apps{padding:0 20px 40px;grid-template-columns:1fr}
  .app{grid-template-columns:44px 1fr;gap:14px;padding:18px 30px 20px 0}.app img{width:44px;height:44px;border-radius:10px}
- .app h3{font-size:18px}.app p{font-size:13px}
+ .app h3{font-size:18px}
  .tools{padding:36px 20px}.tool-grid{column-gap:24px}.tool h3{font-size:15px}
  footer{padding:24px 20px 72px}
 }
 @media(max-width:480px){
- .topline{font-size:10px}.topline nav{gap:12px}.intro p{font-size:19px}
+ .topline{flex-wrap:wrap}.topline nav{gap:12px}
  .apps{grid-template-columns:1fr}
- .app h3{font-size:18px}.app p{font-size:13px;max-width:none}
+ .app p{max-width:none}
  .tools-head{margin-bottom:30px}.tools h2{font-size:49px}.tools-head p{max-width:9ch;text-align:right}
  .tool-grid{grid-template-columns:minmax(0,1fr)}.tool h3{font-size:16px}
 }
-@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.app:hover img,.app:focus-visible img{transform:none}.app:hover .shape,.app:focus-visible .shape{transform:none}.tool:hover>span,.tool:focus-visible>span{transform:none}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.app:hover img,.app:focus-visible img{transform:none}.app:hover .arrow,.app:focus-visible .arrow{transform:none}.tool:hover>span,.tool:focus-visible>span{transform:none}}
 </style>
 </head>
 <body>
 <header class="masthead">
  <div class="topline"><p>small batch software</p><nav aria-label="Sections"><a href="#apps">Native apps</a><a href="#tools">Claude Code tools</a></nav></div>
- <h1>hexul</h1>
- <div class="intro"><p>Native utilities for macOS and iOS, and open source tools for Claude Code.</p><h2 id="apps">Native apps</h2></div>
+ <div class="mast-row"><h1>hexul</h1><p class="lede">Native utilities for macOS and iOS, and open source tools for Claude Code.</p></div>
+ <div class="intro"><h2 id="apps">Native apps</h2></div>
 </header>
 <main>
  <section class="apps" aria-labelledby="apps"><a class="app" href="https://mirrorps.hexul.com">
