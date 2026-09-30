@@ -41,7 +41,10 @@ h1{font-size:40px;line-height:1.1;font-weight:650;letter-spacing:-.045em}
 .masthead p{margin-top:8px;color:var(--muted)}
 h2{font-size:13px;font-weight:400;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--rule);scroll-margin-top:24px}
 .app{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:16px;align-items:center;min-height:44px;padding:12px 0;border-bottom:1px solid var(--rule)}
-.app img{width:40px;height:40px;border-radius:9px;display:block}
+.app img{width:40px;height:40px;border-radius:9px;display:block;filter:grayscale(1);opacity:.85;transition:filter .2s,opacity .2s}
+.app:hover img,.app:focus-visible img{filter:none;opacity:1}
+@media(hover:none){.app img{filter:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.app img{transition:none}}
 .app h3{font-size:16px;font-weight:500}
 .app p{font-size:14px;color:var(--muted)}
 .platform{font-size:12px;color:var(--muted);white-space:nowrap}
