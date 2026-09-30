@@ -11,7 +11,7 @@
     <meta property="og:image" content="https://hexul.com/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="hexul: native utilities for macOS and iOS, and open source tools for Claude Code">
+    <meta property="og:image:alt" content="hexul: native apps for macOS and iOS, and open source tools for Claude Code">
     <meta property="og:site_name" content="hexul">
     <meta property="og:url" content="https://hexul.com">
     <meta property="og:type" content="website">
@@ -19,7 +19,7 @@
     <meta name="twitter:title" content="hexul - Small Batch Software">
     <meta name="twitter:description" content="Native utilities for macOS and iOS, and open source tools for Claude Code. Small batch software by hexul.">
     <meta name="twitter:image" content="https://hexul.com/og-image.png">
-    <meta name="twitter:image:alt" content="hexul: native utilities for macOS and iOS, and open source tools for Claude Code">
+    <meta name="twitter:image:alt" content="hexul: native apps for macOS and iOS, and open source tools for Claude Code">
     <link rel="canonical" href="https://hexul.com">
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"Organization","name":"hexul","url":"https://hexul.com","logo":"https://hexul.com/apple-touch-icon.png","email":"contact@hexul.com","sameAs":["https://github.com/hex"],"description":"Native utilities for macOS and iOS, and open source tools for Claude Code. Small batch software by hexul."}
@@ -29,35 +29,35 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <style>
-:root{color-scheme:light;--background:#fafafa;--ink:#242a32;--muted:#68717d;--blue:#2458a6}
+:root{color-scheme:light;--background:#fafafa;--ink:#242a32;--muted:#68717d;--blue:#2458a6;--rule:#e3e5e8}
 *{box-sizing:border-box}
-body{max-width:540px;margin:0 auto;padding:104px 24px 64px;background:var(--background);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{max-width:640px;margin:0 auto;padding:96px 24px 64px;background:var(--background);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none;touch-action:manipulation}
-a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:2px}
-a:hover,a:focus-visible,summary:hover,summary:focus-visible{color:var(--blue)}
+a:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:2px}
+a:hover,a:focus-visible{color:var(--blue)}
 h1,h2,h3,p{margin:0}
-.masthead{text-align:center;margin-bottom:64px}
-h1{font-size:30px;line-height:1.2;font-weight:650;letter-spacing:-.045em}
-.masthead p{margin-top:6px;color:var(--muted)}
-h2{font-size:13px;font-weight:400;color:var(--muted);margin-bottom:14px;scroll-margin-top:24px}
-.app{display:grid;grid-template-columns:210px minmax(0,1fr);gap:20px;align-items:baseline;min-height:44px;padding:10px 0}
-.app h3{font-size:16px;font-weight:400}
+.masthead{margin-bottom:56px}
+h1{font-size:40px;line-height:1.1;font-weight:650;letter-spacing:-.045em}
+.masthead p{margin-top:8px;color:var(--muted)}
+h2{font-size:13px;font-weight:400;color:var(--muted);padding-bottom:10px;border-bottom:1px solid var(--rule);scroll-margin-top:24px}
+.app{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:16px;align-items:center;min-height:44px;padding:12px 0;border-bottom:1px solid var(--rule)}
+.app img{width:40px;height:40px;border-radius:9px;display:block}
+.app h3{font-size:16px;font-weight:500}
 .app p{font-size:14px;color:var(--muted)}
+.platform{font-size:12px;color:var(--muted);white-space:nowrap}
 .app h3,.app p,.tool h3,.tool p{min-width:0;overflow-wrap:anywhere}
 .app:hover h3,.app:focus-visible h3,.tool:hover h3,.tool:focus-visible h3{text-decoration:underline;text-underline-offset:4px}
-.tools{margin-top:64px}
-summary{width:fit-content;min-height:44px;padding:10px 0;cursor:pointer;touch-action:manipulation}
-summary::marker{font-size:11px;color:var(--muted)}
-.tool-list{padding:8px 0 16px 16px}
-.tool{display:block;padding:10px 0}
-.tool h3{font-size:14px;font-weight:400}
-.tool p{font-size:13px;color:var(--muted);margin-top:2px}
-.github{display:inline-block;min-height:44px;padding:10px 0;text-decoration:underline;text-decoration-color:#b3c2d8;text-underline-offset:4px}
-footer{margin-top:56px;font-size:13px;color:var(--muted)}
+.tools{margin-top:56px}
+.tool{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:baseline;min-height:44px;padding:11px 0;border-bottom:1px solid var(--rule)}
+.tool h3{font-size:15px;font-weight:500;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.01em}
+.tool p{font-size:14px;color:var(--muted);margin-top:2px}
+.tool span{font-size:12px;color:var(--muted);white-space:nowrap}
+.github{display:inline-block;min-height:44px;padding:12px 0;margin-top:4px;font-size:14px;text-decoration:underline;text-decoration-color:#b3c2d8;text-underline-offset:4px}
+footer{margin-top:48px;font-size:13px;color:var(--muted)}
 footer a{display:inline-block;min-height:44px;padding:12px 0}
 .skip-link{position:absolute;top:16px;left:24px;padding:8px;background:var(--background);transform:translateY(-200%)}
 .skip-link:focus{transform:none}
-@media(max-width:540px){body{padding-top:64px;padding-bottom:max(40px,env(safe-area-inset-bottom));padding-left:max(24px,env(safe-area-inset-left));padding-right:max(24px,env(safe-area-inset-right))}.masthead{margin-bottom:48px}.app{grid-template-columns:minmax(0,1fr);gap:2px;padding:10px 0}.tools{margin-top:40px}footer{margin-top:40px}}
+@media(max-width:540px){body{padding-top:56px;padding-bottom:max(40px,env(safe-area-inset-bottom));padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}h1{font-size:34px}.masthead{margin-bottom:40px}.app{grid-template-columns:36px minmax(0,1fr);gap:12px}.app img{width:36px;height:36px;border-radius:8px}.platform{grid-column:2}.tools{margin-top:40px}.tool{grid-template-columns:minmax(0,1fr)}.tool span{display:none}footer{margin-top:40px}}
 </style>
 </head>
 <body>
@@ -66,36 +66,24 @@ footer a{display:inline-block;min-height:44px;padding:12px 0}
  <h1>hexul</h1><p>small batch software</p>
 </header>
 <main id="main" tabindex="-1">
- <section aria-labelledby="apps"><h2 id="apps">Apps</h2><a class="app" href="https://mirrorps.hexul.com">
-  <h3>Mirror for Photoshop</h3><p>Design preview on iOS</p>
-</a>
-<a class="app" href="https://hex-forge.hexul.com/">
-  <h3>hex-forge</h3><p>Strength training</p>
-</a>
-<a class="app" href="https://phosphor.hexul.com">
-  <h3>Phosphor</h3><p>LED matrix display</p>
-</a>
-<a class="app" href="https://stash.hexul.com">
-  <h3>Stash</h3><p>Clipboard history</p>
-</a>
-<a class="app" href="https://snip.hexul.com">
-  <h3>Snip</h3><p>Radial snippet menu</p>
-</a>
-<a class="app" href="https://helix.hexul.com">
-  <h3>Helix</h3><p>File sync</p>
-</a></section>
- <section class="tools" id="tools" aria-labelledby="tools-title"><h2 id="tools-title">Open source</h2>
- <details><summary>Claude Code tools</summary><div class="tool-list">
-<a class="tool" href="https://github.com/hex/claude-council"><h3>claude-council</h3><p>Multi-agent perspectives from any LLM provider</p></a>
-<a class="tool" href="https://github.com/hex/claude-sessions"><h3>claude-sessions</h3><p>No project needed, just a task</p></a>
-<a class="tool" href="https://github.com/hex/claude-image-generation"><h3>claude-image-generation</h3><p>Generate and edit images with Gemini, OpenAI, and xAI</p></a>
-<a class="tool" href="https://github.com/hex/claude-guard"><h3>claude-guard</h3><p>Block destructive commands and credential exposure</p></a>
-<a class="tool" href="https://github.com/hex/claude-tmux"><h3>claude-tmux</h3><p>SSH into remote hosts via tmux panes</p></a>
-<a class="tool" href="https://github.com/hex/iterm-agents-sidebar"><h3>iterm-agents-sidebar</h3><p>iTerm2 sidebar that marks the session waiting for input</p></a>
-<a class="tool" href="https://github.com/hex/claude-release"><h3>claude-release</h3><p>Bump, test and publish a GitHub release</p></a>
-<a class="tool" href="https://github.com/hex/claude-crawl"><h3>claude-crawl</h3><p>Web search, fetch, and crawl with Jina, Cloudflare, Firecrawl</p></a>
- </div></details>
- <a class="github" href="https://github.com/hex">GitHub</a></section>
+ <section aria-labelledby="apps"><h2 id="apps">Apps</h2>
+<a class="app" href="https://mirrorps.hexul.com"><img src="mirrorps/icon.png" width="40" height="40" alt=""><div><h3>Mirror for Photoshop</h3><p>Real-time design preview on device</p></div><span class="platform">iOS</span></a>
+<a class="app" href="https://hex-forge.hexul.com/"><img src="hex-forge/icon.png" width="40" height="40" alt=""><div><h3>hex-forge</h3><p>Strength training with smart progression</p></div><span class="platform">iOS</span></a>
+<a class="app" href="https://phosphor.hexul.com"><img src="phosphor/icon.png" width="40" height="40" alt=""><div><h3>Phosphor</h3><p>LED matrix display simulator</p></div><span class="platform">macOS · iOS</span></a>
+<a class="app" href="https://stash.hexul.com"><img src="stash/icon.png" width="40" height="40" alt=""><div><h3>Stash</h3><p>Clipboard history manager</p></div><span class="platform">macOS</span></a>
+<a class="app" href="https://snip.hexul.com"><img src="snip/icon.png" width="40" height="40" alt=""><div><h3>Snip</h3><p>Radial snippet menu</p></div><span class="platform">macOS</span></a>
+<a class="app" href="https://helix.hexul.com"><img src="helix/icon.png" width="40" height="40" alt=""><div><h3>Helix</h3><p>Mutagen file sync manager</p></div><span class="platform">macOS</span></a>
+</section>
+ <section class="tools" id="tools" aria-labelledby="tools-title"><h2 id="tools-title">Open source, for Claude Code</h2>
+<a class="tool" href="https://github.com/hex/claude-council"><div><h3>claude-council</h3><p>Multi-agent perspectives from any LLM provider</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/claude-sessions"><div><h3>claude-sessions</h3><p>No project needed, just a task</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/claude-image-generation"><div><h3>claude-image-generation</h3><p>Generate and edit images with Gemini, OpenAI, and xAI</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/claude-guard"><div><h3>claude-guard</h3><p>Block destructive commands and credential exposure</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/claude-tmux"><div><h3>claude-tmux</h3><p>SSH into remote hosts via tmux panes</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/iterm-agents-sidebar"><div><h3>iterm-agents-sidebar</h3><p>iTerm2 sidebar that marks the session waiting for input</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/claude-release"><div><h3>claude-release</h3><p>Bump, test and publish a GitHub release</p></div><span>GitHub</span></a>
+<a class="tool" href="https://github.com/hex/claude-crawl"><div><h3>claude-crawl</h3><p>Web search, fetch, and crawl with Jina, Cloudflare, Firecrawl</p></div><span>GitHub</span></a>
+ <a class="github" href="https://github.com/hex">All repositories on GitHub</a></section>
 </main>
 <footer><a href="mailto:contact@hexul.com">contact@hexul.com</a></footer>
 </body>
