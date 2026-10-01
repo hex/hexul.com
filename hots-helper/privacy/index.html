@@ -1,0 +1,138 @@
+<!-- ABOUTME: Privacy policy for HotS Helper. Self-contained HTML with inline CSS, no external dependencies. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotS Helper - Privacy</title>
+    <meta name="description" content="What HotS Helper keeps on your phone, what it sends, and to whom.">
+    <meta name="theme-color" content="#0a0a0b">
+    <link rel="icon" type="image/png" href="../icon.png">
+    <link rel="apple-touch-icon" href="../icon.png">
+    <link rel="canonical" href="https://hots-helper.hexul.com/privacy/">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --hairline: rgba(255, 255, 255, 0.08);
+            --hairline-soft: rgba(255, 255, 255, 0.045);
+            --signal: #eef1f6;
+            --text: #c7c7cf;
+            --text-dim: #8f8f9a;
+            --text-faint: #7d7d89;
+            --mono: 'SF Mono', ui-monospace, 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .toplight {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(226, 234, 248, 0.05), transparent 70%);
+        }
+        .page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 3.5rem 1.5rem 3rem; }
+
+        .top { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.5rem; }
+        .top img { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+        .top h1 {
+            font-family: var(--mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--signal);
+        }
+        .top h1 span { color: var(--text-dim); font-weight: 400; }
+
+        h2 {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin: 2.25rem 0 0.75rem;
+            display: flex; align-items: center; gap: 0.7rem;
+        }
+        h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--hairline), transparent); }
+        h2:first-of-type { margin-top: 0; }
+
+        p { color: var(--text-dim); margin-bottom: 0.9rem; font-size: 0.92rem; }
+        strong { color: var(--text); font-weight: 600; }
+        p a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); }
+        p a:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+        code {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--hairline-soft);
+            border-radius: 4px;
+            padding: 0.05em 0.35em;
+        }
+
+        .back { display: inline-block; margin-top: 2.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+        .back:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+
+        footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--hairline-soft); font-family: var(--mono); font-size: 0.75rem; color: var(--text-faint); }
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <div class="toplight" aria-hidden="true"></div>
+    <main class="page">
+        <div class="top">
+            <img src="../icon.png" alt="HotS Helper" width="40" height="40">
+            <h1>HotS Helper <span>/ Privacy</span></h1>
+        </div>
+
+        <h2>Privacy policy</h2>
+        <p>Last updated: [date]</p>
+        <p>HotS Helper is a free app made by hexul. This page says what data the app keeps, what it sends, and to whom.</p>
+
+        <h2>On your device</h2>
+        <p>The app keeps these on your phone only: your favourite heroes, your saved talent builds, your BattleTag and region if you enter them, a random install id, app settings, and copies of downloaded data (the app keeps hero data for up to 7 days). Uninstalling the app deletes them.</p>
+
+        <h2>Player stats</h2>
+        <p>If you enter your BattleTag, the app sends it with your region to our server (hots-player-proxy, hosted on Cloudflare). The server asks Heroes Profile (<a href="https://www.heroesprofile.com/">www.heroesprofile.com/</a>) for your public player stats and keeps the answer for 12 hours, so repeat lookups don&#x27;t hit Heroes Profile again. Heroes Profile receives only the BattleTag and region, never your install id or IP address. If you set your Heroes Profile account to private, the app shows nothing for it.</p>
+
+        <h2>Hero data</h2>
+        <p>To load hero statistics, the app sends our server its random install id and a Firebase App Check token. The token only proves the request comes from a real copy of the app (Google Play Integrity on Android, Apple App Attest on iOS). The server uses the install id and your IP address to limit how many requests a device can make, and keeps those counts for about a day.</p>
+
+        <h2>Server logs</h2>
+        <p>Cloudflare keeps request logs for our server, which include the request address (for player lookups this contains the BattleTag), your IP address and the time. I use them only to fix problems.</p>
+
+        <h2>Third-party services</h2>
+        <p>The app uses these services, each with its own privacy policy:</p>
+        <p>1. Google Firebase Analytics: which screens you open and which heroes and maps you view, without your BattleTag. <a href="https://firebase.google.com/support/privacy">firebase.google.com/support/privacy</a><br>
+        2. Google Firebase Crashlytics: crash reports and error logs, which can include your BattleTag when a player lookup fails. <a href="https://firebase.google.com/support/privacy">firebase.google.com/support/privacy</a><br>
+        3. Google Firebase App Check, with Play Integrity or App Attest: checks that the app is genuine. <a href="https://firebase.google.com/support/privacy">firebase.google.com/support/privacy</a><br>
+        4. Unity Ads: shows the optional rewarded ads you can watch to support the app. On iOS the app asks for permission before ads can track you. <a href="https://unity.com/legal/game-player-and-app-user-privacy-policy">unity.com/legal/game-player-and-app-user-privacy-policy</a><br>
+        5. Google Play Games and Apple Game Center: achievements. On Android only if you sign in; on iOS when you are signed in to Game Center on the device.<br>
+        6. Google Play and the App Store: in-app purchases. The stores handle payment; the app never receives your payment details.</p>
+
+        <h2>Children</h2>
+        <p>The app is not meant for children under 13, and I don&#x27;t knowingly collect data from them.</p>
+
+        <h2>Deleting your data</h2>
+        <p>To delete what is on your phone, uninstall the app. Player stats on our server expire after 12 hours. To ask about anything else, email <a href="mailto:support@hexul.com">support@hexul.com</a>.</p>
+
+        <h2>Changes</h2>
+        <p>I may update this policy. The date at the top shows the last change.</p>
+
+        <h2>Contact</h2>
+        <p><a href="mailto:support@hexul.com">support@hexul.com</a></p>
+
+        <a class="back" href="../">&larr; Back to HotS Helper</a>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </main>
+</body>
+</html>

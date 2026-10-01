@@ -1,0 +1,128 @@
+<!-- ABOUTME: Terms of use for HotS Helper. Self-contained HTML with inline CSS, no external dependencies. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotS Helper - Terms of Use</title>
+    <meta name="description" content="Terms of use for HotS Helper, a fan-made Heroes of the Storm companion app.">
+    <meta name="theme-color" content="#0a0a0b">
+    <link rel="icon" type="image/png" href="../icon.png">
+    <link rel="apple-touch-icon" href="../icon.png">
+    <link rel="canonical" href="https://hots-helper.hexul.com/terms/">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --hairline: rgba(255, 255, 255, 0.08);
+            --hairline-soft: rgba(255, 255, 255, 0.045);
+            --signal: #eef1f6;
+            --text: #c7c7cf;
+            --text-dim: #8f8f9a;
+            --text-faint: #7d7d89;
+            --mono: 'SF Mono', ui-monospace, 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .toplight {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(226, 234, 248, 0.05), transparent 70%);
+        }
+        .page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 3.5rem 1.5rem 3rem; }
+
+        .top { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.5rem; }
+        .top img { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+        .top h1 {
+            font-family: var(--mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--signal);
+        }
+        .top h1 span { color: var(--text-dim); font-weight: 400; }
+
+        h2 {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin: 2.25rem 0 0.75rem;
+            display: flex; align-items: center; gap: 0.7rem;
+        }
+        h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--hairline), transparent); }
+        h2:first-of-type { margin-top: 0; }
+
+        p { color: var(--text-dim); margin-bottom: 0.9rem; font-size: 0.92rem; }
+        strong { color: var(--text); font-weight: 600; }
+        p a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); }
+        p a:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+        code {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--hairline-soft);
+            border-radius: 4px;
+            padding: 0.05em 0.35em;
+        }
+
+        .back { display: inline-block; margin-top: 2.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+        .back:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+
+        footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--hairline-soft); font-family: var(--mono); font-size: 0.75rem; color: var(--text-faint); }
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <div class="toplight" aria-hidden="true"></div>
+    <main class="page">
+        <div class="top">
+            <img src="../icon.png" alt="HotS Helper" width="40" height="40">
+            <h1>HotS Helper <span>/ Terms</span></h1>
+        </div>
+
+        <h2>Terms of use</h2>
+        <p>Last updated: [date]</p>
+        <p>HotS Helper is a free app made by hexul. By using the app you agree to these terms. If you don't agree, please don't use the app.</p>
+
+        <h2>Heroes Profile data</h2>
+        <p><a href="https://www.heroesprofile.com/">Heroes Profile</a> provides the hero statistics (win rates, popularity, talents, builds and matchups) and the player statistics in the app. Heroes Profile allows the app to show this data to you, and only inside the app. You may look at it and use it for your own games. You may not:</p>
+        <p>1. Copy the data out of the app and share or publish it, as a file, a dataset, a feed or in any other bulk form.<br>
+        2. Scrape or download the data with scripts, bots or other automated tools, from the app or from the service the app gets its data from.<br>
+        3. Use the data to bully or harass other players.</p>
+        <p>If you break these rules, I may block your access to the data.</p>
+
+        <h2>Not affiliated with Blizzard</h2>
+        <p>HotS Helper is a fan-made app, not affiliated with, endorsed by or connected to Blizzard Entertainment or Heroes of the Storm. Hero names, map names, artwork, icons and other game assets belong to Blizzard Entertainment.</p>
+        <p>Heroes Profile is also a fan-made project and is not affiliated with Blizzard Entertainment.</p>
+
+        <h2>The app as is</h2>
+        <p>I provide the app and its data as is, without any warranty. Statistics can be wrong or out of date, and the app can stop working or change at any time.</p>
+
+        <h2>Privacy</h2>
+        <p>The <a href="../privacy/">privacy policy</a> explains how the app handles your data.</p>
+
+        <h2>Changes</h2>
+        <p>I may update these terms. The date at the top shows the last change. If you keep using the app after a change, you agree to the new terms.</p>
+
+        <h2>Contact</h2>
+        <p><a href="mailto:support@hexul.com">support@hexul.com</a></p>
+
+        <a class="back" href="../">&larr; Back to HotS Helper</a>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </main>
+</body>
+</html>

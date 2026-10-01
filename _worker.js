@@ -9,6 +9,7 @@ const SUBDOMAIN_MAP = {
   'snip': '/snip',
   'claide': '/claide',
   'helix': '/helix',
+  'hots-helper': '/hots-helper',
 };
 
 export default {

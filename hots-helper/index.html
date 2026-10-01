@@ -1,0 +1,110 @@
+<!-- ABOUTME: HotS Helper landing page: what the app is, store links, privacy and terms. Self-contained HTML with inline CSS. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HotS Helper</title>
+    <meta name="description" content="HotS Helper, a fan-made Heroes of the Storm companion app for iOS and Android.">
+    <meta name="theme-color" content="#0a0a0b">
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <link rel="canonical" href="https://hots-helper.hexul.com/">
+    <style>
+        :root {
+            --bg: #0a0a0b;
+            --hairline: rgba(255, 255, 255, 0.08);
+            --hairline-soft: rgba(255, 255, 255, 0.045);
+            --signal: #eef1f6;
+            --text: #c7c7cf;
+            --text-dim: #8f8f9a;
+            --text-faint: #7d7d89;
+            --mono: 'SF Mono', ui-monospace, 'Menlo', 'Cascadia Code', 'Consolas', monospace;
+            --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+        .toplight {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse 70% 40% at 50% 0%, rgba(226, 234, 248, 0.05), transparent 70%);
+        }
+        .page { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; padding: 3.5rem 1.5rem 3rem; }
+
+        .top { display: flex; align-items: center; gap: 0.85rem; margin-bottom: 2.5rem; }
+        .top img { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 4px 18px rgba(0,0,0,0.5); }
+        .top h1 {
+            font-family: var(--mono);
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--signal);
+        }
+        .top h1 span { color: var(--text-dim); font-weight: 400; }
+
+        h2 {
+            font-family: var(--mono);
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.22em;
+            margin: 2.25rem 0 0.75rem;
+            display: flex; align-items: center; gap: 0.7rem;
+        }
+        h2::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--hairline), transparent); }
+        h2:first-of-type { margin-top: 0; }
+
+        p { color: var(--text-dim); margin-bottom: 0.9rem; font-size: 0.92rem; }
+        strong { color: var(--text); font-weight: 600; }
+        p a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); }
+        p a:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+        code {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--hairline-soft);
+            border-radius: 4px;
+            padding: 0.05em 0.35em;
+        }
+
+        .back { display: inline-block; margin-top: 2.5rem; font-family: var(--mono); font-size: 0.8rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--hairline); padding-bottom: 1px; transition: color 0.2s, border-color 0.2s; }
+        .back:hover { color: var(--signal); border-color: rgba(226,234,248,0.5); }
+
+        footer { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--hairline-soft); font-family: var(--mono); font-size: 0.75rem; color: var(--text-faint); }
+        footer a { color: var(--text-faint); text-decoration: none; }
+        footer a:hover { color: var(--text-dim); }
+    </style>
+</head>
+<body>
+    <div class="toplight" aria-hidden="true"></div>
+    <main class="page">
+        <div class="top">
+            <img src="icon.png" alt="HotS Helper" width="40" height="40">
+            <h1>HotS Helper</h1>
+        </div>
+
+        <h2>The app</h2>
+        <p>A fan-made Heroes of the Storm companion app: hero builds, talents, matchups, map guides, patch notes and your own player stats. Hero and player statistics come from <a href="https://www.heroesprofile.com/">Heroes Profile</a>.</p>
+        <p><a href="https://apps.apple.com/app/hots-helper/id1156915583">App Store</a> &middot; <a href="https://play.google.com/store/apps/details?id=com.hexul.hotshelper">Google Play</a></p>
+
+        <h2>Legal</h2>
+        <p><a href="privacy/">Privacy policy</a> &middot; <a href="terms/">Terms of use</a></p>
+        <p>HotS Helper is not affiliated with, endorsed by or connected to Blizzard Entertainment or Heroes of the Storm.</p>
+
+        <h2>Contact</h2>
+        <p><a href="mailto:support@hexul.com">support@hexul.com</a></p>
+
+        <footer>
+            <p>&copy; 2026 <a href="https://hexul.com">hexul</a></p>
+        </footer>
+    </main>
+</body>
+</html>
